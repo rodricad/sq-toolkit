@@ -19,6 +19,7 @@
     "base64-url": "^2.3.2",
     "benchmark": "^2.1.4",
     "bluebird": "^3.7.0",
+    "bson": "^4.0.3",
     "crawler-user-agents": "^1.0.61",
     "date-fns": "^2.4.1",
     "fs-extra": "^8.1.0",
