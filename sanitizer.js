@@ -1,9 +1,12 @@
 'use strict';
 
 let parseISO = require('date-fns/parseISO');
+let ObjectId = require('bson/lib/objectid');
 let Exception = require('./exception');
 
 const SanitizerConst = require('./lib/constants/sanitizer');
+
+const OBJECT_ID_HEX_REGEX = /^[0-9a-fA-F]{24}$/;
 
 class Sanitizer {
 
@@ -131,7 +134,7 @@ class Sanitizer {
 
     /**
      * @param value
-     * @return {boolean}
+     * @return {Boolean}
      */
     static isDateValid(value) {
         return Sanitizer.isNumber(value.getTime()) === true;
@@ -232,6 +235,31 @@ class Sanitizer {
             return value;
         }
         return [value];
+    }
+
+    /**
+     * @param value
+     * @return {Boolean}
+     */
+    static isObjectId(value) {
+        return value instanceof ObjectId;
+    }
+
+    /**
+     * This method is a limited validation from the original ObjectId method. We validate only for 24 chars hex strings
+     * because this method is intented to be used only as a controller sanitizer.
+     * @reference https://github.com/mongodb/js-bson/blob/master/lib/objectid.js#L321
+     * @param value
+     * @returns {ObjectId|null}
+     */
+    static toObjectId(value) {
+        if (Sanitizer.isObjectId(value) === true) {
+            return value;
+        }
+        if (Sanitizer.isString(value) === true && value.length === 24 && OBJECT_ID_HEX_REGEX.test(value) === true) {
+            return new ObjectId(value);
+        }
+        return null;
     }
 
     /**
@@ -372,6 +400,17 @@ class Sanitizer {
         else {
             _throwAcceptedValueException(field, value, acceptedValues);
         }
+    }
+
+    /**
+     * @param {String}  field
+     * @param {*}       value
+     * @param {Boolean} mandatory
+     * @param {*=}      def
+     * @return {ObjectId|null}
+     */
+    static objectId(field, value, mandatory = false, def = null) {
+        return Sanitizer._sanitizeValue(field, value, mandatory, def, 'ObjectId', Sanitizer.toObjectId);
     }
 
     /**

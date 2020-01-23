@@ -6,6 +6,7 @@ describe('Sanitizer Test', function () {
     let chai = require('chai');
     let expect = chai.expect;
     let assert = chai.assert;
+    let ObjectId = require('bson/lib/objectid');
 
     let Sanitizer = require('../sanitizer');
 
@@ -116,6 +117,11 @@ describe('Sanitizer Test', function () {
                 null,
 
                 // Function
+                null,
+                null,
+
+                // ObjectId
+                null,
                 null,
                 null
             ];
@@ -231,6 +237,11 @@ describe('Sanitizer Test', function () {
                 // Function
                 invalidMsg,
                 invalidMsg,
+
+                // ObjectId
+                invalidMsg,
+                invalidMsg,
+                invalidMsg
             ];
 
             _testSanitize(Sanitizer.boolean, TEST_DATA, true, expected);
@@ -343,6 +354,11 @@ describe('Sanitizer Test', function () {
                 // Function
                 invalidMsg,
                 invalidMsg,
+
+                // ObjectId
+                invalidMsg,
+                invalidMsg,
+                invalidMsg
             ];
 
             _testSanitize(Sanitizer.boolean, TEST_DATA, false, expected);
@@ -454,6 +470,11 @@ describe('Sanitizer Test', function () {
                 null,
 
                 // Function
+                null,
+                null,
+
+                // ObjectId
+                null,
                 null,
                 null
             ];
@@ -569,6 +590,11 @@ describe('Sanitizer Test', function () {
                 // Function
                 invalidMsg,
                 invalidMsg,
+
+                // ObjectId
+                invalidMsg,
+                invalidMsg,
+                invalidMsg
             ];
 
             _testSanitize(Sanitizer.number, TEST_DATA, true, expected);
@@ -681,6 +707,11 @@ describe('Sanitizer Test', function () {
                 // Function
                 invalidMsg,
                 invalidMsg,
+
+                // ObjectId
+                invalidMsg,
+                invalidMsg,
+                invalidMsg
             ];
 
             _testSanitize(Sanitizer.number, TEST_DATA, false, expected);
@@ -829,6 +860,11 @@ describe('Sanitizer Test', function () {
 
                 // Function
                 null,
+                null,
+
+                // ObjectId
+                null,
+                null,
                 null
             ];
 
@@ -943,6 +979,11 @@ describe('Sanitizer Test', function () {
                 // Function
                 invalidMsg,
                 invalidMsg,
+
+                // ObjectId
+                invalidMsg,
+                invalidMsg,
+                invalidMsg
             ];
 
             _testSanitize(Sanitizer.integer, TEST_DATA, true, expected);
@@ -1055,6 +1096,11 @@ describe('Sanitizer Test', function () {
                 // Function
                 invalidMsg,
                 invalidMsg,
+
+                // ObjectId
+                invalidMsg,
+                invalidMsg,
+                invalidMsg
             ];
 
             _testSanitize(Sanitizer.integer, TEST_DATA, false, expected);
@@ -1203,6 +1249,11 @@ describe('Sanitizer Test', function () {
 
                 // Function
                 null,
+                null,
+
+                // ObjectId
+                null,
+                null,
                 null
             ];
 
@@ -1317,6 +1368,11 @@ describe('Sanitizer Test', function () {
                 // Function
                 invalidMsg,
                 invalidMsg,
+
+                // ObjectId
+                invalidMsg,
+                invalidMsg,
+                invalidMsg
             ];
 
             _testSanitize(Sanitizer.date, TEST_DATA, true, expected);
@@ -1429,6 +1485,11 @@ describe('Sanitizer Test', function () {
                 // Function
                 invalidMsg,
                 invalidMsg,
+
+                // ObjectId
+                invalidMsg,
+                invalidMsg,
+                invalidMsg
             ];
 
             _testSanitize(Sanitizer.date, TEST_DATA, false, expected);
@@ -1541,7 +1602,12 @@ describe('Sanitizer Test', function () {
 
                 // Function
                 'function dummy() {}',
-                'function dummy() {}'
+                'function dummy() {}',
+
+                // ObjectId
+                '507f191e810c19729de860ea',
+                '507f191e810c19729de860e',
+                '07f191e810c19729de860ea'
             ];
 
             _testTo(Sanitizer.toString, TEST_DATA, expected);
@@ -1653,7 +1719,12 @@ describe('Sanitizer Test', function () {
 
                 // Function
                 'function dummy() {}',
-                'function dummy() {}'
+                'function dummy() {}',
+
+                // ObjectId
+                '507f191e810c19729de860ea',
+                '507f191e810c19729de860e',
+                '07f191e810c19729de860ea'
             ];
 
             _testSanitize(Sanitizer.string, TEST_DATA, true, expected);
@@ -1763,7 +1834,12 @@ describe('Sanitizer Test', function () {
 
                 // Function
                 'function dummy() {}',
-                'function dummy() {}'
+                'function dummy() {}',
+
+                // ObjectId
+                '507f191e810c19729de860ea',
+                '507f191e810c19729de860e',
+                '07f191e810c19729de860ea'
             ];
 
             _testSanitize(Sanitizer.string, TEST_DATA, false, expected);
@@ -1906,10 +1982,16 @@ describe('Sanitizer Test', function () {
                 [],
                 ['[]'],
                 ['  []  '],
+
+                // ObjectId
+                ['507f191e810c19729de860ea'],
+                ['507f191e810c19729de860e'],
+                ['07f191e810c19729de860ea']
             ];
 
-            // Remove last fn params, cannot be tested with equal
-            let testData = TEST_DATA.slice(0, TEST_DATA.length - 2);
+            // Remove fn params, cannot be tested with equal
+            let testData = TEST_DATA.slice(0);
+            testData.splice(testData.length - 5, 2);
 
             _testTo(Sanitizer.toArray, testData, expected);
         });
@@ -2017,10 +2099,16 @@ describe('Sanitizer Test', function () {
                 [],
                 ['[]'],
                 ['[]'],
+
+                // ObjectId
+                ['507f191e810c19729de860ea'],
+                ['507f191e810c19729de860e'],
+                ['07f191e810c19729de860ea']
             ];
 
-            // Remove last fn params, cannot be tested with equal
-            let testData = TEST_DATA.slice(0, TEST_DATA.length - 2);
+            // Remove fn params, cannot be tested with equal
+            let testData = TEST_DATA.slice(0);
+            testData.splice(testData.length - 5, 2);
 
             _testSanitize(Sanitizer.arrayItems, testData, true, expected, Sanitizer.string);
         });
@@ -2126,10 +2214,16 @@ describe('Sanitizer Test', function () {
                 [],
                 ['[]'],
                 ['[]'],
+
+                // ObjectId
+                ['507f191e810c19729de860ea'],
+                ['507f191e810c19729de860e'],
+                ['07f191e810c19729de860ea']
             ];
 
-            // Remove last fn params, cannot be tested with equal
-            let testData = TEST_DATA.slice(0, TEST_DATA.length - 2);
+            // Remove fn params, cannot be tested with equal
+            let testData = TEST_DATA.slice(0);
+            testData.splice(testData.length - 5, 2);
 
             _testSanitize(Sanitizer.arrayItems, testData, false, expected, Sanitizer.string);
         });
@@ -2246,6 +2340,11 @@ describe('Sanitizer Test', function () {
 
                 // Function
                 invalidMsg,
+                invalidMsg,
+
+                // ObjectId
+                invalidMsg,
+                invalidMsg,
                 invalidMsg
             ];
 
@@ -2360,10 +2459,368 @@ describe('Sanitizer Test', function () {
 
                 // Function
                 invalidMsg,
+                invalidMsg,
+
+                // ObjectId
+                invalidMsg,
+                invalidMsg,
                 invalidMsg
             ];
 
             _testSanitize(Sanitizer.acceptedValue, TEST_DATA, false, expected, acceptedValues);
+        });
+    });
+
+    describe('8. ObjectId', function () {
+
+        it('1. Test .toObjectId() method', function () {
+
+            let expected = [
+                // Null or undefined
+                null,
+                null,
+
+                // String
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+
+                // Zero
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+
+                // Int
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+
+                // Float
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+
+                // NaN
+                null,
+                null,
+                null,
+
+                // Infinity
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+
+                // Boolean
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+
+                // Date valid
+                null,
+                null,
+                null,
+                null,
+                null,
+
+                // Date valid but not accepted
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+
+                // Date invalid
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+
+                // Array
+                null,
+                null,
+                null,
+
+                // Function
+                null,
+                null,
+
+                // ObjectId valid
+                new ObjectId('507f191e810c19729de860ea'),
+                null,
+                null
+            ];
+
+            _testTo(Sanitizer.toObjectId, TEST_DATA.slice(37), expected.slice(37));
+        });
+
+        it('2. Test .objectId() sanitize method with mandatory=true', function () {
+
+            let mandatoryMsg = 'Mandatory field';
+            let invalidMsg   = 'Invalid field';
+
+            let expected = [
+                // Null or undefined
+                mandatoryMsg,
+                mandatoryMsg,
+
+                // String
+                mandatoryMsg,
+                mandatoryMsg,
+                mandatoryMsg,
+                mandatoryMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Zero
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Int
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Float
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // NaN
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Infinity
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Boolean
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Date valid
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Date valid but not accepted
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Date invalid
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Array
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Function
+                invalidMsg,
+                invalidMsg,
+
+                // ObjectId
+                new ObjectId('507f191e810c19729de860ea'),
+                invalidMsg,
+                invalidMsg
+            ];
+
+            _testSanitize(Sanitizer.objectId, TEST_DATA, true, expected);
+        });
+
+        it('3. Test .objectId() sanitize method with mandatory=false', function () {
+
+            let invalidMsg = 'Invalid field';
+
+            let expected = [
+                // Null or undefined
+                '_DEFAULT_',
+                '_DEFAULT_',
+
+                // String
+                '_DEFAULT_',
+                '_DEFAULT_',
+                '_DEFAULT_',
+                '_DEFAULT_',
+                invalidMsg,
+                invalidMsg,
+
+                // Zero
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Int
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Float
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // NaN
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Infinity
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Boolean
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Date valid
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Date valid but not accepted
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Date invalid
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Array
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Function
+                invalidMsg,
+                invalidMsg,
+
+                // ObjectId
+                new ObjectId('507f191e810c19729de860ea'),
+                invalidMsg,
+                invalidMsg
+            ];
+
+            _testSanitize(Sanitizer.objectId, TEST_DATA, false, expected);
         });
     });
 
@@ -2378,7 +2835,7 @@ describe('Sanitizer Test', function () {
 
         for (let i = 0; i < values.length; i++) {
             let value = values[i];
-            expect(method(value)).to.eql(expected[i], util.format('Converted invalid. i:%s value:%s expected:%s', i, value, expected[i]));
+            expect(method(value)).to.eql(expected[i], util.format('Converted invalid. i:%s value:%s expected:%s', i, Sanitizer.toString(value), expected[i]));
         }
     }
 
@@ -2545,7 +3002,12 @@ describe('Sanitizer Test', function () {
 
             // Function
             function dummy() {},
-            'function dummy() {}'
+            'function dummy() {}',
+
+            // ObjectId
+            '507f191e810c19729de860ea',
+            '507f191e810c19729de860e',
+            '07f191e810c19729de860ea'
         ];
     }
 });
