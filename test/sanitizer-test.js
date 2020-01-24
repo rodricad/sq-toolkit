@@ -6,7 +6,7 @@ describe('Sanitizer Test', function () {
     let chai = require('chai');
     let expect = chai.expect;
     let assert = chai.assert;
-    let ObjectId = require('bson/lib/objectid');
+    let ObjectId = require('bson/lib/bson/objectid');
 
     let Sanitizer = require('../sanitizer');
 
@@ -121,6 +121,7 @@ describe('Sanitizer Test', function () {
                 null,
 
                 // ObjectId
+                null,
                 null,
                 null,
                 null
@@ -241,6 +242,7 @@ describe('Sanitizer Test', function () {
                 // ObjectId
                 invalidMsg,
                 invalidMsg,
+                invalidMsg,
                 invalidMsg
             ];
 
@@ -356,6 +358,7 @@ describe('Sanitizer Test', function () {
                 invalidMsg,
 
                 // ObjectId
+                invalidMsg,
                 invalidMsg,
                 invalidMsg,
                 invalidMsg
@@ -476,6 +479,7 @@ describe('Sanitizer Test', function () {
                 // ObjectId
                 null,
                 null,
+                null,
                 null
             ];
 
@@ -594,6 +598,7 @@ describe('Sanitizer Test', function () {
                 // ObjectId
                 invalidMsg,
                 invalidMsg,
+                invalidMsg,
                 invalidMsg
             ];
 
@@ -709,6 +714,7 @@ describe('Sanitizer Test', function () {
                 invalidMsg,
 
                 // ObjectId
+                invalidMsg,
                 invalidMsg,
                 invalidMsg,
                 invalidMsg
@@ -865,6 +871,7 @@ describe('Sanitizer Test', function () {
                 // ObjectId
                 null,
                 null,
+                null,
                 null
             ];
 
@@ -983,6 +990,7 @@ describe('Sanitizer Test', function () {
                 // ObjectId
                 invalidMsg,
                 invalidMsg,
+                invalidMsg,
                 invalidMsg
             ];
 
@@ -1098,6 +1106,7 @@ describe('Sanitizer Test', function () {
                 invalidMsg,
 
                 // ObjectId
+                invalidMsg,
                 invalidMsg,
                 invalidMsg,
                 invalidMsg
@@ -1254,6 +1263,7 @@ describe('Sanitizer Test', function () {
                 // ObjectId
                 null,
                 null,
+                null,
                 null
             ];
 
@@ -1370,6 +1380,7 @@ describe('Sanitizer Test', function () {
                 invalidMsg,
 
                 // ObjectId
+                invalidMsg,
                 invalidMsg,
                 invalidMsg,
                 invalidMsg
@@ -1489,6 +1500,7 @@ describe('Sanitizer Test', function () {
                 // ObjectId
                 invalidMsg,
                 invalidMsg,
+                invalidMsg,
                 invalidMsg
             ];
 
@@ -1605,6 +1617,7 @@ describe('Sanitizer Test', function () {
                 'function dummy() {}',
 
                 // ObjectId
+                '507f191e810c19729de860ea',
                 '507f191e810c19729de860ea',
                 '507f191e810c19729de860e',
                 '07f191e810c19729de860ea'
@@ -1723,6 +1736,7 @@ describe('Sanitizer Test', function () {
 
                 // ObjectId
                 '507f191e810c19729de860ea',
+                '507f191e810c19729de860ea',
                 '507f191e810c19729de860e',
                 '07f191e810c19729de860ea'
             ];
@@ -1837,6 +1851,7 @@ describe('Sanitizer Test', function () {
                 'function dummy() {}',
 
                 // ObjectId
+                '507f191e810c19729de860ea',
                 '507f191e810c19729de860ea',
                 '507f191e810c19729de860e',
                 '07f191e810c19729de860ea'
@@ -1984,6 +1999,7 @@ describe('Sanitizer Test', function () {
                 ['  []  '],
 
                 // ObjectId
+                [new ObjectId('507f191e810c19729de860ea')],
                 ['507f191e810c19729de860ea'],
                 ['507f191e810c19729de860e'],
                 ['07f191e810c19729de860ea']
@@ -1991,7 +2007,7 @@ describe('Sanitizer Test', function () {
 
             // Remove fn params, cannot be tested with equal
             let testData = TEST_DATA.slice(0);
-            testData.splice(testData.length - 5, 2);
+            testData.splice(testData.length - 6, 2);
 
             _testTo(Sanitizer.toArray, testData, expected);
         });
@@ -2102,13 +2118,14 @@ describe('Sanitizer Test', function () {
 
                 // ObjectId
                 ['507f191e810c19729de860ea'],
+                ['507f191e810c19729de860ea'],
                 ['507f191e810c19729de860e'],
                 ['07f191e810c19729de860ea']
             ];
 
             // Remove fn params, cannot be tested with equal
             let testData = TEST_DATA.slice(0);
-            testData.splice(testData.length - 5, 2);
+            testData.splice(testData.length - 6, 2);
 
             _testSanitize(Sanitizer.arrayItems, testData, true, expected, Sanitizer.string);
         });
@@ -2217,13 +2234,14 @@ describe('Sanitizer Test', function () {
 
                 // ObjectId
                 ['507f191e810c19729de860ea'],
+                ['507f191e810c19729de860ea'],
                 ['507f191e810c19729de860e'],
                 ['07f191e810c19729de860ea']
             ];
 
             // Remove fn params, cannot be tested with equal
             let testData = TEST_DATA.slice(0);
-            testData.splice(testData.length - 5, 2);
+            testData.splice(testData.length - 6, 2);
 
             _testSanitize(Sanitizer.arrayItems, testData, false, expected, Sanitizer.string);
         });
@@ -2345,6 +2363,7 @@ describe('Sanitizer Test', function () {
                 // ObjectId
                 invalidMsg,
                 invalidMsg,
+                invalidMsg,
                 invalidMsg
             ];
 
@@ -2464,6 +2483,7 @@ describe('Sanitizer Test', function () {
                 // ObjectId
                 invalidMsg,
                 invalidMsg,
+                invalidMsg,
                 invalidMsg
             ];
 
@@ -2580,6 +2600,7 @@ describe('Sanitizer Test', function () {
                 null,
 
                 // ObjectId valid
+                new ObjectId('507f191e810c19729de860ea'),
                 new ObjectId('507f191e810c19729de860ea'),
                 null,
                 null
@@ -2699,6 +2720,7 @@ describe('Sanitizer Test', function () {
 
                 // ObjectId
                 new ObjectId('507f191e810c19729de860ea'),
+                new ObjectId('507f191e810c19729de860ea'),
                 invalidMsg,
                 invalidMsg
             ];
@@ -2815,6 +2837,7 @@ describe('Sanitizer Test', function () {
                 invalidMsg,
 
                 // ObjectId
+                new ObjectId('507f191e810c19729de860ea'),
                 new ObjectId('507f191e810c19729de860ea'),
                 invalidMsg,
                 invalidMsg
@@ -3005,6 +3028,7 @@ describe('Sanitizer Test', function () {
             'function dummy() {}',
 
             // ObjectId
+            new ObjectId('507f191e810c19729de860ea'),
             '507f191e810c19729de860ea',
             '507f191e810c19729de860e',
             '07f191e810c19729de860ea'

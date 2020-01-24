@@ -1,7 +1,7 @@
 'use strict';
 
 let parseISO = require('date-fns/parseISO');
-let ObjectId = require('bson/lib/objectid');
+let ObjectId = require('bson/lib/bson/objectid');
 let Exception = require('./exception');
 
 const SanitizerConst = require('./lib/constants/sanitizer');
