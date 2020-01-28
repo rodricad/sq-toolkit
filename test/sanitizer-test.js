@@ -2,6 +2,7 @@
 
 describe('Sanitizer Test', function () {
 
+    let _ = require('lodash');
     let util = require('util');
     let chai = require('chai');
     let expect = chai.expect;
@@ -124,6 +125,13 @@ describe('Sanitizer Test', function () {
                 null,
                 null,
                 null,
+                null,
+
+                // Email
+                null,
+                null,
+                null,
+                null,
                 null
             ];
 
@@ -243,6 +251,13 @@ describe('Sanitizer Test', function () {
                 invalidMsg,
                 invalidMsg,
                 invalidMsg,
+                invalidMsg,
+
+                // Email
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
                 invalidMsg
             ];
 
@@ -358,6 +373,13 @@ describe('Sanitizer Test', function () {
                 invalidMsg,
 
                 // ObjectId
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Email
+                invalidMsg,
                 invalidMsg,
                 invalidMsg,
                 invalidMsg,
@@ -480,6 +502,13 @@ describe('Sanitizer Test', function () {
                 null,
                 null,
                 null,
+                null,
+
+                // Email
+                null,
+                null,
+                null,
+                null,
                 null
             ];
 
@@ -599,6 +628,13 @@ describe('Sanitizer Test', function () {
                 invalidMsg,
                 invalidMsg,
                 invalidMsg,
+                invalidMsg,
+
+                // Email
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
                 invalidMsg
             ];
 
@@ -714,6 +750,13 @@ describe('Sanitizer Test', function () {
                 invalidMsg,
 
                 // ObjectId
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Email
+                invalidMsg,
                 invalidMsg,
                 invalidMsg,
                 invalidMsg,
@@ -872,6 +915,13 @@ describe('Sanitizer Test', function () {
                 null,
                 null,
                 null,
+                null,
+
+                // Email
+                null,
+                null,
+                null,
+                null,
                 null
             ];
 
@@ -991,6 +1041,13 @@ describe('Sanitizer Test', function () {
                 invalidMsg,
                 invalidMsg,
                 invalidMsg,
+                invalidMsg,
+
+                // Email
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
                 invalidMsg
             ];
 
@@ -1106,6 +1163,13 @@ describe('Sanitizer Test', function () {
                 invalidMsg,
 
                 // ObjectId
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Email
+                invalidMsg,
                 invalidMsg,
                 invalidMsg,
                 invalidMsg,
@@ -1264,6 +1328,13 @@ describe('Sanitizer Test', function () {
                 null,
                 null,
                 null,
+                null,
+
+                // Email
+                null,
+                null,
+                null,
+                null,
                 null
             ];
 
@@ -1383,6 +1454,13 @@ describe('Sanitizer Test', function () {
                 invalidMsg,
                 invalidMsg,
                 invalidMsg,
+                invalidMsg,
+
+                // Email
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
                 invalidMsg
             ];
 
@@ -1498,6 +1576,13 @@ describe('Sanitizer Test', function () {
                 invalidMsg,
 
                 // ObjectId
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Email
+                invalidMsg,
                 invalidMsg,
                 invalidMsg,
                 invalidMsg,
@@ -1620,7 +1705,14 @@ describe('Sanitizer Test', function () {
                 '507f191e810c19729de860ea',
                 '507f191e810c19729de860ea',
                 '507f191e810c19729de860e',
-                '07f191e810c19729de860ea'
+                '07f191e810c19729de860ea',
+
+                // Email
+                'Example@Example.com',
+                'Example@Example.com',
+                'Example Tag@Example.com',
+                'Example+Tag@Example.com',
+                'Example Tag Other@Example.com'
             ];
 
             _testTo(Sanitizer.toString, TEST_DATA, expected);
@@ -1738,7 +1830,14 @@ describe('Sanitizer Test', function () {
                 '507f191e810c19729de860ea',
                 '507f191e810c19729de860ea',
                 '507f191e810c19729de860e',
-                '07f191e810c19729de860ea'
+                '07f191e810c19729de860ea',
+
+                // Email
+                'Example@Example.com',
+                'Example@Example.com',
+                'Example Tag@Example.com',
+                'Example+Tag@Example.com',
+                'Example Tag Other@Example.com'
             ];
 
             _testSanitize(Sanitizer.string, TEST_DATA, true, expected);
@@ -1854,7 +1953,14 @@ describe('Sanitizer Test', function () {
                 '507f191e810c19729de860ea',
                 '507f191e810c19729de860ea',
                 '507f191e810c19729de860e',
-                '07f191e810c19729de860ea'
+                '07f191e810c19729de860ea',
+
+                // Email
+                'Example@Example.com',
+                'Example@Example.com',
+                'Example Tag@Example.com',
+                'Example+Tag@Example.com',
+                'Example Tag Other@Example.com'
             ];
 
             _testSanitize(Sanitizer.string, TEST_DATA, false, expected);
@@ -2002,12 +2108,18 @@ describe('Sanitizer Test', function () {
                 [new ObjectId('507f191e810c19729de860ea')],
                 ['507f191e810c19729de860ea'],
                 ['507f191e810c19729de860e'],
-                ['07f191e810c19729de860ea']
+                ['07f191e810c19729de860ea'],
+
+                ['Example@Example.com'],
+                ['   Example@Example.com   '],
+                ['   Example Tag@Example.com   '],
+                ['   Example+Tag@Example.com   '],
+                ['   Example Tag Other@Example.com   ']
             ];
 
             // Remove fn params, cannot be tested with equal
             let testData = TEST_DATA.slice(0);
-            testData.splice(testData.length - 6, 2);
+            testData.splice(testData.length - 11, 2);
 
             _testTo(Sanitizer.toArray, testData, expected);
         });
@@ -2120,12 +2232,18 @@ describe('Sanitizer Test', function () {
                 ['507f191e810c19729de860ea'],
                 ['507f191e810c19729de860ea'],
                 ['507f191e810c19729de860e'],
-                ['07f191e810c19729de860ea']
+                ['07f191e810c19729de860ea'],
+
+                ['Example@Example.com'],
+                ['Example@Example.com'],
+                ['Example Tag@Example.com'],
+                ['Example+Tag@Example.com'],
+                ['Example Tag Other@Example.com']
             ];
 
             // Remove fn params, cannot be tested with equal
             let testData = TEST_DATA.slice(0);
-            testData.splice(testData.length - 6, 2);
+            testData.splice(testData.length - 11, 2);
 
             _testSanitize(Sanitizer.arrayItems, testData, true, expected, Sanitizer.string);
         });
@@ -2236,12 +2354,18 @@ describe('Sanitizer Test', function () {
                 ['507f191e810c19729de860ea'],
                 ['507f191e810c19729de860ea'],
                 ['507f191e810c19729de860e'],
-                ['07f191e810c19729de860ea']
+                ['07f191e810c19729de860ea'],
+
+                ['Example@Example.com'],
+                ['Example@Example.com'],
+                ['Example Tag@Example.com'],
+                ['Example+Tag@Example.com'],
+                ['Example Tag Other@Example.com']
             ];
 
             // Remove fn params, cannot be tested with equal
             let testData = TEST_DATA.slice(0);
-            testData.splice(testData.length - 6, 2);
+            testData.splice(testData.length - 11, 2);
 
             _testSanitize(Sanitizer.arrayItems, testData, false, expected, Sanitizer.string);
         });
@@ -2361,6 +2485,13 @@ describe('Sanitizer Test', function () {
                 invalidMsg,
 
                 // ObjectId
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Email
+                invalidMsg,
                 invalidMsg,
                 invalidMsg,
                 invalidMsg,
@@ -2484,6 +2615,13 @@ describe('Sanitizer Test', function () {
                 invalidMsg,
                 invalidMsg,
                 invalidMsg,
+                invalidMsg,
+
+                // Email
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
                 invalidMsg
             ];
 
@@ -2602,6 +2740,13 @@ describe('Sanitizer Test', function () {
                 // ObjectId valid
                 new ObjectId('507f191e810c19729de860ea'),
                 new ObjectId('507f191e810c19729de860ea'),
+                null,
+                null,
+
+                // Email
+                null,
+                null,
+                null,
                 null,
                 null
             ];
@@ -2722,6 +2867,13 @@ describe('Sanitizer Test', function () {
                 new ObjectId('507f191e810c19729de860ea'),
                 new ObjectId('507f191e810c19729de860ea'),
                 invalidMsg,
+                invalidMsg,
+
+                // Email
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
                 invalidMsg
             ];
 
@@ -2840,10 +2992,430 @@ describe('Sanitizer Test', function () {
                 new ObjectId('507f191e810c19729de860ea'),
                 new ObjectId('507f191e810c19729de860ea'),
                 invalidMsg,
+                invalidMsg,
+
+                // Email
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
                 invalidMsg
             ];
 
             _testSanitize(Sanitizer.objectId, TEST_DATA, false, expected);
+        });
+    });
+
+    describe('9. Email', function () {
+
+        it('1. Test .toEmail() method with many email (taken from manishsaraan/email-validator package)', function () {
+
+            // Give some coverage to isEmail. Inner isString is already tested
+            expect(Sanitizer.isEmail(null)).to.equals(false);
+            expect(Sanitizer.isEmail(0)).to.equals(false);
+            expect(Sanitizer.isEmail(1)).to.equals(false);
+            expect(Sanitizer.isEmail(true)).to.equals(false);
+            expect(Sanitizer.isEmail(false)).to.equals(false);
+
+            const EmailTestData = _getEmailTestData();
+
+            // Valid supported
+            for (let i = 0; i < EmailTestData.VALID_SUPPORTED.length; i++) {
+                let value = EmailTestData.VALID_SUPPORTED[i];
+                expect(Sanitizer.toEmail(value)).to.equals(value.toLowerCase());
+            }
+
+            // Valid NOT supported
+            for (let i = 0; i < EmailTestData.VALID_UNSUPPORTED.length; i++) {
+                let value = EmailTestData.VALID_UNSUPPORTED[i];
+                expect(Sanitizer.toEmail(value)).to.equals(null);
+            }
+
+            // Invalid supported
+            for (let i = 0; i < EmailTestData.INVALID_SUPPORTED.length; i++) {
+                let value = EmailTestData.INVALID_SUPPORTED[i];
+                expect(Sanitizer.toEmail(value)).to.equals(null);
+            }
+
+            // ATTENTION: Invalid NOT supported (Due to reduced functionality, some use case validations were lost)
+            for (let i = 0; i < EmailTestData.INVALID_UNSUPPORTED.length; i++) {
+                let value = EmailTestData.INVALID_UNSUPPORTED[i];
+                expect(Sanitizer.toEmail(value)).to.equals(value);
+            }
+        });
+
+        it('2. Test .toEmail() method with global values', function () {
+
+            let expected = [
+                // Null or undefined
+                null,
+                null,
+
+                // String
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+
+                // Zero
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+
+                // Int
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+
+                // Float
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+
+                // NaN
+                null,
+                null,
+                null,
+
+                // Infinity
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+
+                // Boolean
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+
+                // Date valid
+                null,
+                null,
+                null,
+                null,
+                null,
+
+                // Date valid but not accepted
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+
+                // Date invalid
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+
+                // Array
+                null,
+                null,
+                null,
+
+                // Function
+                null,
+                null,
+
+                // ObjectId
+                null,
+                null,
+                null,
+                null,
+
+                // Email
+                'example@example.com',
+                'example@example.com',
+                'example+tag@example.com',
+                'example+tag@example.com',
+                null
+            ];
+
+            _testTo(Sanitizer.toEmail, TEST_DATA, expected);
+        });
+
+        it('2. Test .email() sanitize method with mandatory=true', function () {
+
+            let mandatoryMsg = 'Mandatory field';
+            let invalidMsg   = 'Invalid field';
+
+            let expected = [
+                // Null or undefined
+                mandatoryMsg,
+                mandatoryMsg,
+
+                // String
+                mandatoryMsg,
+                mandatoryMsg,
+                mandatoryMsg,
+                mandatoryMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Zero
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Int
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Float
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // NaN
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Infinity
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Boolean
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Date valid
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Date valid but not accepted
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Date invalid
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Array
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Function
+                invalidMsg,
+                invalidMsg,
+
+                // ObjectId
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Email
+                'example@example.com',
+                'example@example.com',
+                'example+tag@example.com',
+                'example+tag@example.com',
+                invalidMsg
+            ];
+
+            _testSanitize(Sanitizer.email, TEST_DATA, true, expected);
+        });
+
+        it('3. Test .email() sanitize method with mandatory=false', function () {
+
+            let invalidMsg = 'Invalid field';
+
+            let expected = [
+                // Null or undefined
+                '_DEFAULT_',
+                '_DEFAULT_',
+
+                // String
+                '_DEFAULT_',
+                '_DEFAULT_',
+                '_DEFAULT_',
+                '_DEFAULT_',
+                invalidMsg,
+                invalidMsg,
+
+                // Zero
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Int
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Float
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // NaN
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Infinity
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Boolean
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Date valid
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Date valid but not accepted
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Date invalid
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Array
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Function
+                invalidMsg,
+                invalidMsg,
+
+                // ObjectId
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Email
+                'example@example.com',
+                'example@example.com',
+                'example+tag@example.com',
+                'example+tag@example.com',
+                invalidMsg
+            ];
+
+            _testSanitize(Sanitizer.email, TEST_DATA, false, expected);
         });
     });
 
@@ -3031,7 +3603,19 @@ describe('Sanitizer Test', function () {
             new ObjectId('507f191e810c19729de860ea'),
             '507f191e810c19729de860ea',
             '507f191e810c19729de860e',
-            '07f191e810c19729de860ea'
+            '07f191e810c19729de860ea',
+
+            // Email
+            'Example@Example.com',
+            '   Example@Example.com   ',
+            '   Example Tag@Example.com   ',
+            '   Example+Tag@Example.com   ',
+            '   Example Tag Other@Example.com   ',
         ];
+    }
+
+    function _getEmailTestData() {
+        let EMAIL_TEST_DATA = require('./data/email-test-data');
+        return _.cloneDeep(EMAIL_TEST_DATA);
     }
 });
