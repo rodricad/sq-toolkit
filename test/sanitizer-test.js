@@ -3161,7 +3161,7 @@ describe('Sanitizer Test', function () {
                 'example@example.com',
                 'example+tag@example.com',
                 'example+tag@example.com',
-                null
+                'example+tag+other@example.com'
             ];
 
             _testTo(Sanitizer.toEmail, TEST_DATA, expected);
@@ -3287,7 +3287,7 @@ describe('Sanitizer Test', function () {
                 'example@example.com',
                 'example+tag@example.com',
                 'example+tag@example.com',
-                invalidMsg
+                'example+tag+other@example.com'
             ];
 
             _testSanitize(Sanitizer.email, TEST_DATA, true, expected);
@@ -3412,7 +3412,7 @@ describe('Sanitizer Test', function () {
                 'example@example.com',
                 'example+tag@example.com',
                 'example+tag@example.com',
-                invalidMsg
+                'example+tag+other@example.com'
             ];
 
             _testSanitize(Sanitizer.email, TEST_DATA, false, expected);

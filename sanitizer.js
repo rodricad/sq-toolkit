@@ -8,7 +8,7 @@ const SanitizerConst = require('./lib/constants/sanitizer');
 
 const OBJECT_ID_HEX_REGEX = /^[0-9a-fA-F]{24}$/;
 const EMAIL_REGEX = /^[-!#$%&'*+\/0-9=?A-Z^_a-z{|}~](\.?[-!#$%&'*+\/0-9=?A-Z^_a-z`{|}~])*@[a-zA-Z0-9](-*\.?[a-zA-Z0-9])*\.[a-zA-Z](-?[a-zA-Z0-9])+$/;
-const EMAIL_PLUS_REGEX = / /;
+const EMAIL_PLUS_REGEX = / /g;
 
 class Sanitizer {
 
