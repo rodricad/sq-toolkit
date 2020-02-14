@@ -151,6 +151,7 @@ class RedisClient {
         return this.set(key, value, ExpiryMode.PX, timeInMilliseconds);
     }
 
+    /* istanbul ignore next */
     /**
      * Set key to hold the string value and set key to timeout after a given number of milliseconds.
      * @reference https://redis.io/commands/setnx
