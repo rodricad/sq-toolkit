@@ -122,7 +122,16 @@ class RedisClient {
      * @return {Promise}
      */
     set(key, value, expiryMode, time, setMode) {
-        return this.client.set(key, value, expiryMode, time, setMode);
+        let args = [key, value];
+
+        if (expiryMode != null && time != null) {
+            args.push(expiryMode, time);
+        }
+        if (setMode != null) {
+            args.push(setMode);
+        }
+
+        return this.client.set.apply(this.client, args);
     }
 
     /* istanbul ignore next */
