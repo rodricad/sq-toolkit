@@ -35,7 +35,7 @@ class UAParser {
     static getData(ua, ignoreCache = false) {
         let data = ignoreCache ? null : cache.get(ua);
         if(data != null) {
-            return data;
+            return Object.assign({}, data);
         }
         let deviceData = _parser.setUA(ua).getResult();
         let deviceType = this._normalizeDeviceType(deviceData.device.type);
@@ -46,7 +46,9 @@ class UAParser {
             browserName: deviceData.browser.name || null,
             browserVersion: deviceData.browser.version || null
         };
-        cache.set(ua, Object.assign({}, data));
+        if(!ignoreCache) {
+            cache.set(ua, Object.assign({}, data));
+        }
         return data;
     }
 

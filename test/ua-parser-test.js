@@ -82,7 +82,7 @@ describe('UA Parser Test', function () {
         }
     });
 
-    describe('2. Test .getUAData()', () => {
+    describe('2. Test .getData()', () => {
 
         afterEach(() => {
             UAParser._clearCacheForTest();
