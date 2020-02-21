@@ -30,7 +30,7 @@ class UAParser {
 
     /**
      * @param {String} ua
-     * @param {boolean} ignoreCache
+     * @param {Boolean=} ignoreCache
      */
     static getData(ua, ignoreCache = false) {
         let data = ignoreCache ? null : cache.get(ua);
