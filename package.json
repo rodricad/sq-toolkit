@@ -28,7 +28,8 @@
     "moment": "^2.24.0",
     "neo-async": "^2.6.1",
     "seedrandom": "^3.0.5",
-    "ua-parser-js": "^0.7.20"
+    "ua-parser-js": "^0.7.20",
+    "lru-cache": "latest"
   },
   "repository": {
     "type": "git",
