@@ -30,23 +30,24 @@ class UAParser {
 
     /**
      * @param {String} ua
-     * @return {Object}
+     * @param {boolean} ignoreCache
      */
-    static getUAData(ua) {
-        let uAData = cache.get(ua);
-        if(uAData != null) {
-            return JSON.parse(uAData);
+    static getData(ua, ignoreCache = false) {
+        let data = ignoreCache ? null : cache.get(ua);
+        if(data != null) {
+            return data;
         }
         let deviceData = _parser.setUA(ua).getResult();
-        uAData = {
-            deviceType: this._normalizeDeviceType(deviceData.device.type),
-            deviceModel: deviceData.device.model,
-            isMobile: MOBILE_DEVICES.has(deviceData.device.type),
-            browserName: deviceData.browser.name,
-            browserVersion: deviceData.browser.version
+        let deviceType = this._normalizeDeviceType(deviceData.device.type);
+        data = {
+            deviceType: deviceType,
+            deviceModel: deviceData.device.model || null,
+            isMobile: deviceType !== Device.UNKNOWN ? MOBILE_DEVICES.has(deviceData.device.type) : null,
+            browserName: deviceData.browser.name || null,
+            browserVersion: deviceData.browser.version || null
         };
-        cache.set(ua, JSON.stringify(uAData));
-        return uAData;
+        cache.set(ua, Object.assign({}, data));
+        return data;
     }
 
     static _normalizeDeviceType(type) {

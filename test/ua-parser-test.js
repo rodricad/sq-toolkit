@@ -95,7 +95,7 @@ describe('UA Parser Test', function () {
             ua = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36';
             _testUserAgent(ua, {
                 deviceType: "desktop",
-                deviceModel: undefined,
+                deviceModel: null,
                 isMobile: false,
                 browserName: "Chrome",
                 browserVersion: "77.0.3865.120"
@@ -105,7 +105,7 @@ describe('UA Parser Test', function () {
             ua = 'Mozilla/5.0 (X11; Linux x86_64; rv:10.0) Gecko/20100101 Firefox/10.0';
             _testUserAgent(ua, {
                 deviceType: "desktop",
-                deviceModel: undefined,
+                deviceModel: null,
                 isMobile: false,
                 browserName: "Firefox",
                 browserVersion: "10.0"
@@ -115,7 +115,7 @@ describe('UA Parser Test', function () {
             ua = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13 Safari/605.1.15';
             _testUserAgent(ua, {
                 deviceType: "desktop",
-                deviceModel: undefined,
+                deviceModel: null,
                 isMobile: false,
                 browserName: "Safari",
                 browserVersion: "13"
@@ -141,7 +141,7 @@ describe('UA Parser Test', function () {
             _testUserAgent(ua, {
                 browserName: "Firefox",
                 browserVersion: "41.0",
-                deviceModel: undefined,
+                deviceModel: null,
                 deviceType: "mobile",
                 isMobile: true
             });
@@ -175,7 +175,7 @@ describe('UA Parser Test', function () {
             _testUserAgent(ua, {
                 browserName: "Firefox",
                 browserVersion: "41.0",
-                deviceModel: undefined,
+                deviceModel: null,
                 deviceType: "tablet",
                 isMobile: true
             });
@@ -197,8 +197,8 @@ describe('UA Parser Test', function () {
             // Console
             ua = 'Mozilla/5.0 (PLAYSTATION 3; 1.00)';
             _testUserAgent(ua, {
-                browserName: undefined,
-                browserVersion: undefined,
+                browserName: null,
+                browserVersion: null,
                 deviceModel: "PLAYSTATION 3",
                 deviceType: "other",
                 isMobile: false
@@ -227,15 +227,42 @@ describe('UA Parser Test', function () {
                 isMobile: true
             });
             expect(setUaSpy.calledOnce).to.eql(true);
+            setUaSpy.restore();
+        });
+
+        it('6. Test data retrieved from cache for user agents that have already been resolved (_parser.setUA should only be called twice when ignoreCache == true)', () => {
+            let ua = 'Mozilla/5.0 (iPhone; CPU iPhone OS 12_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/77.0.3865.103 Mobile/15E148 Safari/605.1';
+
+            let setUaSpy = sinon.spy(UAParser._getParserForTest(), 'setUA');
+
+            _testUserAgent(ua, {
+                browserName: "Chrome",
+                browserVersion: "77.0.3865.103",
+                deviceModel: "iPhone",
+                deviceType: "mobile",
+                isMobile: true
+            }, true);
+            expect(setUaSpy.calledOnce).to.eql(true);
+
+            _testUserAgent(ua, {
+                browserName: "Chrome",
+                browserVersion: "77.0.3865.103",
+                deviceModel: "iPhone",
+                deviceType: "mobile",
+                isMobile: true
+            }, true);
+            expect(setUaSpy.calledTwice).to.eql(true);
+            setUaSpy.restore();
         });
 
         /**
          * @param {String} ua
          * @param {Object} expected
+         * @param {Boolean=} ignoreCache
          * @private
          */
-        function _testUserAgent(ua, expected) {
-            let value = UAParser.getUAData(ua);
+        function _testUserAgent(ua, expected, ignoreCache) {
+            let value = UAParser.getData(ua, ignoreCache);
             expect(value).to.eql(expected);
         }
     });
