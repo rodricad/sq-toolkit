@@ -25,11 +25,11 @@
     "fs-extra": "^8.1.0",
     "ioredis": "^4.14.1",
     "lodash": "^4.17.15",
+    "lru-cache": "^5.1.1",
     "moment": "^2.24.0",
     "neo-async": "^2.6.1",
     "seedrandom": "^3.0.5",
-    "ua-parser-js": "^0.7.20",
-    "lru-cache": "latest"
+    "ua-parser-js": "^0.7.21"
   },
   "repository": {
     "type": "git",
