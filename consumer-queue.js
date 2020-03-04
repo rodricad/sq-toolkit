@@ -83,13 +83,15 @@ class ConsumerQueue {
 
 
     /**
-     *
      * @param {Object} item
+     * @param {Boolean} takeConsumer
      */
-    async process(item){
+    async process(item, takeConsumer= true) {
         try {
             // Set the consumer as busy
-            this.currentConsumerCount++;
+            if (takeConsumer === true) {
+                this.currentConsumerCount++;
+            }
 
             try {
                 // Make actual process for the item
@@ -98,29 +100,23 @@ class ConsumerQueue {
             catch(err) {
                 this.logger.notify(`Consumer Queue | Consumer Process Item ${this.name} Error`).steps(0,100).msg('consumer-queue.js Error at consumer process. name:%s Error:', this.name, err);
             }
-            finally {
-                // Set the consumer as idle
-                this.currentConsumerCount--;
-            }
 
             // If we have an item that it wasn't queued because the queue was full, we queue it now we have space
             let outOfRageDeferred = this.outOfRangeQueue.shift();
             if(outOfRageDeferred)
                 await outOfRageDeferred.forceResolve();
 
-
-            // If no items are added any more to the queue and the queue is empty and there is no consumer working, we resolve
-            this.resolveIfFinished();
-            // TODO: VALIDATE THIS CONDITIONS
-            // if(this.areConsumersFull() === true || this.isMainQueueEmpty() === true){
-            //     return this.resolveIfFinished();
-            // }
-
             // If we have items in the queue, we keep processing those recursively
             if (this.queue.length > 0) {
                 let nextItem = this.queue.shift();
                 // ATTENTION: Because of the recursive nature of this method, nextTick is used to break the stack
-                process.nextTick(() => this.process(nextItem));
+                process.nextTick(() => this.process(nextItem, false));
+            }
+            else {
+                // Set the consumer as idle
+                this.currentConsumerCount--;
+                // If no items are added any more to the queue and the queue is empty and there is no consumer working, we resolve
+                this.resolveIfFinished();
             }
         }
         catch (error) {

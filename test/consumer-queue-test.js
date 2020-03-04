@@ -1,6 +1,6 @@
 'use strict';
 
-describe.only('ConsumerQueue Test', function() {
+describe('ConsumerQueue Test', function() {
 
     const chai = require('chai');
     const expect = chai.expect;
@@ -136,9 +136,7 @@ describe.only('ConsumerQueue Test', function() {
      */
     function _randomDelay() {
         const delay = Shuffler.getRandomIntFromInterval(0, 5);
-        // return PromiseNativeTool.delay(delay);
-        const bluebird = require('bluebird');
-        return bluebird.delay(delay);
+        return PromiseNativeTool.delay(delay);
     }
 
     /**
