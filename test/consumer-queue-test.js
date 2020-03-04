@@ -1,14 +1,14 @@
 'use strict';
 
-describe('ConsumerQueue Test', function() {
+describe.only('ConsumerQueue Test', function() {
 
     const chai = require('chai');
     const expect = chai.expect;
-    const Promise = require('bluebird');
 
     const Shuffler = require('../shuffler');
     const DummyLogger = require('./utils/dummy-logger');
 
+    const PromiseNativeTool = require('../promise-native-tool');
     const ConsumerQueue = require('../consumer-queue');
 
     it('1. Add 10 items with maxConsumers=1 and maxElements=5. Hold until finish and result expect to be ordered' +
@@ -136,7 +136,9 @@ describe('ConsumerQueue Test', function() {
      */
     function _randomDelay() {
         const delay = Shuffler.getRandomIntFromInterval(0, 5);
-        return Promise.delay(delay);
+        // return PromiseNativeTool.delay(delay);
+        const bluebird = require('bluebird');
+        return bluebird.delay(delay);
     }
 
     /**

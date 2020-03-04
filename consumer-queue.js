@@ -2,7 +2,7 @@
 
 const Deque = require('double-ended-queue');
 
-const PromiseTool = require('./promise-tool');
+const PromiseNativeTool = require('./promise-native-tool');
 
 const MAX_ELEMENTS  = 10;
 const MAX_CONSUMERS = 10;
@@ -32,7 +32,7 @@ class ConsumerQueue {
         this.queue          = new Deque();
         this.outOfRangeQueue  = new Deque();
 
-        this.finishedPromise = PromiseTool.createDeferred();
+        this.finishedPromise = PromiseNativeTool.createDeferred();
         this.hasProducerFinished = false;
 
     }
@@ -56,7 +56,7 @@ class ConsumerQueue {
 
         // If we don't have space in the queue, we push it to the out of range queue. It will be pushed to the
         // consumer queue once we have space again
-        let deferred = PromiseTool.createDeferred();
+        let deferred = PromiseNativeTool.createDeferred();
         deferred.then(() => this.queue.push(item));
         this.outOfRangeQueue.push(deferred);
 
