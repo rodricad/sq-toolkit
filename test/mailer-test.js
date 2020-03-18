@@ -4,6 +4,7 @@ const chai      = require('chai');
 const expect    = chai.expect;
 const sinon     = require('sinon');
 const Mailer    = require('../mailer');
+const ErrorCode = require('../lib/constants/exception').ErrorCode;
 
 const TEST_OPTIONS = {
     host: '127.0.0.1',
@@ -27,7 +28,8 @@ describe('Mailer Tests', function () {
             mailer = Mailer.getInstance();
             expect.fail('Should not get here');
         } catch (e) {
-            expect(e.message).to.eql('mailer.js::getInstance:: ERROR: Must call createInstace() before using.');
+            expect(e.code).to.eql(ErrorCode.ERROR_NOT_INITIALIZED);
+            expect(e.message).to.eql('Must call createInstace() before using.');
         }
     });
 
@@ -37,7 +39,8 @@ describe('Mailer Tests', function () {
             Mailer.createInstance(TEST_OPTIONS);
             expect.fail('Should not get here');
         } catch (e) {
-            expect(e.message).to.eql('mailer.js::createInstance:: ERROR: Instance already created, use getInstance() instead.');
+            expect(e.code).to.eql(ErrorCode.ERROR_INSTANCE_ALREADY_CREATED);
+            expect(e.message).to.eql('Mailer instance is already created and initialized. Use .getInstance() instead.');
         }
     });
 
