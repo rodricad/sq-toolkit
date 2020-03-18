@@ -51,8 +51,8 @@ describe('Mailer Tests', function () {
         let html = 'dummyHtml';
         let text = 'dummyText';
 
-        Mailer.createInstance(TEST_OPTIONS);
-        let mailer = Mailer.getInstance();
+        let mailer = Mailer.createInstance(TEST_OPTIONS);
+        expect(mailer).to.eql(Mailer.getInstance());
         let sendMailStub = sinon.stub(mailer._transporter, 'sendMail').resolves();
         await mailer.sendEmail(from, to, subject, text, html);
         expect(sendMailStub.calledOnce).to.eql(true);

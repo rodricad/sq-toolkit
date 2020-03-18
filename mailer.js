@@ -49,12 +49,14 @@ class Mailer {
      * @param {Object}  options.auth
      * @param {String}  options.auth.user
      * @param {String}  options.auth.password
+     * @return {Mailer}
      */
     static createInstance(options) {
         if(_instance != null) {
             throw new Exception(ErrorCode.ERROR_INSTANCE_ALREADY_CREATED, 'Mailer instance is already created and initialized. Use .getInstance() instead.');
         }
         _instance = new Mailer(options);
+        return _instance;
     }
 
     /**
