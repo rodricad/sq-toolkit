@@ -5,6 +5,7 @@ describe('Redis Client Test', function () {
     const chai = require('chai');
     const expect = chai.expect;
     const sinon = require('sinon');
+    const Redis = require('ioredis');
 
     const DummyLogger = require('./utils/dummy-logger');
     const RedisClient = require('../redis-client');
@@ -121,5 +122,71 @@ describe('Redis Client Test', function () {
                 expect(err.message).to.equals('connect ECONNREFUSED 127.0.0.1:6666');
             }
         });
+    });
+
+    describe('3. Test .set()', () => {
+
+        /**
+         * @type {RedisClient|null}
+         */
+        let client = null;
+
+        before(async () => {
+            const opts = _getOptions();
+            client = new RedisClient(opts);
+            await client.init();
+        });
+
+        beforeEach(() => {
+            sinon.restore();
+        });
+
+        after(() => {
+            sinon.restore();
+        });
+
+        it('1. Call .set() with only key and value. Expect to call internal redis set with proper params', () => {
+            const setStub = _getSetStub();
+            client.set('key', 'value');
+
+            expect(setStub.calledOnce).to.equals(true);
+            sinon.assert.calledWith(setStub, 'key', 'value');
+        });
+
+        it('2. Call .set() with only key, value, expiryMode and time. Expect to call internal redis set with proper params', () => {
+            const setStub = _getSetStub();
+            client.set('key', 'value', RedisClient.ExpiryMode.EX, 1000);
+
+            expect(setStub.calledOnce).to.equals(true);
+            sinon.assert.calledWith(setStub, 'key', 'value', 'EX', 1000);
+        });
+
+        it('3. Call .set() with only key, value and setMode. Expect to call internal redis set with proper params', () => {
+            const setStub = _getSetStub();
+            client.set('key', 'value', null, null, RedisClient.SetMode.NX);
+
+            expect(setStub.calledOnce).to.equals(true);
+            sinon.assert.calledWith(setStub, 'key', 'value', 'NX');
+        });
+
+        it('4. Call .set() with only key, value, expiryMode and setMode. Expect to call internal redis set with proper params (without expiryMode)', () => {
+            const setStub = _getSetStub();
+            client.set('key', 'value', RedisClient.ExpiryMode.EX, null, RedisClient.SetMode.NX);
+
+            expect(setStub.calledOnce).to.equals(true);
+            sinon.assert.calledWith(setStub, 'key', 'value', 'NX');
+        });
+
+        it('5. Call .set() with only key, value, time and setMode. Expect to call internal redis set with proper params (without expiryMode)', () => {
+            const setStub = _getSetStub();
+            client.set('key', 'value', null, 1000, RedisClient.SetMode.NX);
+
+            expect(setStub.calledOnce).to.equals(true);
+            sinon.assert.calledWith(setStub, 'key', 'value', 'NX');
+        });
+
+        function _getSetStub() {
+            return sinon.stub(Redis.prototype, 'set').callsFake(() => null);
+        }
     });
 });

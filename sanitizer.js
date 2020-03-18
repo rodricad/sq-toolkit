@@ -7,6 +7,8 @@ let Exception = require('./exception');
 const SanitizerConst = require('./lib/constants/sanitizer');
 
 const OBJECT_ID_HEX_REGEX = /^[0-9a-fA-F]{24}$/;
+const EMAIL_REGEX = /^[-!#$%&'*+\/0-9=?A-Z^_a-z{|}~](\.?[-!#$%&'*+\/0-9=?A-Z^_a-z`{|}~])*@[a-zA-Z0-9](-*\.?[a-zA-Z0-9])*\.[a-zA-Z](-?[a-zA-Z0-9])+$/;
+const EMAIL_PLUS_REGEX = / /g;
 
 class Sanitizer {
 
@@ -250,7 +252,7 @@ class Sanitizer {
      * because this method is intented to be used only as a controller sanitizer.
      * @reference https://github.com/mongodb/js-bson/blob/master/lib/objectid.js#L321
      * @param value
-     * @returns {ObjectId|null}
+     * @returns {ObjectId|ObjectID|null}
      */
     static toObjectId(value) {
         if (Sanitizer.isObjectId(value) === true) {
@@ -258,6 +260,49 @@ class Sanitizer {
         }
         if (Sanitizer.isString(value) === true && value.length === 24 && OBJECT_ID_HEX_REGEX.test(value) === true) {
             return new ObjectId(value);
+        }
+        return null;
+    }
+
+    /**
+     * Due to performance concerns, we do not validate RFC account and domain tld lengths.
+     * This is based on manishsaraan/email-validator package.
+     *
+     * @reference https://github.com/manishsaraan/email-validator
+     * @reference http://fightingforalostcause.net/misc/2006/compare-email-regex.php
+     * @reference http://thedailywtf.com/Articles/Validating_Email_Addresses.aspx
+     * @reference http://stackoverflow.com/questions/201323/what-is-the-best-regular-expression-for-validating-email-addresses/201378#201378
+     *
+     * @param value
+     * @return {Boolean}
+     */
+    static isEmail(value) {
+        if (Sanitizer.isString(value) === false) {
+            return false;
+        }
+        if (value.length > 254) {
+            return false;
+        }
+        return EMAIL_REGEX.test(value);
+    }
+
+    /**
+     * @param value
+     * @returns {String|null}
+     */
+    static toEmail(value) {
+        let str = Sanitizer.toString(value);
+
+        if (str == null) {
+            return null;
+        }
+
+        // Lower and fix plus "+" encoding issue
+        str = str.toLowerCase();
+        str = str.replace(EMAIL_PLUS_REGEX, '+');
+
+        if (Sanitizer.isEmail(str) === true) {
+            return str;
         }
         return null;
     }
@@ -407,10 +452,21 @@ class Sanitizer {
      * @param {*}       value
      * @param {Boolean} mandatory
      * @param {*=}      def
-     * @return {ObjectId|null}
+     * @return {ObjectId|ObjectID|null}
      */
     static objectId(field, value, mandatory = false, def = null) {
         return Sanitizer._sanitizeValue(field, value, mandatory, def, 'ObjectId', Sanitizer.toObjectId);
+    }
+
+    /**
+     * @param {String}  field
+     * @param {*}       value
+     * @param {Boolean} mandatory
+     * @param {*=}      def
+     * @return {String|null}
+     */
+    static email(field, value, mandatory = false, def = null) {
+        return Sanitizer._sanitizeValue(field, value, mandatory, def, 'email', Sanitizer.toEmail);
     }
 
     /**
