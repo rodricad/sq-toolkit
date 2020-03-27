@@ -180,9 +180,10 @@ class PromiseNativeTool {
      * If any promise in the array is rejected, or any promise returned by the mapper function is rejected, the returned promise is rejected as well.
      * @param data - an array or object to iterate over
      * @param iterator - iterator function. Function arguments: (element/value, idx/key)
-     * @param concurrency - concurrency must be >= 2 due to neo-async mapLimit() limitation
+     * @param options
+     * @param options.concurrency - concurrency must be >= 1
      */
-    static map(data, iterator, concurrency) {
+    static map(data, iterator, options) {
 
         let deferred = PromiseNativeTool.createDeferred();
 
@@ -208,11 +209,11 @@ class PromiseNativeTool {
             });
         }
 
-        if(concurrency < 2) {
-            deferred.forceReject(new Error('Concurrency must be >= 2'));
+        if(options.concurrency < 1) {
+            deferred.forceReject(new Error('Concurrency must be >= 1'));
         }
 
-        async.mapLimit(data, concurrency-1, _iterator, _callback);
+        async.mapLimit(data, options.concurrency, _iterator, _callback);
 
         return deferred;
     }
