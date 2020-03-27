@@ -1,14 +1,17 @@
 'use strict';
 
 const onHeaders = require('on-headers');
+const onFinished = require('on-finished');
 
 let totalReqs = 0;
 let activeReqs = 0;
+let writingReqs = 0;
 
 /* istanbul ignore next */
 function reqMiddleware(req, res, next) {
     req.locals = req.locals != null ? req.locals : {};
     req.meta   = req.meta   != null ? req.meta   : {};
+    req.locals.counter = {};
 
     // Based on:
     // https://stackoverflow.com/questions/19266329/node-js-get-clients-ip
@@ -20,11 +23,19 @@ function reqMiddleware(req, res, next) {
     }
     activeReqs++;
     totalReqs++;
-    req.locals.activeReqs = activeReqs;
-    req.locals.totalReqs = totalReqs;
+    req.locals.counter = {
+        total: totalReqs,
+        active: activeReqs,
+        writing: writingReqs
+    };
 
     onHeaders(res, function(){
-        activeReqs -= 1;
+        writingReqs++;
+    });
+
+    onFinished(res, function(){
+        writingReqs--;
+        activeReqs--;
     });
 
     next();
