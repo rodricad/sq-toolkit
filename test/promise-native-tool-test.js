@@ -261,4 +261,105 @@ describe('PromiseNativeTool Test', function () {
             });
         });
     });
+
+    describe('4. map()', function () {
+
+        it('1. Iterate over array, expect elements to be processed in order (while respecting concurrency)', async () => {
+            let array = [1,4,2,6,1];
+            let outputArray = [];
+
+            async function iterator(element, index) {
+                await PromiseNativeTool.delay(element*50);
+                outputArray.push(element);
+                return element;
+            }
+
+            let result = await PromiseNativeTool.map(array, iterator, 3);
+
+            expect(result).to.eql(array);
+            expect(outputArray).to.eql([1,2,4,1,6]);
+        });
+
+        it('2. Iterate over array, expect elements to be processed in order (while respecting concurrency)', async () => {
+            let array = [1,4,2,6,1];
+            let outputArray = [];
+
+            async function iterator(element, index) {
+                await PromiseNativeTool.delay(element*50);
+                outputArray.push(element);
+                return element;
+            }
+
+            let result = await PromiseNativeTool.map(array, iterator, 100);
+
+            expect(result).to.eql(array);
+            expect(outputArray).to.eql([1,1,2,4,6]);
+        });
+
+        it('3. Iterate over object properties, expect elements to be processed in order (while respecting concurrency)', async () => {
+            let data = {a:1,b:4,c:1,d:6,e:1};
+            let outputArray = [];
+
+            async function iterator(value, key) {
+                await PromiseNativeTool.delay(value*50);
+                outputArray.push(value);
+                return [value, key];
+            }
+
+            let result = await PromiseNativeTool.map(data, iterator, 2);
+
+            expect(result).to.eql([
+                [ 1, "a" ],
+                [ 4, "b" ],
+                [ 1, "c" ],
+                [ 6, "d" ],
+                [ 1, "e" ]
+            ]);
+            expect(outputArray).to.eql([1,4,1,6,1]);
+        });
+
+        it('4. Iterate over array, if one element fails processing stops and promise is rejected.', async () => {
+            let array = [1,4,1,6,1];
+            let outputArray = [];
+
+            async function iterator(element, index) {
+                if(element === 6) {
+                    throw new Error('TEST ERROR');
+                }
+                await PromiseNativeTool.delay(element*50);
+                outputArray.push(element);
+                return element;
+            }
+
+            try {
+                await PromiseNativeTool.map(array, iterator, 3);
+                expect.fail('should not reach here');
+            } catch (err) {
+                expect(err.message).to.eql('TEST ERROR');
+                expect(outputArray).to.eql([1,1]);
+            }
+        });
+
+        it('5. Passing concurrency < 2 should reject promise immediately', async () => {
+            let array = [1,4,1,6,1];
+            let outputArray = [];
+
+            async function iterator(element, index) {
+                if(element === 6) {
+                    throw new Error('TEST ERROR');
+                }
+                await PromiseNativeTool.delay(element*50);
+                outputArray.push(element);
+                return element;
+            }
+
+            try {
+                await PromiseNativeTool.map(array, iterator, 1);
+                expect.fail('should not reach here');
+            } catch (err) {
+                expect(err.message).to.eql('Concurrency must be >= 2');
+                expect(outputArray).to.eql([]);
+            }
+        });
+    });
 });

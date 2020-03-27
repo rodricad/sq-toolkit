@@ -173,6 +173,49 @@ class PromiseNativeTool {
 
         return deferred;
     }
+
+    /**
+     * Iterate over all the values in the Iterable into an array and map the array to another using the given mapper function.
+     * Promises returned by the mapper function are awaited for and the returned promise doesn't fulfill until all mapped promises have fulfilled as well.
+     * If any promise in the array is rejected, or any promise returned by the mapper function is rejected, the returned promise is rejected as well.
+     * @param data - an array or object to iterate over
+     * @param iterator - iterator function. Function arguments: (element/value, idx/key)
+     * @param concurrency - concurrency must be >= 2 due to neo-async mapLimit() limitation
+     */
+    static map(data, iterator, concurrency) {
+
+        let deferred = PromiseNativeTool.createDeferred();
+
+        function _callback(err, res) {
+            if (err) {
+                deferred.forceReject(err);
+            }
+            else {
+                deferred.forceResolve(res);
+            }
+        }
+
+        function _iterator(arg, idx, callback) {
+            Promise.resolve()
+            .then(() => {
+                return iterator(arg, idx);
+            })
+            .then((response) => {
+                callback(null, response);
+            })
+            .catch((err) => {
+                callback(err);
+            });
+        }
+
+        if(concurrency < 2) {
+            deferred.forceReject(new Error('Concurrency must be >= 2'));
+        }
+
+        async.mapLimit(data, concurrency-1, _iterator, _callback);
+
+        return deferred;
+    }
 }
 
 module.exports = PromiseNativeTool;
