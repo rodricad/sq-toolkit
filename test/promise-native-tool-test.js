@@ -10,7 +10,7 @@ describe('PromiseNativeTool Test', function () {
     let Exception = require('../exception');
     let PromiseNativeTool = require('../promise-native-tool');
 
-    describe('1. eachLimit()', function () {
+    describe('1. each()', function () {
 
         it('1. Iterate over an array with a concurrency of 1. Expect to be executed in order', function () {
 
@@ -26,7 +26,7 @@ describe('PromiseNativeTool Test', function () {
                 });
             }
 
-            return PromiseNativeTool.eachLimit(items, concurrency, iterator)
+            return PromiseNativeTool.each(items, iterator, {concurrency})
             .then(function (response) {
                 expect(response).to.equals(undefined);
                 expect(order).to.eql([1, 5, 3, 4, 2]);
@@ -47,7 +47,7 @@ describe('PromiseNativeTool Test', function () {
                 });
             }
 
-            return PromiseNativeTool.eachLimit(items, concurrency, iterator)
+            return PromiseNativeTool.each(items, iterator, {concurrency})
             .then(function (response) {
                 expect(response).to.equals(undefined);
                 expect(order).to.eql([1, 3, 5, 2, 4]);
@@ -71,7 +71,7 @@ describe('PromiseNativeTool Test', function () {
                 });
             }
 
-            return PromiseNativeTool.eachLimit(items, concurrency, iterator)
+            return PromiseNativeTool.each(items, iterator, {concurrency})
             .catch(function (err) {
                 expect(err.code).to.equals('EXCEPTION_CODE');
                 expect(order).to.eql([1]);
@@ -103,7 +103,7 @@ describe('PromiseNativeTool Test', function () {
                 return promise;
             }
 
-            return PromiseNativeTool.eachLimit(items, concurrency, iterator)
+            return PromiseNativeTool.each(items, iterator, {concurrency})
             .then(function (response) {
                 expect(response).to.equals(undefined);
                 expect(order).to.eql([1, 3, 4, 2]);
@@ -357,6 +357,7 @@ describe('PromiseNativeTool Test', function () {
                 await PromiseNativeTool.map(array, iterator, {concurrency: 0});
                 expect.fail('should not reach here');
             } catch (err) {
+                expect(err.code).to.eql(Exception.ErrorCode.ERROR_INVALID_PARAMETER);
                 expect(err.message).to.eql('Concurrency must be >= 1');
                 expect(outputArray).to.eql([]);
             }

@@ -1,6 +1,7 @@
 'use strict';
 
 let async = require('neo-async');
+let Exception = require('./exception');
 
 class PromiseNativeTool {
 
@@ -41,13 +42,15 @@ class PromiseNativeTool {
     /**
      *
      * @param {Array}    items
-     * @param {Number}   concurrency
      * @param {Function} iterator
+     * @param {Object}   options
+     * @param {Number=1} options.concurrency
      * @return {Promise}
      */
-    static eachLimit(items, concurrency, iterator) {
+    static each(items, iterator, options) {
 
         let deferred = PromiseNativeTool.createDeferred();
+        let concurrency = options.concurrency || 1;
 
         function _iterator(item, callback) {
 
@@ -178,14 +181,15 @@ class PromiseNativeTool {
      * Iterate over all the values in the Iterable into an array and map the array to another using the given mapper function.
      * Promises returned by the mapper function are awaited for and the returned promise doesn't fulfill until all mapped promises have fulfilled as well.
      * If any promise in the array is rejected, or any promise returned by the mapper function is rejected, the returned promise is rejected as well.
-     * @param data - an array or object to iterate over
-     * @param iterator - iterator function. Function arguments: (element/value, idx/key)
-     * @param options
-     * @param options.concurrency - concurrency must be >= 1
+     * @param {Object|Array} data - an array or object to iterate over
+     * @param {Function}     iterator - iterator function. Function arguments: (element/value, idx/key)
+     * @param {Object}       options
+     * @param {Number=1}     options.concurrency - concurrency must be >= 1
      */
     static map(data, iterator, options) {
 
         let deferred = PromiseNativeTool.createDeferred();
+        let concurrency = options.concurrency != null ? options.concurrency : 1;
 
         function _callback(err, res) {
             if (err) {
@@ -209,11 +213,11 @@ class PromiseNativeTool {
             });
         }
 
-        if(options.concurrency < 1) {
-            deferred.forceReject(new Error('Concurrency must be >= 1'));
+        if(concurrency < 1) {
+            deferred.forceReject(new Exception(Exception.ErrorCode.ERROR_INVALID_PARAMETER, 'Concurrency must be >= 1'));
         }
 
-        async.mapLimit(data, options.concurrency, _iterator, _callback);
+        async.mapLimit(data, concurrency, _iterator, _callback);
 
         return deferred;
     }
