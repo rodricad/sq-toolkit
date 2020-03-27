@@ -24,7 +24,7 @@ class Mailer {
             secure: options.secure,
             auth: {
                 user: options.auth.user,
-                password: options.auth.password,
+                pass: options.auth.password,
             }
         });
     }

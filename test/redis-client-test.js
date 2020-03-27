@@ -189,4 +189,28 @@ describe('Redis Client Test', function () {
             return sinon.stub(Redis.prototype, 'set').callsFake(() => null);
         }
     });
+
+    describe('4. Test .incr()', () => {
+
+        let client = null;
+
+        before(async () => {
+            const opts = _getOptions();
+            client = new RedisClient(opts);
+            await client.init();
+        });
+
+        it('1. Call .incr() with key. Expect to call internal redis incr with proper params', () => {
+            const incrStub = _getIncrStub();
+            client.incr('key');
+
+            expect(incrStub.calledOnce).to.equals(true);
+            sinon.assert.calledWith(incrStub, 'key');
+            incrStub.restore();
+        });
+
+        function _getIncrStub() {
+            return sinon.stub(Redis.prototype, 'incr').callsFake(() => null);
+        }
+    });
 });
