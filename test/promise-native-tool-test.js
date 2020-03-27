@@ -274,7 +274,7 @@ describe('PromiseNativeTool Test', function () {
                 return element;
             }
 
-            let result = await PromiseNativeTool.map(array, iterator, 3);
+            let result = await PromiseNativeTool.map(array, iterator, {concurrency: 2});
 
             expect(result).to.eql(array);
             expect(outputArray).to.eql([1,2,4,1,6]);
@@ -290,7 +290,7 @@ describe('PromiseNativeTool Test', function () {
                 return element;
             }
 
-            let result = await PromiseNativeTool.map(array, iterator, 100);
+            let result = await PromiseNativeTool.map(array, iterator, {concurrency: 10});
 
             expect(result).to.eql(array);
             expect(outputArray).to.eql([1,1,2,4,6]);
@@ -306,7 +306,7 @@ describe('PromiseNativeTool Test', function () {
                 return [value, key];
             }
 
-            let result = await PromiseNativeTool.map(data, iterator, 2);
+            let result = await PromiseNativeTool.map(data, iterator, {concurrency: 1});
 
             expect(result).to.eql([
                 [ 1, "a" ],
@@ -332,7 +332,7 @@ describe('PromiseNativeTool Test', function () {
             }
 
             try {
-                await PromiseNativeTool.map(array, iterator, 3);
+                await PromiseNativeTool.map(array, iterator, {concurrency: 2});
                 expect.fail('should not reach here');
             } catch (err) {
                 expect(err.message).to.eql('TEST ERROR');
@@ -354,10 +354,10 @@ describe('PromiseNativeTool Test', function () {
             }
 
             try {
-                await PromiseNativeTool.map(array, iterator, 1);
+                await PromiseNativeTool.map(array, iterator, {concurrency: 0});
                 expect.fail('should not reach here');
             } catch (err) {
-                expect(err.message).to.eql('Concurrency must be >= 2');
+                expect(err.message).to.eql('Concurrency must be >= 1');
                 expect(outputArray).to.eql([]);
             }
         });
