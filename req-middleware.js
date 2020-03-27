@@ -11,7 +11,6 @@ let writingReqs = 0;
 function reqMiddleware(req, res, next) {
     req.locals = req.locals != null ? req.locals : {};
     req.meta   = req.meta   != null ? req.meta   : {};
-    req.locals.counter = {};
 
     // Based on:
     // https://stackoverflow.com/questions/19266329/node-js-get-clients-ip
