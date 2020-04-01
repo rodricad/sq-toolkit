@@ -30,14 +30,14 @@ const INIT_ERROR_CODE = 'INIT_ERROR_CODE';
 class ConnectionDrainMiddleware {
     /**
      * Setup health check and connection draining mechanism to work with kubernetes/load balancing infrastructure
-     * @param anExpressApp The express application
-     * @param logger A logger instance
+     * @param anExpressApp - The express application instance
+     * @param logger - A sq-logger instance
      * @param {Object=} options
-     * @param {number=40} options.keepAliveBreakSeconds
-     * @param {number=5} options.keepAliveBreakDeltaSeconds
-     * @param {number=10} options.httpServerCloseTimeoutSeconds
-     * @param {string='connection-drain-helper'} options.logPrefix
-     * @param {string='/_health'} options.healthCheckEndpoint
+     * @param {number=40} options.keepAliveBreakSeconds - "Break" keep-alive connections every X seconds
+     * @param {number=5} options.keepAliveBreakDeltaSeconds - Limit for random secs added/subtracted to the break interval of each connection to prevent breaking every connection at the same moment
+     * @param {number=10} options.httpServerCloseTimeoutSeconds - Timeout to wait the http server for graceful shutdown once SIGTERM is received. After that the process will exit
+     * @param {string='connection-drain-helper'} options.logPrefix - Prefix to add to every log line within this middleware
+     * @param {string='/_health'} options.healthCheckEndpoint - Endpoint for the health-check controller
      */
     constructor(anExpressApp, logger, options = {}) {
         if(anExpressApp == null){
