@@ -33,7 +33,7 @@ class ConnectionDrainMiddleware {
      * @param anExpressApp - The express application instance
      * @param logger - A sq-logger instance
      * @param {Object=} options
-     * @param {number=40} options.keepAliveBreakSeconds - "Break" keep-alive connections every X seconds
+     * @param {number=40} options.keepAliveBreakSeconds - Interval after which keep-alive connections will be break
      * @param {number=5} options.keepAliveBreakDeltaSeconds - Limit for random secs added/subtracted to the break interval of each connection to prevent breaking every connection at the same moment
      * @param {number=10} options.httpServerCloseTimeoutSeconds - Timeout to wait the http server for graceful shutdown once SIGTERM is received. After that the process will exit
      * @param {string='connection-drain-helper'} options.logPrefix - Prefix to add to every log line within this middleware
