@@ -10,7 +10,7 @@ const INIT_ERROR_CODE = 'INIT_ERROR_CODE';
  * This is to provide a smooth mechanism for server shutdown and connection draining by:
  *      * Add "Connection: close" every X seconds to prevent infinite keep-alive connections
  *      * Handle SIGTERM signal marking the app as draining and shutting down the http server when received
- *      * Provide a health-check endpoint that returns HTTP 200 normally or HTTP 500 when the app is draining
+ *      * Provide a health-check endpoint (by default in /_health) that returns HTTP 200 normally or HTTP 500 when the app is draining
  *
  * Usage:
  *
