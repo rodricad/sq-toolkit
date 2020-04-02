@@ -26,7 +26,7 @@ class ConnectionDrainMiddleware {
     /**
      * Setup health check and connection draining mechanism to work with kubernetes/load balancing infrastructure
      * @param anExpressApp - The express application instance
-     * @param logger - A sq-logger instance
+     * @param logger - A sq-logger instance 
      * @param {Object=} options
      * @param {number=40} options.keepAliveBreakSeconds - Interval after which keep-alive connections will be break
      * @param {number=5} options.keepAliveBreakDeltaSeconds - Limit for random secs added/subtracted to the break interval of each connection to prevent breaking every connection at the same moment
