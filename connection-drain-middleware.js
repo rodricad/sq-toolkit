@@ -41,17 +41,17 @@ class ConnectionDrainMiddleware {
      */
     constructor(anExpressApp, logger, options = {}) {
         if(anExpressApp == null){
-            throw new Exception(INIT_ERROR_CODE, 'A express app must be provided.');
+            throw new Exception(Exception.ErrorCode.ERROR_INVALID_PARAMETER, 'A express app must be provided.');
         }
         if(logger == null){
-            throw new Exception(INIT_ERROR_CODE, 'A sq-logger instance must be provided.');
+            throw new Exception(Exception.ErrorCode.ERROR_INVALID_PARAMETER, 'A sq-logger instance must be provided.');
         }
         this.expressApp = anExpressApp;
         this.fdMap = new LRU({ max: 10000 });
         this.logger = logger;
         this.keepAliveBreakSeconds = options.keepAliveBreakSeconds || 40;
         this.keepAliveBreakDeltaSeconds = options.keepAliveBreakDeltaSeconds || 5;
-        this.httpServerCloseTimeoutSeconds = options.httpServerCloseTimeoutSeconds || 10;
+        this.httpServerCloseTimeoutSeconds = options.httpServerCloseTimeoutSeconds != null ? options.httpServerCloseTimeoutSeconds : 10;
         this.logPrefix = options.logPrefix || 'connection-drain-helper';
 
         anExpressApp.locals.isDraining = false;
@@ -60,11 +60,10 @@ class ConnectionDrainMiddleware {
         this._setupSIGTERMHandler();
     }
 
-    setHttpServer(httpServer) {
+    _setupHttpServer(httpServer) {
         this.httpServer = httpServer;
-        let self = this;
         httpServer.on('connection', (socket) => {
-            self.fdMap.del(socket._handle.fd);
+            this.fdMap.del(socket._handle.fd);
         });
     }
 
@@ -73,16 +72,16 @@ class ConnectionDrainMiddleware {
      * @returns {number}
      */
     _generateExpirationTs(){
-        return new Date().getTime() + 1000 * (this.keepAliveBreakSeconds - this.keepAliveBreakDeltaSeconds + 2 * this.keepAliveBreakDeltaSeconds * Math.random());
+        return new Date(new Date().getTime() + 1000 * (this.keepAliveBreakSeconds - this.keepAliveBreakDeltaSeconds + 2 * this.keepAliveBreakDeltaSeconds * Math.random()));
     }
 
     _isExpired(connectionInfo){
-        return connectionInfo.expiresAt < new Date().getTime();
+        return connectionInfo.expiresAt < new Date();
     }
 
     _keepAliveBreakMiddleware(req, res, next) {
         if(this.httpServer == null){
-            this.logger.notify(this.logPrefix + ' httpServer NOT SET!').steps(0, 1000).msg('Must call setHttpServer() with httpServer instance returned by app.listen(()');
+            this._setupHttpServer(req.connection.server);
         }
         let connectionExpired = false;
         let fd = req.socket._handle.fd;
@@ -95,7 +94,7 @@ class ConnectionDrainMiddleware {
         if (connectionInfo == null) {
             let expiresAt = this._generateExpirationTs();
             this.fdMap.set(fd, { expiresAt: expiresAt, count: 1 });
-            this.logger.debug('%s NEW CONNECTION: fd:%s expiresAt:%s ip:%s ci:%s path:%s debug:%s seq:%s', this.logPrefix, fd, new Date(expiresAt), ip, ci, req.path, debug, debugSeq);
+            this.logger.debug('%s NEW CONNECTION: fd:%s expiresAt:%s ip:%s ci:%s path:%s debug:%s seq:%s', this.logPrefix, fd, expiresAt, ip, ci, req.path, debug, debugSeq);
         } else {
             let expiresAt = new Date(connectionInfo.expiresAt);
             if (this._isExpired(connectionInfo)) {
@@ -126,8 +125,7 @@ class ConnectionDrainMiddleware {
     }
 
     // Call process.exit after passed delay to allow log calls reach destination
-    async _delayedExit(exitValue, delay) {
-        delay = delay || 500;
+    async _delayedExit(exitValue, delay = 500) {
         await PromiseTool.delay(delay);
         process.exit(exitValue);
     }
@@ -141,24 +139,23 @@ class ConnectionDrainMiddleware {
     }
 
     _setupSIGTERMHandler() {
-        let self = this;
         process.on('SIGTERM', async () => {
-            self.logger.info('%s: SIGTERM received - Starting graceful shutdown...', self.logPrefix);
-            self.expressApp.locals.isDraining = true;
+            this.logger.info('%s: SIGTERM received - Starting graceful shutdown...', this.logPrefix);
+            this.expressApp.locals.isDraining = true;
             try {
-                if (self.httpServer) {
+                if (this.httpServer) {
                     // do not wait on purpose
-                    self._closeHttpServer();
-                    await PromiseTool.delay(self.httpServerCloseTimeoutSeconds * 1000);
-                    self.logger.info('%s: Not all pending connections were closed. Forcing process exit', self.logPrefix);
-                    self._delayedExit(-1);
+                    this._closeHttpServer();
+                    await PromiseTool.delay(this.httpServerCloseTimeoutSeconds * 1000);
+                    this.logger.info('%s: Not all pending connections were closed. Forcing process exit', this.logPrefix);
+                    this._delayedExit(-1);
                 } else {
-                    self.logger.info('%s: Server was not set. Exiting process', self.logPrefix);
-                    self._delayedExit(0);
+                    this.logger.info('%s: Server was not set. Exiting process', this.logPrefix);
+                    this._delayedExit(0);
                 }
             } catch (err) {
-                self.logger.error('%s: Exception during SIGTERM handling - Error:', self.logPrefix, err);
-                self._delayedExit(-2);
+                this.logger.error('%s: Exception during SIGTERM handling - Error:', this.logPrefix, err);
+                this._delayedExit(-2);
             }
         });
     }
