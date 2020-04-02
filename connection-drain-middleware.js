@@ -21,11 +21,6 @@ const INIT_ERROR_CODE = 'INIT_ERROR_CODE';
  *      this.app = express();
  *      this.app.use(requestMiddleware);  // this is optional
  *      this.app.locals.connectionDrainHelper = new ConnectionDrainingHelper(app, logger);
- *
- *  - on app.start():
- *      ...
- *      this._server = this.app.listen(port);
- *      this.app.locals.connectionDrainHelper.setHttpServer(this._server);
  */
 class ConnectionDrainMiddleware {
     /**
