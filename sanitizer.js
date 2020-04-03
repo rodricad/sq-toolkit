@@ -285,8 +285,12 @@ class Sanitizer {
      * @return {Object}
      */
     static toEncodedObjectId(value) {
-        if (Sanitizer.isEncodedObjectId(value) === true) {
-            return value;
+        let str = Sanitizer.toString(value);
+        if (str == null) {
+            return null;
+        }
+        if (Sanitizer.isEncodedObjectId(str) === true) {
+            return str;
         }
         return null;
     }

@@ -5,7 +5,7 @@ const ObjectId = require('bson/lib/bson/objectid');
 const CryptoURL = require('./crypto-url');
 const Exception = require('./exception');
 
-const ENCODED_OBJECT_ID_REGEX = /^[0-9a-fA-F_-]{16}$/;
+const ENCODED_OBJECT_ID_REGEX = /^[0-9a-zA-Z_-]{16}$/;
 const ENCODED_OBJECT_ID_ENCODING = 'hex';
 const OBJECT_ID_HEX_REGEX = /^[0-9a-fA-F]{24}$/;
 
