@@ -248,6 +248,14 @@ class Sanitizer {
     }
 
     /**
+     * @param value
+     * @return {boolean}
+     */
+    static isObjectIdString(value) {
+        return Sanitizer.isString(value) === true && value.length === 24 && OBJECT_ID_HEX_REGEX.test(value) === true
+    }
+
+    /**
      * This method is a limited validation from the original ObjectId method. We validate only for 24 chars hex strings
      * because this method is intented to be used only as a controller sanitizer.
      * @reference https://github.com/mongodb/js-bson/blob/master/lib/objectid.js#L321
@@ -258,7 +266,7 @@ class Sanitizer {
         if (Sanitizer.isObjectId(value) === true) {
             return value;
         }
-        if (Sanitizer.isString(value) === true && value.length === 24 && OBJECT_ID_HEX_REGEX.test(value) === true) {
+        if (Sanitizer.isObjectIdString(value) === true) {
             return new ObjectId(value);
         }
         return null;
