@@ -2900,7 +2900,7 @@ describe('Sanitizer Test', function () {
                 null
             ];
 
-            _testTo(Sanitizer.toObjectId, TEST_DATA.slice(37), expected.slice(37));
+            _testTo(Sanitizer.toObjectId, TEST_DATA, expected);
         });
 
         it('2. Test .objectId() sanitize method with mandatory=true', function () {
