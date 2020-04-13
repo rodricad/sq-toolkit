@@ -1,3 +1,5 @@
+"use strict";
+
 const Duration = require('./duration');
 
 class ProcessHealthLogger {
@@ -5,29 +7,32 @@ class ProcessHealthLogger {
     /**
      * @param options
      * @param {String} options.name
-     * @param {Number=30} options.interval Run interval in seconds
+     * @param {Number=30} options.intervalInSeconds Run interval in seconds
      * @param {WinstonLogger} options.logger
      */
     constructor(options) {
         this.name = options.name;
-        this.interval = options.interval || 30;
+        this.intervalInSeconds = options.intervalInSeconds || 30;
         this.logger = options.logger;
         this._intervalId = null;
     }
 
     start() {
-        let intervalInMs = this.interval * 1000;
-        let duration = Duration.start();
+        if(this._intervalId == null) {
+            let intervalInMs = this.intervalInSeconds * 1000;
+            let duration = Duration.start();
 
-        let processHealthBound = this.processHealth.bind(this, this.name, duration);
+            const processHealthBound = this.processHealth.bind(this, this.name, duration);
 
-        processHealthBound();
-        this._intervalId = setInterval(processHealthBound, intervalInMs);
+            processHealthBound();
+            this._intervalId = setInterval(processHealthBound, intervalInMs);
+        }
     }
 
     stop() {
         if(this._intervalId != null) {
             clearInterval(this._intervalId);
+            this._intervalId = null;
         }
     }
 
@@ -43,9 +48,10 @@ class ProcessHealthLogger {
         let heapTotal = this.getMegabytes(memoryUsage.heapTotal);
         let heapUsed  = this.getMegabytes(memoryUsage.heapUsed);
 
-        let heapUsedPercentage = (memoryUsage.heapUsed / memoryUsage.heapTotal * 100).toFixed(2);
+        const heapUsedPercentage = (memoryUsage.heapUsed / memoryUsage.heapTotal * 100).toFixed(2);
+        const uptime = (duration.end() / (1000.0 * 60)).toFixed(1);
 
-        this.logger.info('process-health.js process:%s rss:%s mb external:%s mb heapUsed:%s mb heapTotal:%s mb (%s%) uptime:%s min', name, rss, external, heapUsed, heapTotal, heapUsedPercentage, (duration.end() / (1000.0 * 60)).toFixed(1) );
+        this.logger.info('process-health.js process:%s rss:%s mb external:%s mb heapUsed:%s mb heapTotal:%s mb (%s%) uptime:%s min', name, rss, external, heapUsed, heapTotal, heapUsedPercentage, uptime);
     }
 
     /**
