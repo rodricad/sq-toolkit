@@ -38,7 +38,7 @@ class Exception extends Error {
         if (err._message) {
             return err._message;
         }
-        err._message = `${err.code || null} ${JSON.stringify(err.message || null)} ${JSON.stringify(err.stack || null)}`;
+        err._message = `code::${err.code || null} msg::${JSON.stringify(err.message || null)} stack::${JSON.stringify(err.stack || null)}`;
         return err._message;
     }
 }
