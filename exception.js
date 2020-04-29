@@ -32,9 +32,12 @@ class Exception extends Error {
 
     /**
      * @param {Exception|Error} err
-     * @return {string}
+     * @return {String|*}
      */
     static getMessage(err) {
+        if (err == null || (err instanceof Error) === false) {
+            return err;
+        }
         if (err._message) {
             return err._message;
         }
