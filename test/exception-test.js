@@ -20,6 +20,11 @@ describe('Exception Test', function () {
         expect(err.stack).to.contains('Exception: Templating like sprintf using constructor 123 VALID_STRING');
         expect(err.stack).to.contains('at Context.<anonymous>');
         expect(err.stack).to.contains('/test/exception-test.js:');
+
+        expect(err._message).to.equals(undefined);
+        const msg = Exception.getMessage(err);
+        expect(msg).to.includes('ERROR_CODE "Templating like sprintf using constructor 123 VALID_STRING" "Exception: Templating like sprintf using constructor 123 VALID_STRING\\n    at Context.<anonymous>');
+        expect(err._message).to.equals(msg);
     });
 
     it('2. Instance an Exception using only code. Expect to be created with only code and empty message', function () {
@@ -34,6 +39,11 @@ describe('Exception Test', function () {
         expect(err.stack).to.contains('Exception');
         expect(err.stack).to.contains('at Context.<anonymous>');
         expect(err.stack).to.contains('/test/exception-test.js:');
+
+        expect(err._message).to.equals(undefined);
+        const msg = Exception.getMessage(err);
+        expect(msg).to.includes('ERROR_CODE null "Exception\\n    at Context.<anonymous> (');
+        expect(err._message).to.equals(msg);
     });
 
     it('3. Instance an Exception. Missing code and message. Expect message to be empty and code to be null', function () {
@@ -47,5 +57,10 @@ describe('Exception Test', function () {
         expect(err.stack).to.contains('Exception');
         expect(err.stack).to.contains('at Context.<anonymous>');
         expect(err.stack).to.contains('/test/exception-test.js:');
+
+        expect(err._message).to.equals(undefined);
+        const msg = Exception.getMessage(err);
+        expect(msg).to.includes('null null "Exception\\n    at Context.<anonymous> (');
+        expect(err._message).to.equals(msg);
     });
 });
