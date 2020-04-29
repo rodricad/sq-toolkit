@@ -23,7 +23,7 @@ describe('Exception Test', function () {
 
         expect(err._message).to.equals(undefined);
         const msg = Exception.getMessage(err);
-        expect(msg).to.includes('ERROR_CODE "Templating like sprintf using constructor 123 VALID_STRING" "Exception: Templating like sprintf using constructor 123 VALID_STRING\\n    at Context.<anonymous>');
+        expect(msg).to.includes('code::ERROR_CODE msg::"Templating like sprintf using constructor 123 VALID_STRING" stack::"Exception: Templating like sprintf using constructor 123 VALID_STRING\\n    at Context.<anonymous>');
         expect(err._message).to.equals(msg);
     });
 
@@ -42,7 +42,7 @@ describe('Exception Test', function () {
 
         expect(err._message).to.equals(undefined);
         const msg = Exception.getMessage(err);
-        expect(msg).to.includes('ERROR_CODE null "Exception\\n    at Context.<anonymous> (');
+        expect(msg).to.includes('code::ERROR_CODE msg::null stack::"Exception\\n    at Context.<anonymous> (');
         expect(err._message).to.equals(msg);
     });
 
@@ -60,7 +60,7 @@ describe('Exception Test', function () {
 
         expect(err._message).to.equals(undefined);
         const msg = Exception.getMessage(err);
-        expect(msg).to.includes('null null "Exception\\n    at Context.<anonymous> (');
+        expect(msg).to.includes('code::null msg::null stack::"Exception\\n    at Context.<anonymous> (');
         expect(err._message).to.equals(msg);
     });
 });
