@@ -132,6 +132,13 @@ describe('Sanitizer Test', function () {
                 null,
                 null,
                 null,
+                null,
+
+                // EncodedObjectId
+                null,
+                null,
+                null,
+                null,
                 null
             ];
 
@@ -258,6 +265,13 @@ describe('Sanitizer Test', function () {
                 invalidMsg,
                 invalidMsg,
                 invalidMsg,
+                invalidMsg,
+
+                // EncodedObjectId
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
                 invalidMsg
             ];
 
@@ -379,6 +393,13 @@ describe('Sanitizer Test', function () {
                 invalidMsg,
 
                 // Email
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // EncodedObjectId
                 invalidMsg,
                 invalidMsg,
                 invalidMsg,
@@ -509,6 +530,13 @@ describe('Sanitizer Test', function () {
                 null,
                 null,
                 null,
+                null,
+
+                // EncodedObjectId
+                null,
+                null,
+                null,
+                null,
                 null
             ];
 
@@ -635,6 +663,13 @@ describe('Sanitizer Test', function () {
                 invalidMsg,
                 invalidMsg,
                 invalidMsg,
+                invalidMsg,
+
+                // EncodedObjectId
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
                 invalidMsg
             ];
 
@@ -756,6 +791,13 @@ describe('Sanitizer Test', function () {
                 invalidMsg,
 
                 // Email
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // EncodedObjectId
                 invalidMsg,
                 invalidMsg,
                 invalidMsg,
@@ -922,6 +964,13 @@ describe('Sanitizer Test', function () {
                 null,
                 null,
                 null,
+                null,
+
+                // EncodedObjectId
+                null,
+                null,
+                null,
+                null,
                 null
             ];
 
@@ -1048,6 +1097,13 @@ describe('Sanitizer Test', function () {
                 invalidMsg,
                 invalidMsg,
                 invalidMsg,
+                invalidMsg,
+
+                // EncodedObjectId
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
                 invalidMsg
             ];
 
@@ -1169,6 +1225,13 @@ describe('Sanitizer Test', function () {
                 invalidMsg,
 
                 // Email
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // EncodedObjectId
                 invalidMsg,
                 invalidMsg,
                 invalidMsg,
@@ -1335,6 +1398,13 @@ describe('Sanitizer Test', function () {
                 null,
                 null,
                 null,
+                null,
+
+                // EncodedObjectId
+                null,
+                null,
+                null,
+                null,
                 null
             ];
 
@@ -1461,6 +1531,13 @@ describe('Sanitizer Test', function () {
                 invalidMsg,
                 invalidMsg,
                 invalidMsg,
+                invalidMsg,
+
+                // EncodedObjectId
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
                 invalidMsg
             ];
 
@@ -1582,6 +1659,13 @@ describe('Sanitizer Test', function () {
                 invalidMsg,
 
                 // Email
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // EncodedObjectId
                 invalidMsg,
                 invalidMsg,
                 invalidMsg,
@@ -1712,7 +1796,14 @@ describe('Sanitizer Test', function () {
                 'Example@Example.com',
                 'Example Tag@Example.com',
                 'Example+Tag@Example.com',
-                'Example Tag Other@Example.com'
+                'Example Tag Other@Example.com',
+
+                // EncodedObjectId
+                'XoeBCAea1GTGA2XC',
+                'XoeBCAea1GTGA2X-',
+                'XoeBCAea1GTGA2X_',
+                'XoeBCAea1GTGA2XCa',
+                'XoeBCAea1GTGA2X~'
             ];
 
             _testTo(Sanitizer.toString, TEST_DATA, expected);
@@ -1837,7 +1928,14 @@ describe('Sanitizer Test', function () {
                 'Example@Example.com',
                 'Example Tag@Example.com',
                 'Example+Tag@Example.com',
-                'Example Tag Other@Example.com'
+                'Example Tag Other@Example.com',
+
+                // EncodedObjectId
+                'XoeBCAea1GTGA2XC',
+                'XoeBCAea1GTGA2X-',
+                'XoeBCAea1GTGA2X_',
+                'XoeBCAea1GTGA2XCa',
+                'XoeBCAea1GTGA2X~'
             ];
 
             _testSanitize(Sanitizer.string, TEST_DATA, true, expected);
@@ -1960,7 +2058,14 @@ describe('Sanitizer Test', function () {
                 'Example@Example.com',
                 'Example Tag@Example.com',
                 'Example+Tag@Example.com',
-                'Example Tag Other@Example.com'
+                'Example Tag Other@Example.com',
+
+                // EncodedObjectId
+                'XoeBCAea1GTGA2XC',
+                'XoeBCAea1GTGA2X-',
+                'XoeBCAea1GTGA2X_',
+                'XoeBCAea1GTGA2XCa',
+                'XoeBCAea1GTGA2X~'
             ];
 
             _testSanitize(Sanitizer.string, TEST_DATA, false, expected);
@@ -2110,16 +2215,24 @@ describe('Sanitizer Test', function () {
                 ['507f191e810c19729de860e'],
                 ['07f191e810c19729de860ea'],
 
+                // Email
                 ['Example@Example.com'],
                 ['   Example@Example.com   '],
                 ['   Example Tag@Example.com   '],
                 ['   Example+Tag@Example.com   '],
-                ['   Example Tag Other@Example.com   ']
+                ['   Example Tag Other@Example.com   '],
+
+                // EncodedObjectId
+                ['  XoeBCAea1GTGA2XC  '],
+                ['XoeBCAea1GTGA2X-'],
+                ['XoeBCAea1GTGA2X_'],
+                ['XoeBCAea1GTGA2XCa'],
+                ['XoeBCAea1GTGA2X~']
             ];
 
             // Remove fn params, cannot be tested with equal
             let testData = TEST_DATA.slice(0);
-            testData.splice(testData.length - 11, 2);
+            testData.splice(testData.length - 16, 2);
 
             _testTo(Sanitizer.toArray, testData, expected);
         });
@@ -2234,16 +2347,24 @@ describe('Sanitizer Test', function () {
                 ['507f191e810c19729de860e'],
                 ['07f191e810c19729de860ea'],
 
+                // Email
                 ['Example@Example.com'],
                 ['Example@Example.com'],
                 ['Example Tag@Example.com'],
                 ['Example+Tag@Example.com'],
-                ['Example Tag Other@Example.com']
+                ['Example Tag Other@Example.com'],
+
+                // EncodedObjectId
+                ['XoeBCAea1GTGA2XC'],
+                ['XoeBCAea1GTGA2X-'],
+                ['XoeBCAea1GTGA2X_'],
+                ['XoeBCAea1GTGA2XCa'],
+                ['XoeBCAea1GTGA2X~']
             ];
 
             // Remove fn params, cannot be tested with equal
             let testData = TEST_DATA.slice(0);
-            testData.splice(testData.length - 11, 2);
+            testData.splice(testData.length - 16, 2);
 
             _testSanitize(Sanitizer.arrayItems, testData, true, expected, Sanitizer.string);
         });
@@ -2360,12 +2481,19 @@ describe('Sanitizer Test', function () {
                 ['Example@Example.com'],
                 ['Example Tag@Example.com'],
                 ['Example+Tag@Example.com'],
-                ['Example Tag Other@Example.com']
+                ['Example Tag Other@Example.com'],
+
+                // EncodedObjectId
+                ['XoeBCAea1GTGA2XC'],
+                ['XoeBCAea1GTGA2X-'],
+                ['XoeBCAea1GTGA2X_'],
+                ['XoeBCAea1GTGA2XCa'],
+                ['XoeBCAea1GTGA2X~']
             ];
 
             // Remove fn params, cannot be tested with equal
             let testData = TEST_DATA.slice(0);
-            testData.splice(testData.length - 11, 2);
+            testData.splice(testData.length - 16, 2);
 
             _testSanitize(Sanitizer.arrayItems, testData, false, expected, Sanitizer.string);
         });
@@ -2491,6 +2619,13 @@ describe('Sanitizer Test', function () {
                 invalidMsg,
 
                 // Email
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // EncodedObjectId
                 invalidMsg,
                 invalidMsg,
                 invalidMsg,
@@ -2622,6 +2757,13 @@ describe('Sanitizer Test', function () {
                 invalidMsg,
                 invalidMsg,
                 invalidMsg,
+                invalidMsg,
+
+                // EncodedObjectId
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
                 invalidMsg
             ];
 
@@ -2748,10 +2890,17 @@ describe('Sanitizer Test', function () {
                 null,
                 null,
                 null,
+                null,
+
+                // EncodedObjectId
+                null,
+                null,
+                null,
+                null,
                 null
             ];
 
-            _testTo(Sanitizer.toObjectId, TEST_DATA.slice(37), expected.slice(37));
+            _testTo(Sanitizer.toObjectId, TEST_DATA, expected);
         });
 
         it('2. Test .objectId() sanitize method with mandatory=true', function () {
@@ -2870,6 +3019,13 @@ describe('Sanitizer Test', function () {
                 invalidMsg,
 
                 // Email
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // EncodedObjectId
                 invalidMsg,
                 invalidMsg,
                 invalidMsg,
@@ -2995,6 +3151,13 @@ describe('Sanitizer Test', function () {
                 invalidMsg,
 
                 // Email
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // EncodedObjectId
                 invalidMsg,
                 invalidMsg,
                 invalidMsg,
@@ -3161,7 +3324,14 @@ describe('Sanitizer Test', function () {
                 'example@example.com',
                 'example+tag@example.com',
                 'example+tag@example.com',
-                'example+tag+other@example.com'
+                'example+tag+other@example.com',
+
+                // EncodedObjectId
+                null,
+                null,
+                null,
+                null,
+                null
             ];
 
             _testTo(Sanitizer.toEmail, TEST_DATA, expected);
@@ -3287,7 +3457,14 @@ describe('Sanitizer Test', function () {
                 'example@example.com',
                 'example+tag@example.com',
                 'example+tag@example.com',
-                'example+tag+other@example.com'
+                'example+tag+other@example.com',
+
+                // EncodedObjectId
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg
             ];
 
             _testSanitize(Sanitizer.email, TEST_DATA, true, expected);
@@ -3412,10 +3589,415 @@ describe('Sanitizer Test', function () {
                 'example@example.com',
                 'example+tag@example.com',
                 'example+tag@example.com',
-                'example+tag+other@example.com'
+                'example+tag+other@example.com',
+
+                // EncodedObjectId
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg
             ];
 
             _testSanitize(Sanitizer.email, TEST_DATA, false, expected);
+        });
+    });
+
+    describe('8. EncodedObjectId', function () {
+
+        it('1. Test .toEncodedObjectId() method', function () {
+
+            let expected = [
+                // Null or undefined
+                null,
+                null,
+
+                // String
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+
+                // Zero
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+
+                // Int
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+
+                // Float
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+
+                // NaN
+                null,
+                null,
+                null,
+
+                // Infinity
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+
+                // Boolean
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+
+                // Date valid
+                null,
+                null,
+                null,
+                null,
+                null,
+
+                // Date valid but not accepted
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+
+                // Date invalid
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+
+                // Array
+                null,
+                null,
+                null,
+
+                // Function
+                null,
+                null,
+
+                // ObjectId valid
+                null,
+                null,
+                null,
+                null,
+
+                // Email
+                null,
+                null,
+                null,
+                null,
+                null,
+
+                // Encoded ObjectId
+                'XoeBCAea1GTGA2XC',
+                'XoeBCAea1GTGA2X-',
+                'XoeBCAea1GTGA2X_',
+                null,
+                null
+            ];
+
+            _testTo(Sanitizer.toEncodedObjectId, TEST_DATA, expected);
+        });
+
+        it('2. Test .encodedObjectId() sanitize method with mandatory=true', function () {
+
+            let mandatoryMsg = 'Mandatory field';
+            let invalidMsg   = 'Invalid field';
+
+            let expected = [
+                // Null or undefined
+                mandatoryMsg,
+                mandatoryMsg,
+
+                // String
+                mandatoryMsg,
+                mandatoryMsg,
+                mandatoryMsg,
+                mandatoryMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Zero
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Int
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Float
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // NaN
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Infinity
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Boolean
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Date valid
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Date valid but not accepted
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Date invalid
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Array
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Function
+                invalidMsg,
+                invalidMsg,
+
+                // ObjectId
+                new ObjectId('507f191e810c19729de860ea'),
+                new ObjectId('507f191e810c19729de860ea'),
+                invalidMsg,
+                invalidMsg,
+
+                // Email
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Encoded ObjectId
+                'XoeBCAea1GTGA2XC',
+                'XoeBCAea1GTGA2X-',
+                'XoeBCAea1GTGA2X_',
+                invalidMsg,
+                invalidMsg
+            ];
+
+            _testSanitize(Sanitizer.encodedObjectId, TEST_DATA, true, expected);
+        });
+
+        it('3. Test .encodedObjectId() sanitize method with mandatory=false', function () {
+
+            let invalidMsg = 'Invalid field';
+
+            let expected = [
+                // Null or undefined
+                '_DEFAULT_',
+                '_DEFAULT_',
+
+                // String
+                '_DEFAULT_',
+                '_DEFAULT_',
+                '_DEFAULT_',
+                '_DEFAULT_',
+                invalidMsg,
+                invalidMsg,
+
+                // Zero
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Int
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Float
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // NaN
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Infinity
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Boolean
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Date valid
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Date valid but not accepted
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Date invalid
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Array
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Function
+                invalidMsg,
+                invalidMsg,
+
+                // ObjectId
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Email
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Encoded ObjectId
+                'XoeBCAea1GTGA2XC',
+                'XoeBCAea1GTGA2X-',
+                'XoeBCAea1GTGA2X_',
+                invalidMsg,
+                invalidMsg
+            ];
+
+            _testSanitize(Sanitizer.encodedObjectId, TEST_DATA, false, expected);
         });
     });
 
@@ -3611,6 +4193,13 @@ describe('Sanitizer Test', function () {
             '   Example Tag@Example.com   ',
             '   Example+Tag@Example.com   ',
             '   Example Tag Other@Example.com   ',
+
+            // EncodedObjectId
+            '  XoeBCAea1GTGA2XC  ',
+            'XoeBCAea1GTGA2X-',
+            'XoeBCAea1GTGA2X_',
+            'XoeBCAea1GTGA2XCa',
+            'XoeBCAea1GTGA2X~'
         ];
     }
 

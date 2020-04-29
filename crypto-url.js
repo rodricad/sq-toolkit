@@ -132,6 +132,24 @@ class CryptoURL {
 
     /**
      * @param {String} str
+     * @param {String=} encoding
+     * @return {String}
+     */
+    static encodeBase64(str, encoding) {
+        return base64url.encode(str, encoding);
+    }
+
+    /**
+     * @param {String} str
+     * @param {String=} encoding
+     * @return {String}
+     */
+    static decodeBase64(str, encoding) {
+        return base64url.decode(str, encoding);
+    }
+
+    /**
+     * @param {String} str
      * @return {String}
      */
     static md5(str) {
