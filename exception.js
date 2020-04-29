@@ -35,7 +35,11 @@ class Exception extends Error {
      * @return {string}
      */
     static getMessage(err) {
-        return `${err.code || null} ${JSON.stringify(err.message || null)} ${JSON.stringify(err.stack || null)}`;
+        if (err._message) {
+            return err._message;
+        }
+        err._message = `${err.code || null} ${JSON.stringify(err.message || null)} ${JSON.stringify(err.stack || null)}`;
+        return err._message;
     }
 }
 
