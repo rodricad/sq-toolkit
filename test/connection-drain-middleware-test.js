@@ -11,29 +11,29 @@ describe('Connection Drain Middleware Test', function () {
 
     describe('1. New Connections Count', () => {
 
-        it('1.1 When initialize middleware without newClientsCfg then default value is created', function () {
+        it('1.1 When initialize middleware without newConnectionPerClientIdLogConfig then default value is created', function () {
             const {app} = ExpressMock.create();
             const connectionDrainMiddleware = new ConnectionDrainMiddleware(app, new DummyLogger())
 
-            expect(connectionDrainMiddleware.newClientsCfg).to.be.eql({enabled: false, intervalSeconds: 10})
+            expect(connectionDrainMiddleware.newConnectionPerClientIdLogConfig).to.be.eql({enabled: false, intervalSeconds: 10})
         });
 
         it('2. When initialize middleware with a specific newClientsIntervalSeconds then that value should be setted', function () {
             const {app} = ExpressMock.create();
-            const newClientsCfg = {enabled: true, intervalSeconds: 4};
-            const connectionDrainMiddleware = new ConnectionDrainMiddleware(app, new DummyLogger(), {newClientsCfg})
+            const newConnectionPerClientIdLogConfig = {enabled: true, intervalSeconds: 4};
+            const connectionDrainMiddleware = new ConnectionDrainMiddleware(app, new DummyLogger(), {newConnectionPerClientIdLogConfig})
 
-            expect(connectionDrainMiddleware.newClientsCfg).to.be.eql(newClientsCfg)
+            expect(connectionDrainMiddleware.newConnectionPerClientIdLogConfig).to.be.eql(newConnectionPerClientIdLogConfig)
         });
 
         it('3. When _keepAliveBreakMiddleware is called with a new connection of undefined CI then clientConnections should be added as unknonw', function () {
             const {app, req, res, next} = ExpressMock.create();
-            const newClientsCfg = {enabled: true, intervalSeconds: 4};
+            const newConnectionPerClientIdLogConfig = {enabled: true, intervalSeconds: 4};
 
             req.socket = {_handle: sinon.stub()};
             req.connection = { server: { on: sinon.stub() }};
 
-            const connectionDrainMiddleware = new ConnectionDrainMiddleware(app, new DummyLogger(), {newClientsCfg})
+            const connectionDrainMiddleware = new ConnectionDrainMiddleware(app, new DummyLogger(), {newConnectionPerClientIdLogConfig})
 
             expect(connectionDrainMiddleware.clientConnections).to.be.eql({})
 
@@ -44,12 +44,12 @@ describe('Connection Drain Middleware Test', function () {
 
         it('4. When _keepAliveBreakMiddleware is called with a new connection of specific CI then clientConnections should be added with that name', function () {
             const {app, req, res, next} = ExpressMock.create({query: {ci: "test"}});
-            const newClientsCfg = {enabled: true, intervalSeconds: 4};
+            const newConnectionPerClientIdLogConfig = {enabled: true, intervalSeconds: 4};
 
             req.socket = {_handle: sinon.stub()};
             req.connection = { server: { on: sinon.stub() }};
 
-            const connectionDrainMiddleware = new ConnectionDrainMiddleware(app, new DummyLogger(), {newClientsCfg})
+            const connectionDrainMiddleware = new ConnectionDrainMiddleware(app, new DummyLogger(), {newConnectionPerClientIdLogConfig})
 
             expect(connectionDrainMiddleware.clientConnections).to.be.eql({})
 
@@ -60,12 +60,12 @@ describe('Connection Drain Middleware Test', function () {
 
         it('5. When _keepAliveBreakMiddleware is called with an existent CI then clientConnections should be count the new connection', function () {
             const {app, req, res, next} = ExpressMock.create({query: {ci: "test"}});
-            const newClientsCfg = {enabled: true, intervalSeconds: 4};
+            const newConnectionPerClientIdLogConfig = {enabled: true, intervalSeconds: 4};
 
             req.socket = {_handle: {fd: 1}};
             req.connection = { server: { on: sinon.stub() }};
 
-            const connectionDrainMiddleware = new ConnectionDrainMiddleware(app, new DummyLogger(), {newClientsCfg})
+            const connectionDrainMiddleware = new ConnectionDrainMiddleware(app, new DummyLogger(), {newConnectionPerClientIdLogConfig})
 
             expect(connectionDrainMiddleware.clientConnections).to.be.eql({})
 
@@ -81,14 +81,14 @@ describe('Connection Drain Middleware Test', function () {
 
         it('6. When call logNewConnections should logs the ci and count and then reset the counter', function () {
             const {app, req, res, next} = ExpressMock.create({query: {ci: "test"}});
-            const newClientsCfg = {enabled: true, intervalSeconds: 4};
+            const newConnectionPerClientIdLogConfig = {enabled: true, intervalSeconds: 4};
             const dummyLogger = new DummyLogger();
             dummyLogger.info = sinon.stub();
 
             req.socket = {_handle: {fd: 1}};
             req.connection = { server: { on: sinon.stub() }};
 
-            const connectionDrainMiddleware = new ConnectionDrainMiddleware(app, dummyLogger, {newClientsCfg})
+            const connectionDrainMiddleware = new ConnectionDrainMiddleware(app, dummyLogger, {newConnectionPerClientIdLogConfig})
 
             expect(connectionDrainMiddleware.clientConnections).to.be.eql({})
 
