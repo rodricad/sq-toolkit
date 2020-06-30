@@ -31,7 +31,9 @@ class ConnectionDrainMiddleware {
      * @param {number=10} options.httpServerCloseTimeoutSeconds - Timeout to wait the http server for graceful shutdown once SIGTERM is received. After that the process will exit
      * @param {string='connection-drain-helper'} options.logPrefix - Prefix to add to every log line within this middleware
      * @param {string='/_health'} options.healthCheckEndpoint - Endpoint for the health-check controller
-     * @param {number=10} options.newClientsIntervalSeconds - Interval seconds for each CI log info
+     * @param {Object} options.newClientsCfg
+     * @param {Boolean} options.newClientsCfg.enabled
+     * @param {Number=10} options.newClientsCfg.intervalSeconds - Interval seconds for each CI log info
      */
     constructor(anExpressApp, logger, options = {}) {
         if(anExpressApp == null){
@@ -48,7 +50,7 @@ class ConnectionDrainMiddleware {
         this.httpServerCloseTimeoutSeconds = options.httpServerCloseTimeoutSeconds != null ? options.httpServerCloseTimeoutSeconds : 10;
         this.logPrefix = options.logPrefix || 'connection-drain-helper';
 
-        this.newClientsIntervalSeconds = options.newClientsIntervalSeconds || 10
+        this.newClientsCfg = options.newClientsCfg || {enabled: false, intervalSeconds: 10}
         this.clientConnections = {}
 
         anExpressApp.locals.isDraining = false;
@@ -56,7 +58,9 @@ class ConnectionDrainMiddleware {
         anExpressApp.get(options.healthCheckEndpoint || '/_health', this._healthCheckMiddleware.bind(this));
         this._setupSIGTERMHandler();
 
-        setInterval(() => { this._logNewConnections() }, this.newClientsIntervalSeconds * 1000);
+        if (this.newClientsCfg.enabled === true) {
+            setInterval(() => { this._logNewConnections() }, this.newClientsCfg.intervalSeconds * 1000);
+        }
     }
 
     _setupHttpServer(httpServer) {
@@ -94,7 +98,11 @@ class ConnectionDrainMiddleware {
             let expiresAt = this._generateExpirationTs();
             this.fdMap.set(fd, { expiresAt: expiresAt, count: 1 });
             this.logger.debug('%s NEW CONNECTION: fd:%s expiresAt:%s ip:%s ci:%s path:%s debug:%s seq:%s', this.logPrefix, fd, expiresAt, ip, ci, req.path, debug, debugSeq);
-            this._countNewConnection(ci);
+
+            if (this.newClientsCfg.enabled === true) {
+                this._countNewConnection(ci);
+            }
+
         } else {
             let expiresAt = new Date(connectionInfo.expiresAt);
             if (this._isExpired(connectionInfo)) {
