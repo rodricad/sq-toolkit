@@ -48,6 +48,10 @@ class DummyLogger {
 
     }
 
+    debug() {
+
+    }
+
     notify(key) {
         this.notifier.notify(key);
         return this.notifier;
