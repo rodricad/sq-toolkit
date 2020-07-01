@@ -227,20 +227,9 @@ describe('Redis Client Test', function () {
             let expireStub = sinon.stub().returns({
                 exec: async () => [[null, returnValue]]
             });
-            let incrStub = sinon.stub().returns({
-                expire: expireStub
-            });
-            let multiStub = sinon.stub(Redis.prototype, 'multi').returns({
-                incr: incrStub
-            });
-            return {
-                expireStub,
-                incrStub,
-                multiStub,
-                restore: () => {
-                    multiStub.restore();
-                }
-            }
+            let incrStub = sinon.stub().returns({ expire: expireStub });
+            let multiStub = sinon.stub(Redis.prototype, 'multi').returns({ incr: incrStub });
+            return { expireStub, incrStub, multiStub, restore: () => { multiStub.restore(); } };
         }
     });
 
@@ -281,20 +270,9 @@ describe('Redis Client Test', function () {
             let expireStub = sinon.stub().returns({
                 exec: async () => [[null, returnValue]]
             });
-            let decrStub = sinon.stub().returns({
-                expire: expireStub
-            });
-            let multiStub = sinon.stub(Redis.prototype, 'multi').returns({
-                decr: decrStub
-            });
-            return {
-                expireStub,
-                decrStub,
-                multiStub,
-                restore: () => {
-                    multiStub.restore();
-                }
-            }
+            let decrStub = sinon.stub().returns({ expire: expireStub });
+            let multiStub = sinon.stub(Redis.prototype, 'multi').returns({ decr: decrStub });
+            return { expireStub, decrStub, multiStub, restore: () => { multiStub.restore(); } };
         }
     });
 

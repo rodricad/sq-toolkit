@@ -267,7 +267,7 @@ class RedisClient {
         if(timeInSeconds == null) {
             return this.client.incr(key);
         } else {
-            let result = await this.client.multi()
+            const result = await this.client.multi()
             .incr(key)
             .expire(key, timeInSeconds)
             .exec();
@@ -288,7 +288,7 @@ class RedisClient {
         if(timeInSeconds == null) {
             return this.client.decr(key);
         } else {
-            let result = await this.client.multi()
+            const result = await this.client.multi()
             .decr(key)
             .expire(key, timeInSeconds)
             .exec();
