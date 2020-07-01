@@ -253,7 +253,6 @@ class RedisClient {
         return this.client.flushall();
     }
 
-    /* istanbul ignore next */
     /**
      * Increments the number stored at key by one.
      * If the key does not exist, it is set to 0 before performing the operation.
@@ -261,11 +260,46 @@ class RedisClient {
      * This operation is limited to 64 bit signed integers.
      * @reference https://redis.io/commands/incr
      * @param {String|String[]} key
+     * @param {Number=} timeInSeconds
      * @return {Promise<Number>}
      */
-    incr(key) {
-        return this.client.incr(key);
+    async incr(key, timeInSeconds) {
+        if(timeInSeconds == null) {
+            return this.client.incr(key);
+        } else {
+            let result = await this.client.multi()
+            .incr(key)
+            .expire(key, timeInSeconds)
+            .exec();
+            return result[0][1];
+        }
     }
+
+    /**
+     * Decrements the number stored at key by one.
+     * An error is returned if the key contains a value of the wrong type or contains a string that can not be represented as integer.
+     * This operation is limited to 64 bit signed integers.
+     * @reference https://redis.io/commands/incr
+     * @param {String|String[]} key
+     * @param {Number=} timeInSeconds
+     * @return {Promise<Number>}
+     */
+    async decr(key, timeInSeconds) {
+        if(timeInSeconds == null) {
+            return this.client.decr(key);
+        } else {
+            let result = await this.client.multi()
+            .decr(key)
+            .expire(key, timeInSeconds)
+            .exec();
+            return result[0][1];
+        }
+    }
+
+    async expire(key, timeInSeconds) {
+        return this.client.expire(key, timeInSeconds);
+    }
+
 
 }
 

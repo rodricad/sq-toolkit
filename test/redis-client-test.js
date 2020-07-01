@@ -209,8 +209,116 @@ describe('Redis Client Test', function () {
             incrStub.restore();
         });
 
+        it('2. Call .incr() with key and expiration. Expect to call internal redis multi() followed by calls to incr() and expire()', async () => {
+            const multiStub = _getMultiStub(5);
+            let result = await client.incr('key', 120);
+            expect(result).to.eql(5);
+            expect(multiStub.multiStub.calledOnce).to.equals(true);
+            sinon.assert.calledWith(multiStub.incrStub, 'key');
+            sinon.assert.calledWith(multiStub.expireStub, 'key', 120);
+            multiStub.restore();
+        });
+
         function _getIncrStub() {
             return sinon.stub(Redis.prototype, 'incr').callsFake(() => null);
+        }
+
+        function _getMultiStub(returnValue) {
+            let expireStub = sinon.stub().returns({
+                exec: async () => [[null, returnValue]]
+            });
+            let incrStub = sinon.stub().returns({
+                expire: expireStub
+            });
+            let multiStub = sinon.stub(Redis.prototype, 'multi').returns({
+                incr: incrStub
+            });
+            return {
+                expireStub,
+                incrStub,
+                multiStub,
+                restore: () => {
+                    multiStub.restore();
+                }
+            }
+        }
+    });
+
+    describe('5. Test .decr()', () => {
+
+        let client = null;
+
+        before(async () => {
+            const opts = _getOptions();
+            client = new RedisClient(opts);
+            await client.init();
+        });
+
+        it('1. Call .decr() with key. Expect to call internal redis decr with proper params', () => {
+            const decrStub = _getIncrStub();
+            client.decr('key');
+
+            expect(decrStub.calledOnce).to.equals(true);
+            sinon.assert.calledWith(decrStub, 'key');
+            decrStub.restore();
+        });
+
+        it('2. Call .decr() with key and expiration. Expect to call internal redis multi() followed by calls to decr() and expire()', async () => {
+            const multiStub = _getMultiStub(5);
+            let result = await client.decr('key', 120);
+            expect(result).to.eql(5);
+            expect(multiStub.multiStub.calledOnce).to.equals(true);
+            sinon.assert.calledWith(multiStub.decrStub, 'key');
+            sinon.assert.calledWith(multiStub.expireStub, 'key', 120);
+            multiStub.restore();
+        });
+
+        function _getIncrStub() {
+            return sinon.stub(Redis.prototype, 'decr').callsFake(() => null);
+        }
+
+        function _getMultiStub(returnValue) {
+            let expireStub = sinon.stub().returns({
+                exec: async () => [[null, returnValue]]
+            });
+            let decrStub = sinon.stub().returns({
+                expire: expireStub
+            });
+            let multiStub = sinon.stub(Redis.prototype, 'multi').returns({
+                decr: decrStub
+            });
+            return {
+                expireStub,
+                decrStub,
+                multiStub,
+                restore: () => {
+                    multiStub.restore();
+                }
+            }
+        }
+    });
+
+    describe('6. Test .expire()', () => {
+
+        let client = null;
+
+        before(async () => {
+            const opts = _getOptions();
+            client = new RedisClient(opts);
+            await client.init();
+        });
+
+        it('1. Call .expire() with key and expiration time in seconds. Expect to call internal redis expire with proper params', () => {
+            const expireStub = _getExpireStub();
+            client.expire('key', 120);
+
+            expect(expireStub.calledOnce).to.equals(true);
+            sinon.assert.calledWith(expireStub, 'key', 120);
+            expireStub.restore();
+        });
+
+        function _getExpireStub() {
+            return sinon.stub(Redis.prototype, 'expire').callsFake(() => null);
         }
     });
 });
