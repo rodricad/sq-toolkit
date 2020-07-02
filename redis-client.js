@@ -296,10 +296,29 @@ class RedisClient {
         }
     }
 
+    /**
+     * Set a timeout in seconds on key. After the timeout has expired, the key will automatically be deleted.
+     * The timeout will only be cleared by commands that delete or overwrite the contents of the key, including DEL, SET, GETSET and all the *STORE commands.
+     * All the operations that conceptually alter the value stored at the key without replacing it with a new one will leave the timeout untouched.
+     * @param key
+     * @param timeInSeconds
+     * @return {Promise<*>}
+     */
     async expire(key, timeInSeconds) {
         return this.client.expire(key, timeInSeconds);
     }
 
+    /**
+     * Set a timeout in milliseconds on key. After the timeout has expired, the key will automatically be deleted.
+     * The timeout will only be cleared by commands that delete or overwrite the contents of the key, including DEL, SET, GETSET and all the *STORE commands.
+     * All the operations that conceptually alter the value stored at the key without replacing it with a new one will leave the timeout untouched.
+     * @param key
+     * @param timeInMilliseconds
+     * @return {Promise<*>}
+     */
+    async pexpire(key, timeInMilliseconds) {
+        return this.client.pexpire(key, timeInMilliseconds);
+    }
 
 }
 

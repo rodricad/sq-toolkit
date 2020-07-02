@@ -299,4 +299,28 @@ describe('Redis Client Test', function () {
             return sinon.stub(Redis.prototype, 'expire').callsFake(() => null);
         }
     });
+
+    describe('6. Test .pexpire()', () => {
+
+        let client = null;
+
+        before(async () => {
+            const opts = _getOptions();
+            client = new RedisClient(opts);
+            await client.init();
+        });
+
+        it('1. Call .pexpire() with key and expiration time in milliseconds. Expect to call internal redis pexpire with proper params', () => {
+            const pexpireStub = _getPexpireStub();
+            client.pexpire('key', 120000);
+
+            expect(pexpireStub.calledOnce).to.equals(true);
+            sinon.assert.calledWith(pexpireStub, 'key', 120000);
+            pexpireStub.restore();
+        });
+
+        function _getPexpireStub() {
+            return sinon.stub(Redis.prototype, 'pexpire').callsFake(() => null);
+        }
+    });
 });
