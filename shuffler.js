@@ -49,6 +49,39 @@ class Shuffler {
     }
 
     /**
+     * Version to measure in a benchmark
+     * against {@link randomWithoutReplacement}
+     * @param {Number} count
+     */
+    randomWithoutReplacementUsingFilter(count) {
+        if (this.versions.length === 0 || this.positions.length === 0) {
+            return null;
+        }
+
+        if (this.versions.length <= count) {
+            return this.versions;
+        }
+
+        const versions = [];
+        let positions = this.positions;
+
+        for (let i = 0, lastIndex = count-1; i < count; i++) {
+            const randomIndex  = Shuffler.getRandomIntFromInterval(0, positions.length - 1);
+            const versionIndex = positions[randomIndex];
+            const version = this.versions[versionIndex];
+            versions.push(version);
+            // Filter the version index to exclude in following searches.
+            // The last loop makes no sense to exclude anything.
+            if ( i < lastIndex ) {
+                positions = positions.filter( position => position !== versionIndex );
+            }
+        }
+
+        return versions;
+    }
+
+    /**
+     * Version without using filter
      * @param {Number} count
      */
     randomWithoutReplacement(count) {
@@ -71,7 +104,14 @@ class Shuffler {
             // Filter the version index to exclude in following searches.
             // The last loop makes no sense to exclude anything.
             if ( i < lastIndex ) {
-                positions = positions.filter( position => position !== versionIndex );
+                const filteredPositions = new Array(positions.length - version.size);
+                let j = 0;
+                for (const versionIndexAtPosition of positions) {
+                    if ( versionIndexAtPosition !== versionIndex ) {
+                        filteredPositions[j++] = versionIndexAtPosition;
+                    }
+                }
+                positions = filteredPositions;
             }
         }
 
