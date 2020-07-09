@@ -49,6 +49,36 @@ class Shuffler {
     }
 
     /**
+     * @param {Number} count
+     */
+    randomWithoutReplacement(count) {
+        if (this.versions.length === 0 || this.positions.length === 0) {
+            return null;
+        }
+
+        if (this.versions.length <= count) {
+            return this.versions;
+        }
+
+        const versions = [];
+        let positions = this.positions;
+
+        for (let i = 0, lastIndex = count-1; i < count; i++) {
+            const randomIndex  = Shuffler.getRandomIntFromInterval(0, positions.length - 1);
+            const versionIndex = positions[randomIndex];
+            const version = this.versions[versionIndex];
+            versions.push(version);
+            // Filter the version index to exclude in following searches.
+            // The last loop makes no sense to exclude anything.
+            if ( i < lastIndex ) {
+                positions = positions.filter( position => position !== versionIndex );
+            }
+        }
+
+        return versions;
+    }
+
+    /**
      * @param {String} hash
      * @return {Version|null}
      */
