@@ -17,6 +17,8 @@ describe('Shuffler Test', function () {
         { size: 40, meta: 5 }
     ];
 
+    afterEach( sinon.restore );
+
     describe('1. Test constructor()', function () {
 
         it('1. Construct Shuffler with valid id and non ordered versions. Expect to have versions and positions built ordered by size', function () {
@@ -278,15 +280,31 @@ describe('Shuffler Test', function () {
             shuffler = new Shuffler(opts);
         });
 
-        it('1. Get random from shuffler with empty versions. Expect to return null', function () {
+        it('1. Get random from shuffler with empty versions. Expect to return an empty array', function () {
 
             let emptyShuffler = new Shuffler();
 
-            expect(emptyShuffler.randomWithoutReplacement(1)).to.equals(null);
-            expect(emptyShuffler.randomWithoutReplacement(1,'dummy_seed')).to.equals(null);
+            expect(emptyShuffler.randomWithoutReplacement(1)).to.eql([]);
         });
 
-        it('2. Get random without replacement from shuffler. Expect to return versions', function () {
+        it('2. Get random from shuffler with count = 0. Expect to return an empty array', function () {
+            expect(shuffler.randomWithoutReplacement(0)).to.eql([]);
+        });
+
+        it('3. Get random from shuffler with count equal to the amount of versions. Expect to return the same versions', function () {
+            const getRandomIntFromIntervalSpy = sinon.spy(Shuffler, 'getRandomIntFromInterval');
+            expect(shuffler.randomWithoutReplacement(TEST_VERSIONS.length)).to.eql(shuffler.versions);
+            sinon.assert.notCalled(getRandomIntFromIntervalSpy);
+        });
+
+        it('4. Get random from shuffler with count = versions.length - 1. Expect to return the an array with the right amount of versions', function () {
+            const getRandomIntFromIntervalStub = sinon.stub(Shuffler, 'getRandomIntFromInterval').returns(0);
+            const count = TEST_VERSIONS.length - 1;
+            expect(shuffler.randomWithoutReplacement(count)).to.eql(shuffler.versions.slice(0, count));
+            sinon.assert.callCount(getRandomIntFromIntervalStub, count);
+        });
+
+        it('5. Get random without replacement from shuffler. Expect to return versions', function () {
 
             _testRandomWithoutReplacement([0, 0], [5, 1]);
             _testRandomWithoutReplacement([39, 29], [5, 1]);
