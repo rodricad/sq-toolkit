@@ -4,6 +4,9 @@ const MODE_DEVELOPMENT = 'development';
 const MODE_TESTING     = 'testing';
 const MODE_PRODUCTION  = 'production';
 
+let _NODE_ENV = process.env.NODE_ENV;
+let _NODE_APP_INSTANCE = process.env.NODE_APP_INSTANCE;
+
 class Variables {
 
     /**
@@ -11,7 +14,7 @@ class Variables {
      */
     /* istanbul ignore next */
     static isDevelopmentMode() {
-        return process.env.NODE_ENV === MODE_DEVELOPMENT;
+        return _NODE_ENV === MODE_DEVELOPMENT;
     }
 
     /**
@@ -19,7 +22,7 @@ class Variables {
      */
     /* istanbul ignore next */
     static isTestingMode() {
-        return process.env.NODE_ENV === MODE_TESTING;
+        return _NODE_ENV === MODE_TESTING || _NODE_APP_INSTANCE === MODE_TESTING;
     }
 
     /**
@@ -27,7 +30,7 @@ class Variables {
      */
     /* istanbul ignore next */
     static isProductionMode() {
-        return process.env.NODE_ENV === MODE_PRODUCTION;
+        return _NODE_ENV === MODE_PRODUCTION;
     }
 
     /**
