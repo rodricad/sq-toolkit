@@ -4,8 +4,8 @@ const MODE_DEVELOPMENT = 'development';
 const MODE_TESTING     = 'testing';
 const MODE_PRODUCTION  = 'production';
 
-let _NODE_ENV = process.env.NODE_ENV;
-let _NODE_APP_INSTANCE = process.env.NODE_APP_INSTANCE;
+const _NODE_ENV = process.env.NODE_ENV;
+const _NODE_APP_INSTANCE = process.env.NODE_APP_INSTANCE;
 
 class Variables {
 
