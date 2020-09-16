@@ -323,4 +323,28 @@ describe('Redis Client Test', function () {
             return sinon.stub(Redis.prototype, 'pexpire').callsFake(() => null);
         }
     });
+
+    describe('7. Test .hincrby()', () => {
+
+        let client = null;
+
+        before(async () => {
+            const opts = _getOptions();
+            client = new RedisClient(opts);
+            await client.init();
+        });
+
+        it('1. Call .hincrby() with key, field and increment. Expect to call internal redis hincrby with proper params', () => {
+            const hincrbyStub = _getHincrbyStub();
+            client.hincrby('key', 'field',10);
+
+            expect(hincrbyStub.calledOnce).to.equals(true);
+            sinon.assert.calledWith(hincrbyStub, 'key', 'field', 10);
+            hincrbyStub.restore();
+        });
+
+        function _getHincrbyStub() {
+            return sinon.stub(Redis.prototype, 'hincrby').callsFake(() => null);
+        }
+    });
 });
