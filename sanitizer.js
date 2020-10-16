@@ -1,6 +1,6 @@
 'use strict';
 
-const parseISO = require('date-fns/parseISO');
+const parseISO = require('date-fns/parseISO/index.js');
 const ObjectId = require('bson/lib/bson/objectid');
 const Exception = require('./exception');
 const EncodedObjectId = require('./encoded-object-id');
