@@ -243,6 +243,28 @@ class Sanitizer {
      * @param value
      * @return {Boolean}
      */
+    static isObject(value) {
+        if (Sanitizer.isNullOrEmpty(value) === true) {
+            return null;
+        }
+        if (typeof value !== 'object' || Sanitizer.isArray(value) === true) {
+            return null
+        }
+        return value;
+    }
+
+    /**
+     * @param value
+     * @return {Object|null}
+     */
+    static toObject(value) {
+        return Sanitizer.isObject(value) === true ? value : null;
+    }
+
+    /**
+     * @param value
+     * @return {Boolean}
+     */
     static isObjectId(value) {
         return EncodedObjectId.isObjectId(value);
     }
@@ -448,6 +470,17 @@ class Sanitizer {
         }
 
         return sanitized;
+    }
+
+    /**
+     * @param {String}   field
+     * @param {*}        value
+     * @param {Boolean}  mandatory
+     * @param {*=}       def
+     * @return {*}
+     */
+    static object(field, value, mandatory = false, def = null) {
+        return Sanitizer._sanitizeValue(field, value, mandatory, def, 'Object', Sanitizer.toObject);
     }
 
     /**
