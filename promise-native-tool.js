@@ -1,6 +1,7 @@
 'use strict';
 
-let async = require('neo-async');
+const async = require('neo-async');
+const CascadeRacePromisesIterator = require('./cascade-race-promises-iterator');
 
 class PromiseNativeTool {
 
@@ -172,6 +173,14 @@ class PromiseNativeTool {
         async.doWhilst(_iterator, _condition, _callback);
 
         return deferred;
+    }
+
+    /**
+     * @param {Promise[]} promises
+     * @return {CascadeRacePromisesIterator}
+     */
+    static cascadeRace(promises) {
+        return new CascadeRacePromisesIterator(promises);
     }
 }
 
