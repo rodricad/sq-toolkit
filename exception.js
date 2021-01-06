@@ -29,6 +29,21 @@ class Exception extends Error {
 
         Error.captureStackTrace(this, this.constructor);
     }
+
+    /**
+     * @param {Exception|Error} err
+     * @return {String|*}
+     */
+    static getMessage(err) {
+        if (err == null || (err instanceof Error) === false) {
+            return err;
+        }
+        if (err._message) {
+            return err._message;
+        }
+        err._message = `code::${err.code || null} msg::${JSON.stringify(err.message || null)} stack::${JSON.stringify(err.stack || null)}`;
+        return err._message;
+    }
 }
 
 Exception.ErrorCode = ExceptionConst.ErrorCode;

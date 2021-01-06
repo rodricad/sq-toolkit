@@ -253,7 +253,6 @@ class RedisClient {
         return this.client.flushall();
     }
 
-    /* istanbul ignore next */
     /**
      * Increments the number stored at key by one.
      * If the key does not exist, it is set to 0 before performing the operation.
@@ -261,12 +260,78 @@ class RedisClient {
      * This operation is limited to 64 bit signed integers.
      * @reference https://redis.io/commands/incr
      * @param {String|String[]} key
+     * @param {Number=} timeInSeconds
      * @return {Promise<Number>}
      */
-    incr(key) {
-        return this.client.incr(key);
+    async incr(key, timeInSeconds) {
+        if(timeInSeconds == null) {
+            return this.client.incr(key);
+        } else {
+            const result = await this.client.multi()
+            .incr(key)
+            .expire(key, timeInSeconds)
+            .exec();
+            return result[0][1];
+        }
     }
 
+    /**
+     * Decrements the number stored at key by one.
+     * An error is returned if the key contains a value of the wrong type or contains a string that can not be represented as integer.
+     * This operation is limited to 64 bit signed integers.
+     * @reference https://redis.io/commands/incr
+     * @param {String|String[]} key
+     * @param {Number=} timeInSeconds
+     * @return {Promise<Number>}
+     */
+    async decr(key, timeInSeconds) {
+        if(timeInSeconds == null) {
+            return this.client.decr(key);
+        } else {
+            const result = await this.client.multi()
+            .decr(key)
+            .expire(key, timeInSeconds)
+            .exec();
+            return result[0][1];
+        }
+    }
+
+    /**
+     * Set a timeout in seconds on key. After the timeout has expired, the key will automatically be deleted.
+     * The timeout will only be cleared by commands that delete or overwrite the contents of the key, including DEL, SET, GETSET and all the *STORE commands.
+     * All the operations that conceptually alter the value stored at the key without replacing it with a new one will leave the timeout untouched.
+     * @param key
+     * @param timeInSeconds
+     * @return {Promise<*>}
+     */
+    async expire(key, timeInSeconds) {
+        return this.client.expire(key, timeInSeconds);
+    }
+
+    /**
+     * Set a timeout in milliseconds on key. After the timeout has expired, the key will automatically be deleted.
+     * The timeout will only be cleared by commands that delete or overwrite the contents of the key, including DEL, SET, GETSET and all the *STORE commands.
+     * All the operations that conceptually alter the value stored at the key without replacing it with a new one will leave the timeout untouched.
+     * @param key
+     * @param timeInMilliseconds
+     * @return {Promise<*>}
+     */
+    async pexpire(key, timeInMilliseconds) {
+        return this.client.pexpire(key, timeInMilliseconds);
+    }
+
+    /**
+     * Increments the number stored at field in the hash stored at key by increment.
+     * If key does not exist, a new key holding a hash is created. If field does not exist the value is set to 0 before the operation is performed.
+     * The range of values supported by HINCRBY is limited to 64 bit signed integers.
+     * @param key
+     * @param field
+     * @param increment
+     * @return {Promise<*>}
+     */
+    async hincrby(key, field, increment) {
+        return this.client.hincrby(key, field, increment);
+    }
 }
 
 RedisClient.ExpiryMode = ExpiryMode;

@@ -1,12 +1,12 @@
 'use strict';
 
-let parseISO = require('date-fns/parseISO');
-let ObjectId = require('bson/lib/bson/objectid');
-let Exception = require('./exception');
+const parseISO = require('date-fns/parseISO/index.js');
+const ObjectId = require('bson/lib/bson/objectid');
+const Exception = require('./exception');
+const EncodedObjectId = require('./encoded-object-id');
 
 const SanitizerConst = require('./lib/constants/sanitizer');
 
-const OBJECT_ID_HEX_REGEX = /^[0-9a-fA-F]{24}$/;
 const EMAIL_REGEX = /^[-!#$%&'*+\/0-9=?A-Z^_a-z{|}~](\.?[-!#$%&'*+\/0-9=?A-Z^_a-z`{|}~])*@[a-zA-Z0-9](-*\.?[a-zA-Z0-9])*\.[a-zA-Z](-?[a-zA-Z0-9])+$/;
 const EMAIL_PLUS_REGEX = / /g;
 
@@ -244,12 +244,20 @@ class Sanitizer {
      * @return {Boolean}
      */
     static isObjectId(value) {
-        return value instanceof ObjectId;
+        return EncodedObjectId.isObjectId(value);
+    }
+
+    /**
+     * @param value
+     * @return {Boolean}
+     */
+    static isObjectIdString(value) {
+        return EncodedObjectId.isObjectIdString(value);
     }
 
     /**
      * This method is a limited validation from the original ObjectId method. We validate only for 24 chars hex strings
-     * because this method is intented to be used only as a controller sanitizer.
+     * because this method is intended to be used only as a controller sanitizer.
      * @reference https://github.com/mongodb/js-bson/blob/master/lib/objectid.js#L321
      * @param value
      * @returns {ObjectId|ObjectID|null}
@@ -258,8 +266,31 @@ class Sanitizer {
         if (Sanitizer.isObjectId(value) === true) {
             return value;
         }
-        if (Sanitizer.isString(value) === true && value.length === 24 && OBJECT_ID_HEX_REGEX.test(value) === true) {
+        if (Sanitizer.isObjectIdString(value) === true) {
             return new ObjectId(value);
+        }
+        return null;
+    }
+
+    /**
+     * @param value
+     * @return {Boolean}
+     */
+    static isEncodedObjectId(value) {
+        return EncodedObjectId.isValid(value);
+    }
+
+    /**
+     * @param value
+     * @return {Object}
+     */
+    static toEncodedObjectId(value) {
+        let str = Sanitizer.toString(value);
+        if (str == null) {
+            return null;
+        }
+        if (Sanitizer.isEncodedObjectId(str) === true) {
+            return str;
         }
         return null;
     }
@@ -456,6 +487,17 @@ class Sanitizer {
      */
     static objectId(field, value, mandatory = false, def = null) {
         return Sanitizer._sanitizeValue(field, value, mandatory, def, 'ObjectId', Sanitizer.toObjectId);
+    }
+
+    /**
+     * @param {String}  field
+     * @param {*}       value
+     * @param {Boolean} mandatory
+     * @param {*=}      def
+     * @return {String|null}
+     */
+    static encodedObjectId(field, value, mandatory = false, def = null) {
+        return Sanitizer._sanitizeValue(field, value, mandatory, def, 'EncodedObjectId', Sanitizer.toEncodedObjectId);
     }
 
     /**
