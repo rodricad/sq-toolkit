@@ -16,6 +16,7 @@
     "timekeeper": "^2.2.0"
   },
   "dependencies": {
+    "aws-sdk": "^2.674.0",
     "base64-url": "^2.3.2",
     "benchmark": "^2.1.4",
     "bluebird": "^3.7.0",
