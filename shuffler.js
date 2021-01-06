@@ -32,6 +32,7 @@ class Shuffler {
      * @param {Number=}    opts.id
      * @param {String=}    opts.stringId
      * @param {Version[]=} opts.versions
+     * @param {String=}    opts.type
      */
     constructor(opts) {
         this.id        = _.get(opts, 'id', null);
@@ -131,7 +132,7 @@ class Shuffler {
         }
 
         let cumulativeProb = 0;
-        let probability = this.getProbability(hash);
+        const probability = this.getProbability(hash);
 
         for (let groupIndex = 0; groupIndex < this.probs.length; groupIndex++) {
             cumulativeProb += this.probs[groupIndex];
