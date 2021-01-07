@@ -40,7 +40,15 @@ describe.only('DynamoDB Client Test', function () {
             sinon.assert.calledOnce(putStub);
             sinon.assert.calledWith(putStub, {
                 TableName: "table",
-                Item: { some: "random test item" }
+                Item: { some: "random test item" },
+                ConditionExpression: undefined,
+                ConditionalOperator: undefined,
+                Expected: undefined,
+                ExpressionAttributeNames: undefined,
+                ExpressionAttributeValues: undefined,
+                ReturnConsumedCapacity: undefined,
+                ReturnItemCollectionMetrics: undefined,
+                ReturnValues: undefined
             });
             putStub.restore();
         });
@@ -105,7 +113,15 @@ describe.only('DynamoDB Client Test', function () {
                 sinon.assert.calledOnce(putStub);
                 sinon.assert.calledWith(putStub, {
                     TableName: "table",
-                    Item: { some: "random test item" }
+                    Item: { some: "random test item" },
+                    ConditionExpression: undefined,
+                    ConditionalOperator: undefined,
+                    Expected: undefined,
+                    ExpressionAttributeNames: undefined,
+                    ExpressionAttributeValues: undefined,
+                    ReturnConsumedCapacity: undefined,
+                    ReturnItemCollectionMetrics: undefined,
+                    ReturnValues: undefined
                 });
             }
             putStub.restore();
@@ -157,7 +173,12 @@ describe.only('DynamoDB Client Test', function () {
             sinon.assert.calledOnce(getStub);
             sinon.assert.calledWith(getStub, {
                 TableName: "table",
-                Key: { id: "testId" }
+                Key: { id: "testId" },
+                AttributesToGet: undefined,
+                ConsistentRead: undefined,
+                ExpressionAttributeNames: undefined,
+                ProjectionExpression: undefined,
+                ReturnConsumedCapacity: undefined
             });
             getStub.restore();
         });
@@ -211,7 +232,12 @@ describe.only('DynamoDB Client Test', function () {
                 sinon.assert.calledOnce(getStub);
                 sinon.assert.calledWith(getStub, {
                     TableName: "table",
-                    Key: { id: "testId" }
+                    Key: { id: "testId" },
+                    AttributesToGet: undefined,
+                    ConsistentRead: undefined,
+                    ExpressionAttributeNames: undefined,
+                    ProjectionExpression: undefined,
+                    ReturnConsumedCapacity: undefined
                 });
             }
             getStub.restore();
@@ -264,9 +290,16 @@ describe.only('DynamoDB Client Test', function () {
             sinon.assert.calledWith(updateStub, {
                 TableName: "table",
                 Key: { id: "testId" },
-                UpdateExpression: 'set #p1=:p1',
+                UpdateExpression: "set #p1=:p1",
                 ExpressionAttributeNames: { '#p1': "param1" },
-                ExpressionAttributeValues: { ':p1': "test value" }
+                ExpressionAttributeValues: { ':p1': "test value" },
+                AttributeUpdates: undefined,
+                ConditionExpression: undefined,
+                ConditionalOperator: undefined,
+                Expected: undefined,
+                ReturnConsumedCapacity: undefined,
+                ReturnItemCollectionMetrics: undefined,
+                ReturnValues: undefined
             });
             updateStub.restore();
         });
@@ -339,7 +372,17 @@ describe.only('DynamoDB Client Test', function () {
                 sinon.assert.calledOnce(updateStub);
                 sinon.assert.calledWith(updateStub, {
                     TableName: "table",
-                    Key: { id: "testId" }
+                    Key: { id: "testId" },
+                    UpdateExpression: undefined,
+                    ExpressionAttributeNames: undefined,
+                    ExpressionAttributeValues: undefined,
+                    AttributeUpdates: undefined,
+                    ConditionExpression: undefined,
+                    ConditionalOperator: undefined,
+                    Expected: undefined,
+                    ReturnConsumedCapacity: undefined,
+                    ReturnItemCollectionMetrics: undefined,
+                    ReturnValues: undefined
                 });
             }
             updateStub.restore();
@@ -378,7 +421,15 @@ describe.only('DynamoDB Client Test', function () {
             sinon.assert.calledOnce(deleteStub);
             sinon.assert.calledWith(deleteStub, {
                 TableName: "table",
-                Key: { id: "testId" }
+                Key: { id: "testId" },
+                ConditionExpression: undefined,
+                ConditionalOperator: undefined,
+                Expected: undefined,
+                ExpressionAttributeNames: undefined,
+                ExpressionAttributeValues: undefined,
+                ReturnConsumedCapacity: undefined,
+                ReturnItemCollectionMetrics: undefined,
+                ReturnValues: undefined
             });
             deleteStub.restore();
         });
@@ -443,7 +494,15 @@ describe.only('DynamoDB Client Test', function () {
                 sinon.assert.calledOnce(deleteStub);
                 sinon.assert.calledWith(deleteStub, {
                     TableName: "table",
-                    Key: { id: "testId" }
+                    Key: { id: "testId" },
+                    ConditionExpression: undefined,
+                    ConditionalOperator: undefined,
+                    Expected: undefined,
+                    ExpressionAttributeNames: undefined,
+                    ExpressionAttributeValues: undefined,
+                    ReturnConsumedCapacity: undefined,
+                    ReturnItemCollectionMetrics: undefined,
+                    ReturnValues: undefined
                 });
             }
             deleteStub.restore();
@@ -510,10 +569,20 @@ describe.only('DynamoDB Client Test', function () {
                 TableName: "table",
                 IndexName: "Index",
                 KeyConditionExpression: "HashKey = :hkey and RangeKey > :rkey",
-                ExpressionAttributeValues: {
-                    ':hkey': "key",
-                    ':rkey': 2015
-                }
+                ExpressionAttributeValues: { ':hkey': "key", ':rkey': 2015 },
+                AttributesToGet: undefined,
+                ConditionalOperator: undefined,
+                ConsistentRead: undefined,
+                ExclusiveStartKey: undefined,
+                ExpressionAttributeNames: undefined,
+                FilterExpression: undefined,
+                KeyConditions: undefined,
+                Limit: undefined,
+                ProjectionExpression: undefined,
+                QueryFilter: undefined,
+                ReturnConsumedCapacity: undefined,
+                ScanIndexForward: undefined,
+                Select: undefined
             });
             queryStub.restore();
         });
@@ -575,7 +644,9 @@ describe.only('DynamoDB Client Test', function () {
             sinon.assert.calledOnce(queryStub);
             sinon.assert.calledWith(queryStub, {
                 AttributesToGet: ["param1", "param2"],
+                ConditionalOperator: undefined,
                 ConsistentRead: true,
+                ExclusiveStartKey: undefined,
                 ExpressionAttributeNames: { '#hkey': "HashKey", '#rkey': "RangeKey" },
                 ExpressionAttributeValues: { ':hkey': "key", ':p1': 20, ':rkey': 2015 },
                 FilterExpression: "param1 > :p1",
@@ -643,15 +714,42 @@ describe.only('DynamoDB Client Test', function () {
             });
             sinon.assert.calledTwice(queryStub);
             sinon.assert.calledWith(queryStub.firstCall, {
-                ExpressionAttributeValues: { ':i': 7 },
+                TableName: "table",
                 KeyConditionExpression: "id < :i",
-                TableName: "table"
+                ExpressionAttributeValues: { ':i': 7 },
+                AttributesToGet: undefined,
+                ConditionalOperator: undefined,
+                ConsistentRead: undefined,
+                ExclusiveStartKey: undefined,
+                ExpressionAttributeNames: undefined,
+                FilterExpression: undefined,
+                IndexName: undefined,
+                KeyConditions: undefined,
+                Limit: undefined,
+                ProjectionExpression: undefined,
+                QueryFilter: undefined,
+                ReturnConsumedCapacity: undefined,
+                ScanIndexForward: undefined,
+                Select: undefined
             });
             sinon.assert.calledWith(queryStub.secondCall, {
-                ExclusiveStartKey: { id: 3 },
-                ExpressionAttributeValues: { ':i': 7 },
+                TableName: "table",
                 KeyConditionExpression: "id < :i",
-                TableName: "table"
+                ExpressionAttributeValues: { ':i': 7 },
+                ExclusiveStartKey: { id: 3 },
+                AttributesToGet: undefined,
+                ConditionalOperator: undefined,
+                ConsistentRead: undefined,
+                ExpressionAttributeNames: undefined,
+                FilterExpression: undefined,
+                IndexName: undefined,
+                KeyConditions: undefined,
+                Limit: undefined,
+                ProjectionExpression: undefined,
+                QueryFilter: undefined,
+                ReturnConsumedCapacity: undefined,
+                ScanIndexForward: undefined,
+                Select: undefined
             });
             queryStub.restore();
         });
@@ -666,7 +764,23 @@ describe.only('DynamoDB Client Test', function () {
                 expect(e.message).to.eql('TEST_ERROR');
                 sinon.assert.calledOnce(queryStub);
                 sinon.assert.calledWith(queryStub, {
-                    TableName: "table"
+                    TableName: "table",
+                    IndexName: undefined,
+                    KeyConditionExpression: undefined,
+                    ExpressionAttributeValues: undefined,
+                    AttributesToGet: undefined,
+                    ConditionalOperator: undefined,
+                    ConsistentRead: undefined,
+                    ExclusiveStartKey: undefined,
+                    ExpressionAttributeNames: undefined,
+                    FilterExpression: undefined,
+                    KeyConditions: undefined,
+                    Limit: undefined,
+                    ProjectionExpression: undefined,
+                    QueryFilter: undefined,
+                    ReturnConsumedCapacity: undefined,
+                    ScanIndexForward: undefined,
+                    Select: undefined
                 });
             }
             queryStub.restore();
@@ -723,7 +837,22 @@ describe.only('DynamoDB Client Test', function () {
             });
             sinon.assert.calledOnce(scanStub);
             sinon.assert.calledWith(scanStub, {
-                TableName: "table"
+                TableName: "table",
+                AttributesToGet: undefined,
+                ConditionalOperator: undefined,
+                ConsistentRead: undefined,
+                ExclusiveStartKey: undefined,
+                ExpressionAttributeNames: undefined,
+                ExpressionAttributeValues: undefined,
+                FilterExpression: undefined,
+                IndexName: undefined,
+                Limit: undefined,
+                ProjectionExpression: undefined,
+                ReturnConsumedCapacity: undefined,
+                ScanFilter: undefined,
+                Segment: undefined,
+                Select: undefined,
+                TotalSegments: undefined
             });
             scanStub.restore();
         });
@@ -783,6 +912,7 @@ describe.only('DynamoDB Client Test', function () {
                 AttributesToGet: ["param1", "param2"],
                 ConditionalOperator: "AND",
                 ConsistentRead: true,
+                ExclusiveStartKey: undefined,
                 ExpressionAttributeNames: { '#hkey': "HashKey", '#rkey': "RangeKey" },
                 ExpressionAttributeValues: { ':hkey': "key", ':p1': 20, ':rkey': 2015 },
                 FilterExpression: "param1 > :p1",
@@ -846,11 +976,40 @@ describe.only('DynamoDB Client Test', function () {
             });
             sinon.assert.calledTwice(scanStub);
             sinon.assert.calledWith(scanStub.firstCall, {
-                TableName: "table"
+                TableName: "table",
+                AttributesToGet: undefined,
+                ConditionalOperator: undefined,
+                ConsistentRead: undefined,
+                ExclusiveStartKey: undefined,
+                ExpressionAttributeNames: undefined,
+                ExpressionAttributeValues: undefined,
+                FilterExpression: undefined,
+                IndexName: undefined,
+                Limit: undefined,
+                ProjectionExpression: undefined,
+                ReturnConsumedCapacity: undefined,
+                ScanFilter: undefined,
+                Segment: undefined,
+                Select: undefined,
+                TotalSegments: undefined
             });
             sinon.assert.calledWith(scanStub.secondCall, {
+                TableName: "table",
                 ExclusiveStartKey: { id: 3 },
-                TableName: "table"
+                AttributesToGet: undefined,
+                ConditionalOperator: undefined,
+                ConsistentRead: undefined,
+                ExpressionAttributeNames: undefined,
+                ExpressionAttributeValues: undefined,
+                FilterExpression: undefined,
+                IndexName: undefined,
+                Limit: undefined,
+                ProjectionExpression: undefined,
+                ReturnConsumedCapacity: undefined,
+                ScanFilter: undefined,
+                Segment: undefined,
+                Select: undefined,
+                TotalSegments: undefined
             });
             scanStub.restore();
         });
@@ -865,7 +1024,22 @@ describe.only('DynamoDB Client Test', function () {
                 expect(e.message).to.eql('TEST_ERROR');
                 sinon.assert.calledOnce(scanStub);
                 sinon.assert.calledWith(scanStub, {
-                    TableName: "table"
+                    TableName: "table",
+                    AttributesToGet: undefined,
+                    ConditionalOperator: undefined,
+                    ConsistentRead: undefined,
+                    ExclusiveStartKey: undefined,
+                    ExpressionAttributeNames: undefined,
+                    ExpressionAttributeValues: undefined,
+                    FilterExpression: undefined,
+                    IndexName: undefined,
+                    Limit: undefined,
+                    ProjectionExpression: undefined,
+                    ReturnConsumedCapacity: undefined,
+                    ScanFilter: undefined,
+                    Segment: undefined,
+                    Select: undefined,
+                    TotalSegments: undefined
                 });
             }
             scanStub.restore();
