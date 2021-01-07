@@ -1,6 +1,6 @@
 'use strict';
 
-describe.only('DynamoDB Client Test', function () {
+describe('DynamoDB Client Test', function () {
 
     const chai = require('chai');
     const expect = chai.expect;
@@ -713,25 +713,6 @@ describe.only('DynamoDB Client Test', function () {
                 ]
             });
             sinon.assert.calledTwice(queryStub);
-            sinon.assert.calledWith(queryStub.firstCall, {
-                TableName: "table",
-                KeyConditionExpression: "id < :i",
-                ExpressionAttributeValues: { ':i': 7 },
-                AttributesToGet: undefined,
-                ConditionalOperator: undefined,
-                ConsistentRead: undefined,
-                ExclusiveStartKey: undefined,
-                ExpressionAttributeNames: undefined,
-                FilterExpression: undefined,
-                IndexName: undefined,
-                KeyConditions: undefined,
-                Limit: undefined,
-                ProjectionExpression: undefined,
-                QueryFilter: undefined,
-                ReturnConsumedCapacity: undefined,
-                ScanIndexForward: undefined,
-                Select: undefined
-            });
             sinon.assert.calledWith(queryStub.secondCall, {
                 TableName: "table",
                 KeyConditionExpression: "id < :i",
@@ -975,24 +956,6 @@ describe.only('DynamoDB Client Test', function () {
                 ]
             });
             sinon.assert.calledTwice(scanStub);
-            sinon.assert.calledWith(scanStub.firstCall, {
-                TableName: "table",
-                AttributesToGet: undefined,
-                ConditionalOperator: undefined,
-                ConsistentRead: undefined,
-                ExclusiveStartKey: undefined,
-                ExpressionAttributeNames: undefined,
-                ExpressionAttributeValues: undefined,
-                FilterExpression: undefined,
-                IndexName: undefined,
-                Limit: undefined,
-                ProjectionExpression: undefined,
-                ReturnConsumedCapacity: undefined,
-                ScanFilter: undefined,
-                Segment: undefined,
-                Select: undefined,
-                TotalSegments: undefined
-            });
             sinon.assert.calledWith(scanStub.secondCall, {
                 TableName: "table",
                 ExclusiveStartKey: { id: 3 },

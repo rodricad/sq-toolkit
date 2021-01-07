@@ -204,11 +204,10 @@ class DynamoDbClient {
         let additionalResultsData = [];
         let results = {};
         do {
-            const queryParams = Object.assign({}, queryObject);
             if(results.LastEvaluatedKey != null) {
-                queryParams.ExclusiveStartKey = results.LastEvaluatedKey;
+                queryObject.ExclusiveStartKey = results.LastEvaluatedKey;
             }
-            results = await this.docClient.query(queryParams).promise();
+            results = await this.docClient.query(queryObject).promise();
             if(results.Items != null) {
                 itemsArray = itemsArray.concat(results.Items);
             }
@@ -270,11 +269,10 @@ class DynamoDbClient {
         let additionalResultsData = [];
         let results = {};
         do {
-            const scanParams = Object.assign({}, scanObject);
             if(results.LastEvaluatedKey != null) {
-                scanParams.ExclusiveStartKey = results.LastEvaluatedKey;
+                scanObject.ExclusiveStartKey = results.LastEvaluatedKey;
             }
-            results = await this.docClient.scan(scanParams).promise();
+            results = await this.docClient.scan(scanObject).promise();
             if(results.Items != null) {
                 itemsArray = itemsArray.concat(results.Items);
             }
