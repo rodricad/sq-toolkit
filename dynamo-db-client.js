@@ -23,7 +23,7 @@ class DynamoDbClient {
      * @param {string} [options.returnConsumedCapacity]
      * @param {string} [options.returnItemCollectionMetrics]
      * @param {string} [options.returnValues]
-     * @return {Promise<*>}
+     * @return {Promise<{itemCollectionMetrics: *, attributes: *, consumedCapacity: *}>}
      */
     async put(table, item, options={}) {
         const putObject = {
@@ -58,7 +58,7 @@ class DynamoDbClient {
      * @param {string} [options.projectionExpression]
      * @param {object} [options.expressionAttributeNames]
      * @param {string} [options.returnConsumedCapacity]
-     * @return {Promise<*>}
+     * @return {Promise<{item: *, consumedCapacity: *}>}
      */
     async get(table, key, options={}) {
         const getObject = {
@@ -92,7 +92,7 @@ class DynamoDbClient {
      * @param {string} [options.returnItemCollectionMetrics]
      * @param {string} [options.returnValues]
      * @param {string} [options.updateExpression]
-     * @return {Promise<*>}
+     * @return {Promise<{itemCollectionMetrics: *, attributes: *, consumedCapacity: *}>}
      */
     async update(table, key, options={}) {
         const updateObject = {
@@ -112,8 +112,8 @@ class DynamoDbClient {
 
         let result = await this.docClient.update(updateObject).promise();
         return {
-            attributes: result.Attributes,
             itemCollectionMetrics: result.ItemCollectionMetrics,
+            attributes: result.Attributes,
             consumedCapacity: result.ConsumedCapacity
         };
     }
@@ -132,7 +132,7 @@ class DynamoDbClient {
      * @param {string} [options.returnConsumedCapacity]
      * @param {string} [options.returnItemCollectionMetrics]
      * @param {string} [options.returnValues]
-     * @return {Promise<*>}
+     * @return {Promise<{itemCollectionMetrics: *, attributes: *, consumedCapacity: *}>}
      */
     async delete(table, key, options={}) {
         const deleteObject = {
@@ -177,7 +177,7 @@ class DynamoDbClient {
      * @param {string} [options.returnConsumedCapacity]
      * @param {boolean} [options.scanIndexForward]
      * @param {string} [options.select]
-     * @return {Promise<*>}
+     * @return {Promise<{items: array, additionalResultsData: array}>}
      */
     async query(table, options={}) {
         const queryObject = {  TableName: table };
@@ -242,7 +242,7 @@ class DynamoDbClient {
      * @param {integer} [options.segment]
      * @param {string} [options.select]
      * @param {integer} [options.totalSegments]
-     * @return {Promise<*>}
+     * @return {Promise<{items: array, additionalResultsData: array}>}
      */
     async scan(table, options={}) {
         const scanObject = { TableName: table };
