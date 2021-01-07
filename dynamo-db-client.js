@@ -30,14 +30,14 @@ class DynamoDbClient {
             Item: Object.assign({}, item),
             TableName: table
         };
-        setIfNotNull(putObject, options.conditionExpression, 'ConditionExpression');
-        setIfNotNull(putObject, options.conditionalOperator, 'ConditionalOperator');
-        setIfNotNull(putObject, options.expected, 'Expected');
-        setIfNotNull(putObject, options.expressionAttributeNames, 'ExpressionAttributeNames');
-        setIfNotNull(putObject, options.expressionAttributeValues, 'ExpressionAttributeValues');
-        setIfNotNull(putObject, options.returnConsumedCapacity, 'ReturnConsumedCapacity');
-        setIfNotNull(putObject, options.returnItemCollectionMetrics, 'ReturnItemCollectionMetrics');
-        setIfNotNull(putObject, options.returnValues, 'ReturnValues');
+        options.conditionExpression != null && (putObject.ConditionExpression = options.conditionExpression);
+        options.conditionalOperator != null && (putObject.ConditionalOperator = options.conditionalOperator);
+        options.expected != null && (putObject.Expected = options.expected);
+        options.expressionAttributeNames != null && (putObject.ExpressionAttributeNames = options.expressionAttributeNames);
+        options.expressionAttributeValues != null && (putObject.ExpressionAttributeValues = options.expressionAttributeValues);
+        options.returnConsumedCapacity != null && (putObject.ReturnConsumedCapacity = options.returnConsumedCapacity);
+        options.returnItemCollectionMetrics != null && (putObject.ReturnItemCollectionMetrics = options.returnItemCollectionMetrics);
+        options.returnValues != null && (putObject.ReturnValues = options.returnValues);
 
         let result = await this.docClient.put(putObject).promise();
         return {
@@ -65,11 +65,11 @@ class DynamoDbClient {
             Key: key,
             TableName: table
         };
-        setIfNotNull(getObject, options.attributesToGet, 'AttributesToGet');
-        setIfNotNull(getObject, options.consistentRead, 'ConsistentRead');
-        setIfNotNull(getObject, options.projectionExpression, 'ProjectionExpression');
-        setIfNotNull(getObject, options.expressionAttributeNames, 'ExpressionAttributeNames');
-        setIfNotNull(getObject, options.returnConsumedCapacity, 'ReturnConsumedCapacity');
+        options.attributesToGet != null && (getObject.AttributesToGet = options.attributesToGet);
+        options.consistentRead != null && (getObject.ConsistentRead = options.consistentRead);
+        options.projectionExpression != null && (getObject.ProjectionExpression = options.projectionExpression);
+        options.expressionAttributeNames != null && (getObject.ExpressionAttributeNames = options.expressionAttributeNames);
+        options.returnConsumedCapacity != null && (getObject.ReturnConsumedCapacity = options.returnConsumedCapacity);
         let result = await this.docClient.get(getObject).promise();
         return {
             item: result.Item,
@@ -99,16 +99,16 @@ class DynamoDbClient {
             Key: key,
             TableName:table
         };
-        setIfNotNull(updateObject, options.attributeUpdates, 'AttributeUpdates');
-        setIfNotNull(updateObject, options.conditionExpression, 'ConditionExpression');
-        setIfNotNull(updateObject, options.conditionalOperator, 'ConditionalOperator');
-        setIfNotNull(updateObject, options.expected, 'Expected');
-        setIfNotNull(updateObject, options.expressionAttributeNames, 'ExpressionAttributeNames');
-        setIfNotNull(updateObject, options.expressionAttributeValues, 'ExpressionAttributeValues');
-        setIfNotNull(updateObject, options.returnConsumedCapacity, 'ReturnConsumedCapacity');
-        setIfNotNull(updateObject, options.returnItemCollectionMetrics, 'ReturnItemCollectionMetrics');
-        setIfNotNull(updateObject, options.returnValues, 'ReturnValues');
-        setIfNotNull(updateObject, options.updateExpression, 'UpdateExpression');
+        options.attributeUpdates != null && (updateObject.AttributeUpdates = options.attributeUpdates);
+        options.conditionExpression != null && (updateObject.ConditionExpression = options.conditionExpression);
+        options.conditionalOperator != null && (updateObject.ConditionalOperator = options.conditionalOperator);
+        options.expected != null && (updateObject.Expected = options.expected);
+        options.expressionAttributeNames != null && (updateObject.ExpressionAttributeNames = options.expressionAttributeNames);
+        options.expressionAttributeValues != null && (updateObject.ExpressionAttributeValues = options.expressionAttributeValues);
+        options.returnConsumedCapacity != null && (updateObject.ReturnConsumedCapacity = options.returnConsumedCapacity);
+        options.returnItemCollectionMetrics != null && (updateObject.ReturnItemCollectionMetrics = options.returnItemCollectionMetrics);
+        options.returnValues != null && (updateObject.ReturnValues = options.returnValues);
+        options.updateExpression != null && (updateObject.UpdateExpression = options.updateExpression);
 
         let result = await this.docClient.update(updateObject).promise();
         return {
@@ -139,14 +139,14 @@ class DynamoDbClient {
             Key: key,
             TableName: table
         };
-        setIfNotNull(deleteObject, options.conditionExpression, 'ConditionExpression');
-        setIfNotNull(deleteObject, options.conditionalOperator, 'ConditionalOperator');
-        setIfNotNull(deleteObject, options.expected, 'Expected');
-        setIfNotNull(deleteObject, options.expressionAttributeNames, 'ExpressionAttributeNames');
-        setIfNotNull(deleteObject, options.expressionAttributeValues, 'ExpressionAttributeValues');
-        setIfNotNull(deleteObject, options.returnConsumedCapacity, 'ReturnConsumedCapacity');
-        setIfNotNull(deleteObject, options.returnItemCollectionMetrics, 'ReturnItemCollectionMetrics');
-        setIfNotNull(deleteObject, options.returnValues, 'ReturnValues');
+        options.conditionExpression != null && (deleteObject.ConditionExpression = options.conditionExpression);
+        options.conditionalOperator != null && (deleteObject.ConditionalOperator = options.conditionalOperator);
+        options.expected != null && (deleteObject.Expected = options.expected);
+        options.expressionAttributeNames != null && (deleteObject.ExpressionAttributeNames = options.expressionAttributeNames);
+        options.expressionAttributeValues != null && (deleteObject.ExpressionAttributeValues = options.expressionAttributeValues);
+        options.returnConsumedCapacity != null && (deleteObject.ReturnConsumedCapacity = options.returnConsumedCapacity);
+        options.returnItemCollectionMetrics != null && (deleteObject.ReturnItemCollectionMetrics = options.returnItemCollectionMetrics);
+        options.returnValues != null && (deleteObject.ReturnValues = options.returnValues);
 
         let result = await this.docClient.delete(deleteObject).promise();
         return {
@@ -181,22 +181,22 @@ class DynamoDbClient {
      */
     async query(table, options={}) {
         const queryObject = {  TableName: table };
-        setIfNotNull(queryObject, options.attributesToGet, 'AttributesToGet');
-        setIfNotNull(queryObject, options.conditionalOperator, 'ConditionalOperator');
-        setIfNotNull(queryObject, options.consistentRead, 'ConsistentRead');
-        setIfNotNull(queryObject, options.exclusiveStartKey, 'ExclusiveStartKey');
-        setIfNotNull(queryObject, options.expressionAttributeNames, 'ExpressionAttributeNames');
-        setIfNotNull(queryObject, options.expressionAttributeValues, 'ExpressionAttributeValues');
-        setIfNotNull(queryObject, options.filterExpression, 'FilterExpression');
-        setIfNotNull(queryObject, options.indexName, 'IndexName');
-        setIfNotNull(queryObject, options.keyConditionExpression, 'KeyConditionExpression');
-        setIfNotNull(queryObject, options.keyConditions, 'KeyConditions');
-        setIfNotNull(queryObject, options.limit, 'Limit');
-        setIfNotNull(queryObject, options.projectionExpression, 'ProjectionExpression');
-        setIfNotNull(queryObject, options.queryFilter, 'QueryFilter');
-        setIfNotNull(queryObject, options.returnConsumedCapacity, 'ReturnConsumedCapacity');
-        setIfNotNull(queryObject, options.scanIndexForward, 'ScanIndexForward');
-        setIfNotNull(queryObject, options.select, 'Select');
+        options.attributesToGet != null && (queryObject.AttributesToGet = options.attributesToGet);
+        options.conditionalOperator != null && (queryObject.ConditionalOperator = options.conditionalOperator);
+        options.consistentRead != null && (queryObject.ConsistentRead = options.consistentRead);
+        options.exclusiveStartKey != null && (queryObject.ExclusiveStartKey = options.exclusiveStartKey);
+        options.expressionAttributeNames != null && (queryObject.ExpressionAttributeNames = options.expressionAttributeNames);
+        options.expressionAttributeValues != null && (queryObject.ExpressionAttributeValues = options.expressionAttributeValues);
+        options.filterExpression != null && (queryObject.FilterExpression = options.filterExpression);
+        options.indexName != null && (queryObject.IndexName = options.indexName);
+        options.keyConditionExpression != null && (queryObject.KeyConditionExpression = options.keyConditionExpression);
+        options.keyConditions != null && (queryObject.KeyConditions = options.keyConditions);
+        options.limit != null && (queryObject.Limit = options.limit);
+        options.projectionExpression != null && (queryObject.ProjectionExpression = options.projectionExpression);
+        options.queryFilter != null && (queryObject.QueryFilter = options.queryFilter);
+        options.returnConsumedCapacity != null && (queryObject.ReturnConsumedCapacity = options.returnConsumedCapacity);
+        options.scanIndexForward != null && (queryObject.ScanIndexForward = options.scanIndexForward);
+        options.select != null && (queryObject.Select = options.select);
 
         let itemsArray = [];
         let additionalResultsData = [];
@@ -246,21 +246,21 @@ class DynamoDbClient {
      */
     async scan(table, options={}) {
         const scanObject = { TableName: table };
-        setIfNotNull(scanObject, options.attributesToGet, 'AttributesToGet');
-        setIfNotNull(scanObject, options.conditionalOperator, 'ConditionalOperator');
-        setIfNotNull(scanObject, options.consistentRead, 'ConsistentRead');
-        setIfNotNull(scanObject, options.exclusiveStartKey, 'ExclusiveStartKey');
-        setIfNotNull(scanObject, options.expressionAttributeNames, 'ExpressionAttributeNames');
-        setIfNotNull(scanObject, options.expressionAttributeValues, 'ExpressionAttributeValues');
-        setIfNotNull(scanObject, options.filterExpression, 'FilterExpression');
-        setIfNotNull(scanObject, options.indexName, 'IndexName');
-        setIfNotNull(scanObject, options.limit, 'Limit');
-        setIfNotNull(scanObject, options.projectionExpression, 'ProjectionExpression');
-        setIfNotNull(scanObject, options.returnConsumedCapacity, 'ReturnConsumedCapacity');
-        setIfNotNull(scanObject, options.scanFilter, 'ScanFilter');
-        setIfNotNull(scanObject, options.segment, 'Segment');
-        setIfNotNull(scanObject, options.select, 'Select');
-        setIfNotNull(scanObject, options.totalSegments, 'TotalSegments');
+        options.attributesToGet != null && (scanObject.AttributesToGet = options.attributesToGet);
+        options.conditionalOperator != null && (scanObject.ConditionalOperator = options.conditionalOperator);
+        options.consistentRead != null && (scanObject.ConsistentRead = options.consistentRead);
+        options.exclusiveStartKey != null && (scanObject.ExclusiveStartKey = options.exclusiveStartKey);
+        options.expressionAttributeNames != null && (scanObject.ExpressionAttributeNames = options.expressionAttributeNames);
+        options.expressionAttributeValues != null && (scanObject.ExpressionAttributeValues = options.expressionAttributeValues);
+        options.filterExpression != null && (scanObject.FilterExpression = options.filterExpression);
+        options.indexName != null && (scanObject.IndexName = options.indexName);
+        options.limit != null && (scanObject.Limit = options.limit);
+        options.projectionExpression != null && (scanObject.ProjectionExpression = options.projectionExpression);
+        options.returnConsumedCapacity != null && (scanObject.ReturnConsumedCapacity = options.returnConsumedCapacity);
+        options.scanFilter != null && (scanObject.ScanFilter = options.scanFilter);
+        options.segment != null && (scanObject.Segment = options.segment);
+        options.select != null && (scanObject.Select = options.select);
+        options.totalSegments != null && (scanObject.TotalSegments = options.totalSegments);
 
         let itemsArray = [];
         let additionalResultsData = [];
@@ -288,9 +288,3 @@ class DynamoDbClient {
 
 }
 module.exports = DynamoDbClient;
-
-function setIfNotNull(obj, param, key) {
-    if(param != null) {
-        obj[key] = param;
-    }
-}
