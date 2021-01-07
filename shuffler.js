@@ -166,7 +166,7 @@ class Shuffler {
      * @return {Number}
      */
     getProbabilityForHighDensity(hash) {
-        const value = Shuffler.getLastHashBytes(hash, HIGH_DENSITY_CHARS) ^ this.id;
+        const value = Shuffler.getLastHashBytes(hash, HIGH_DENSITY_CHARS) + this.id;
         return (value % HIGH_DENSITY_LIMIT) / (HIGH_DENSITY_LIMIT - 1);
     }
 

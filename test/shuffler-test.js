@@ -309,9 +309,9 @@ describe('Shuffler Test', function () {
 
         it('2. Get random by MD5. Expect to return always the same versions for each hash', function () {
 
-            _testRandom('c4ca4238a0b923820dcc509a6f75849b', 5);
-            _testRandom('c81e728d9d4c2f636f067f89cc14862c', 5);
-            _testRandom('eccbc87e4b5ce2fe28308fd9f2a7baf3', 5);
+            _testRandom('c4ca4238a0b923820dcc509a6f75849b', 1);
+            _testRandom('c81e728d9d4c2f636f067f89cc14862c', 1);
+            _testRandom('eccbc87e4b5ce2fe28308fd9f2a7baf3', 1);
             _testRandom('a87ff679a2f3e71d9181a67b7542122c', 3);
         });
 
