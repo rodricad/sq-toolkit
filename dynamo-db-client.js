@@ -164,7 +164,7 @@ class DynamoDbClient {
      * @param {array<string>} [options.attributesToGet]
      * @param {string} [options.conditionalOperator]
      * @param {boolean} [options.consistentRead]
-     * @param {object} [options.exclusiveStartKey]
+     * @param {object} [options.exclusiveStartKey] - Used for results pagination. If iterating manually, lastEvaluatedKey param should be passed here
      * @param {object} [options.expressionAttributeNames]
      * @param {object} [options.expressionAttributeValues]
      * @param {string} [options.filterExpression]
@@ -177,11 +177,11 @@ class DynamoDbClient {
      * @param {string} [options.returnConsumedCapacity]
      * @param {boolean} [options.scanIndexForward]
      * @param {string} [options.select]
-     * @param {boolean} [options.doNotIterate=false] - prevents client from iterating when more items are available. Returns lastEvaluatedKey param if present
+     * @param {boolean} [options.doNotIterate=false] - prevents client from iterating when more items are available. Returns lastEvaluatedKey param if present to allow manual pagination
      * @return {Promise<{items: array, additionalResultsData: array}>}
      */
     async query(table, options={}) {
-        const queryObject = {
+        const queryOptions = {
             TableName: table,
             AttributesToGet: options.attributesToGet,
             ConditionalOperator: options.conditionalOperator,
@@ -200,32 +200,7 @@ class DynamoDbClient {
             ScanIndexForward: options.scanIndexForward,
             Select: options.select
         };
-
-        let itemsArray = [];
-        let additionalResultsData = [];
-        let results = {};
-        do {
-            if(results.LastEvaluatedKey != null) {
-                queryObject.ExclusiveStartKey = results.LastEvaluatedKey;
-            }
-            results = await this.docClient.query(queryObject).promise();
-            if(results.Items != null) {
-                itemsArray = itemsArray.concat(results.Items);
-            }
-            additionalResultsData.push({
-                count: results.Count,
-                scannedCount: results.ScannedCount,
-                consumedCapacity: results.ConsumedCapacity
-            });
-        } while (results.LastEvaluatedKey != null && options.doNotIterate !== true);
-        const ret = {
-            items: itemsArray,
-            additionalResultsData
-        };
-        if(results.LastEvaluatedKey != null) {
-            ret.lastEvaluatedKey = results.LastEvaluatedKey;
-        }
-        return ret;
+        return runIterableMethod(this.docClient, 'query', queryOptions, options.doNotIterate);
     }
 
     /**
@@ -236,7 +211,7 @@ class DynamoDbClient {
      * @param {array<string>} [options.attributesToGet]
      * @param {string} [options.conditionalOperator]
      * @param {boolean} [options.consistentRead]
-     * @param {object} [options.exclusiveStartKey]
+     * @param {object} [options.exclusiveStartKey] - Used for results pagination. If iterating manually, lastEvaluatedKey param should be passed here
      * @param {object} [options.expressionAttributeNames]
      * @param {object} [options.expressionAttributeValues]
      * @param {string} [options.filterExpression]
@@ -248,11 +223,11 @@ class DynamoDbClient {
      * @param {integer} [options.segment]
      * @param {string} [options.select]
      * @param {integer} [options.totalSegments]
-     * @param {boolean} [options.doNotIterate=false] - prevents client from iterating when more items are available. Returns lastEvaluatedKey param if present
+     * @param {boolean} [options.doNotIterate=false] - prevents client from iterating when more items are available. Returns lastEvaluatedKey param if present to allow manual pagination
      * @return {Promise<{items: array, additionalResultsData: array}>}
      */
     async scan(table, options={}) {
-        const scanObject = {
+        const scanOptions = {
             TableName: table,
             AttributesToGet: options.attributesToGet,
             ConditionalOperator: options.conditionalOperator,
@@ -270,33 +245,36 @@ class DynamoDbClient {
             Select: options.select,
             TotalSegments: options.totalSegments
         };
-
-        let itemsArray = [];
-        let additionalResultsData = [];
-        let results = {};
-        do {
-            if(results.LastEvaluatedKey != null) {
-                scanObject.ExclusiveStartKey = results.LastEvaluatedKey;
-            }
-            results = await this.docClient.scan(scanObject).promise();
-            if(results.Items != null) {
-                itemsArray = itemsArray.concat(results.Items);
-            }
-            additionalResultsData.push({
-                count: results.Count,
-                scannedCount: results.ScannedCount,
-                consumedCapacity: results.ConsumedCapacity
-            });
-        } while (results.LastEvaluatedKey != null && options.doNotIterate !== true);
-        const ret = {
-            items: itemsArray,
-            additionalResultsData
-        };
-        if(results.LastEvaluatedKey != null) {
-            ret.lastEvaluatedKey = results.LastEvaluatedKey;
-        }
-        return ret;
+        return runIterableMethod(this.docClient, 'scan', scanOptions, options.doNotIterate);
     }
 
 }
 module.exports = DynamoDbClient;
+
+async function runIterableMethod(docClient, method, options, doNotIterate) {
+    let itemsArray = [];
+    let additionalResultsData = [];
+    let results = {};
+    do {
+        if(results.LastEvaluatedKey != null) {
+            options.ExclusiveStartKey = results.LastEvaluatedKey;
+        }
+        results = await docClient[method](options).promise();
+        if(results.Items != null) {
+            itemsArray = itemsArray.concat(results.Items);
+        }
+        additionalResultsData.push({
+            count: results.Count,
+            scannedCount: results.ScannedCount,
+            consumedCapacity: results.ConsumedCapacity
+        });
+    } while (results.LastEvaluatedKey != null && doNotIterate !== true);
+    const ret = {
+        items: itemsArray,
+        additionalResultsData
+    };
+    if(results.LastEvaluatedKey != null) {
+        ret.lastEvaluatedKey = results.LastEvaluatedKey;
+    }
+    return ret;
+}
