@@ -200,7 +200,7 @@ class DynamoDbClient {
             ScanIndexForward: options.scanIndexForward,
             Select: options.select
         };
-        return runIterableMethod(this.docClient, 'query', queryOptions, options.doNotIterate);
+        return runIterableMethod(this.docClient.query, queryOptions, options.doNotIterate);
     }
 
     /**
@@ -245,13 +245,13 @@ class DynamoDbClient {
             Select: options.select,
             TotalSegments: options.totalSegments
         };
-        return runIterableMethod(this.docClient, 'scan', scanOptions, options.doNotIterate);
+        return runIterableMethod(this.docClient.scan, scanOptions, options.doNotIterate);
     }
 
 }
 module.exports = DynamoDbClient;
 
-async function runIterableMethod(docClient, method, options, doNotIterate) {
+async function runIterableMethod(method, options, doNotIterate) {
     let itemsArray = [];
     let additionalResultsData = [];
     let results = {};
@@ -259,7 +259,7 @@ async function runIterableMethod(docClient, method, options, doNotIterate) {
         if(results.LastEvaluatedKey != null) {
             options.ExclusiveStartKey = results.LastEvaluatedKey;
         }
-        results = await docClient[method](options).promise();
+        results = await method(options).promise();
         if(results.Items != null) {
             itemsArray = itemsArray.concat(results.Items);
         }
