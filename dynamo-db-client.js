@@ -177,6 +177,7 @@ class DynamoDbClient {
      * @param {string} [options.returnConsumedCapacity]
      * @param {boolean} [options.scanIndexForward]
      * @param {string} [options.select]
+     * @param {boolean} [options.doNotIterate=false] - prevents client from iterating when more items are available. Returns lastEvaluatedKey param if present
      * @return {Promise<{items: array, additionalResultsData: array}>}
      */
     async query(table, options={}) {
@@ -216,11 +217,15 @@ class DynamoDbClient {
                 scannedCount: results.ScannedCount,
                 consumedCapacity: results.ConsumedCapacity
             });
-        } while (results.LastEvaluatedKey != null);
-        return {
+        } while (results.LastEvaluatedKey != null && options.doNotIterate !== true);
+        let ret = {
             items: itemsArray,
             additionalResultsData
         };
+        if(results.LastEvaluatedKey != null) {
+            ret.lastEvaluatedKey = results.LastEvaluatedKey;
+        }
+        return ret;
     }
 
     /**
@@ -243,6 +248,7 @@ class DynamoDbClient {
      * @param {integer} [options.segment]
      * @param {string} [options.select]
      * @param {integer} [options.totalSegments]
+     * @param {boolean} [options.doNotIterate=false] - prevents client from iterating when more items are available. Returns lastEvaluatedKey param if present
      * @return {Promise<{items: array, additionalResultsData: array}>}
      */
     async scan(table, options={}) {
@@ -281,11 +287,15 @@ class DynamoDbClient {
                 scannedCount: results.ScannedCount,
                 consumedCapacity: results.ConsumedCapacity
             });
-        } while (results.LastEvaluatedKey != null);
-        return {
+        } while (results.LastEvaluatedKey != null && options.doNotIterate !== true);
+        let ret = {
             items: itemsArray,
             additionalResultsData
         };
+        if(results.LastEvaluatedKey != null) {
+            ret.lastEvaluatedKey = results.LastEvaluatedKey;
+        }
+        return ret;
     }
 
 }
