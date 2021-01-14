@@ -177,8 +177,8 @@ class DynamoDbClient {
      * @param {string} [options.returnConsumedCapacity]
      * @param {boolean} [options.scanIndexForward]
      * @param {string} [options.select]
-     * @param {boolean} [options.doNotIterate=false] - prevents client from iterating when more items are available. Returns lastEvaluatedKey param if present to allow manual pagination
-     * @return {Promise<{items: array, additionalResultsData: array}>}
+     * @param {boolean} [options.doNotIterate=false] - prevents client from iterating when more items are available. Will return lastEvaluatedKey param if more items are present to allow manual pagination
+     * @return {Promise<{items: array, additionalResultsData: array, lastEvaluatedKey: object}>} - If lastEvaluatedKey is present (will only be present if doNotIterate=true), it should be passed as exclusiveStartKey on the next request to fetch the next set of items.
      */
     async query(table, options={}) {
         const queryOptions = {
@@ -223,8 +223,8 @@ class DynamoDbClient {
      * @param {integer} [options.segment]
      * @param {string} [options.select]
      * @param {integer} [options.totalSegments]
-     * @param {boolean} [options.doNotIterate=false] - prevents client from iterating when more items are available. Returns lastEvaluatedKey param if present to allow manual pagination
-     * @return {Promise<{items: array, additionalResultsData: array}>}
+     * @param {boolean} [options.doNotIterate=false] - prevents client from iterating when more items are available. Will return lastEvaluatedKey param if more items are present to allow manual pagination
+     * @return {Promise<{items: array, additionalResultsData: array, lastEvaluatedKey: object}>} - If lastEvaluatedKey is present (will only be present if doNotIterate=true), it should be passed as exclusiveStartKey on the next request to fetch the next set of items.
      */
     async scan(table, options={}) {
         const scanOptions = {
