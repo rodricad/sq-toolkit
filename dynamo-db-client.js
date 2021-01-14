@@ -218,7 +218,7 @@ class DynamoDbClient {
                 consumedCapacity: results.ConsumedCapacity
             });
         } while (results.LastEvaluatedKey != null && options.doNotIterate !== true);
-        let ret = {
+        const ret = {
             items: itemsArray,
             additionalResultsData
         };
@@ -288,7 +288,7 @@ class DynamoDbClient {
                 consumedCapacity: results.ConsumedCapacity
             });
         } while (results.LastEvaluatedKey != null && options.doNotIterate !== true);
-        let ret = {
+        const ret = {
             items: itemsArray,
             additionalResultsData
         };
