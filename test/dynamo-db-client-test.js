@@ -767,6 +767,60 @@ describe('DynamoDB Client Test', function () {
             queryStub.restore();
         });
 
+        it('5.5. Call .query() only once when doNotIterate param is passed', async () => {
+            const returnValue = {
+                Items: [{id: 1}, {id: 2}, {id: 3}],
+                Count: 3,
+                ScannedCount: 6,
+                ConsumedCapacity: {
+                    ReadCapacityUnits: 1
+                },
+                LastEvaluatedKey: {id: 3}
+            };
+            const queryStub = _getQueryStub(client, { returnValue });
+
+            let result = await client.query('table', {
+                keyConditionExpression: 'id < :i',
+                expressionAttributeValues: { ':i': 7 },
+                doNotIterate: true
+            });
+
+            expect(result).to.eql({
+                items: [{id: 1}, {id: 2}, {id: 3}],
+                lastEvaluatedKey: {id: 3},
+                additionalResultsData: [
+                    {
+                        consumedCapacity: {
+                            ReadCapacityUnits: 1
+                        },
+                        count: 3,
+                        scannedCount: 6
+                    }
+                ]
+            });
+            sinon.assert.calledOnce(queryStub);
+            sinon.assert.calledWith(queryStub.firstCall, {
+                TableName: "table",
+                KeyConditionExpression: "id < :i",
+                ExpressionAttributeValues: { ':i': 7 },
+                ExclusiveStartKey: undefined,
+                AttributesToGet: undefined,
+                ConditionalOperator: undefined,
+                ConsistentRead: undefined,
+                ExpressionAttributeNames: undefined,
+                FilterExpression: undefined,
+                IndexName: undefined,
+                KeyConditions: undefined,
+                Limit: undefined,
+                ProjectionExpression: undefined,
+                QueryFilter: undefined,
+                ReturnConsumedCapacity: undefined,
+                ScanIndexForward: undefined,
+                Select: undefined
+            });
+            queryStub.restore();
+        });
+
         function _getQueryStub(client, options={}) {
             if(options.error == null) {
                 return sinon.stub(client.docClient, 'query').returns({
@@ -1005,6 +1059,55 @@ describe('DynamoDB Client Test', function () {
                     TotalSegments: undefined
                 });
             }
+            scanStub.restore();
+        });
+
+        it('6.5. Call .scan() only once if doNotIterate=true', async () => {
+            const returnValue = {
+                Items: [{id: 1}, {id: 2}, {id: 3}],
+                Count: 3,
+                ScannedCount: 6,
+                ConsumedCapacity: {
+                    ReadCapacityUnits: 1
+                },
+                LastEvaluatedKey: {id: 3}
+            };
+            const scanStub = _getScanStub(client, { returnValue });
+
+            let result = await client.scan('table', {doNotIterate: true});
+
+            expect(result).to.eql({
+                items: [{id: 1}, {id: 2}, {id: 3}],
+                lastEvaluatedKey: {id: 3},
+                additionalResultsData: [
+                    {
+                        consumedCapacity: {
+                            ReadCapacityUnits: 1
+                        },
+                        count: 3,
+                        scannedCount: 6
+                    }
+                ]
+            });
+            sinon.assert.calledOnce(scanStub);
+            sinon.assert.calledWith(scanStub, {
+                TableName: "table",
+                ExclusiveStartKey: undefined,
+                AttributesToGet: undefined,
+                ConditionalOperator: undefined,
+                ConsistentRead: undefined,
+                ExpressionAttributeNames: undefined,
+                ExpressionAttributeValues: undefined,
+                FilterExpression: undefined,
+                IndexName: undefined,
+                Limit: undefined,
+                ProjectionExpression: undefined,
+                ReturnConsumedCapacity: undefined,
+                ScanFilter: undefined,
+                Segment: undefined,
+                Select: undefined,
+                TotalSegments: undefined
+            });
             scanStub.restore();
         });
 
