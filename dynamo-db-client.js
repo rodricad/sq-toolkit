@@ -200,7 +200,7 @@ class DynamoDbClient {
             ScanIndexForward: options.scanIndexForward,
             Select: options.select
         };
-        return runIterableMethod(this.docClient.query, queryOptions, options.doNotIterate);
+        return runIterableMethod(this.docClient.query.bind(this.docClient), queryOptions, options.doNotIterate);
     }
 
     /**
@@ -245,7 +245,7 @@ class DynamoDbClient {
             Select: options.select,
             TotalSegments: options.totalSegments
         };
-        return runIterableMethod(this.docClient.scan, scanOptions, options.doNotIterate);
+        return runIterableMethod(this.docClient.scan.bind(this.docClient), scanOptions, options.doNotIterate);
     }
 
 }
