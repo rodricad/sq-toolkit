@@ -2,11 +2,18 @@
 
 let _ = require('lodash');
 let seedrandom = require('seedrandom');
+let crypto = require('crypto');
 
 let Exception = require('./exception');
 let Sanitizer = require('./sanitizer');
 
-const ShufflerConst = require('./lib/constants/shuffler');
+const { ShufflerId, ErrorCode, Type } = require('./lib/constants/shuffler');
+
+const LOW_DENSITY_CHARS = 2;
+const HIGH_DENSITY_CHARS = 4;
+
+const LOW_DENSITY_LIMIT = 256;
+const HIGH_DENSITY_LIMIT = 65536;
 
 /**
  * @typedef {Object} Version
@@ -15,24 +22,49 @@ const ShufflerConst = require('./lib/constants/shuffler');
 
 class Shuffler {
 
+    static ShufflerId = ShufflerId;
+    static ErrorConst = ErrorCode;
+    static ErrorCode = ErrorCode;
+    static Type = Type;
+
     /**
      * @param {Object=}    opts
-     * @param {String=}    opts.id
+     * @param {Number=}    opts.id
+     * @param {String=}    opts.stringId
      * @param {Version[]=} opts.versions
+     * @param {String=}    opts.type
      */
     constructor(opts) {
         this.id        = _.get(opts, 'id', null);
+        this.stringId  = _.get(opts, 'stringId', null);
         this.versions  = Shuffler.createVersions(_.get(opts, 'versions', []));
         this.probs     = Shuffler.createProbs(this.versions);
         this.positions = Shuffler.createVersionPositions(this.versions);
+        this.type      = _.get(opts, 'type', Type.LOW_DENSITY);
 
         this.validateId();
     }
 
     validateId() {
         if (this.id != null && Shuffler.isValidShufflerId(this.id) === false) {
-            throw new Exception(ShufflerConst.ErrorCode.ERROR_INVALID_ID, 'Shuffle id must be an Integer between [%s,%s]', ShufflerConst.ShufflerId.MIN, ShufflerConst.ShufflerId.MAX);
+            throw new Exception(ErrorCode.ERROR_INVALID_ID, 'Shuffle id must be an Integer between [%s,%s]', ShufflerId.MIN, ShufflerId.MAX);
         }
+        if (this.id == null && this.stringId != null) {
+            if (Shuffler.isValidShufflerStringId(this.stringId) === false) {
+                throw new Exception(ErrorCode.ERROR_INVALID_STRING_ID, 'Shuffle string id must be non empty string');
+            }
+            this.id = this.generateId(this.stringId);
+        }
+    }
+
+    /**
+     * @param {String} stringId
+     * @return {Number}
+     */
+    generateId(stringId) {
+        const hash = crypto.createHash('md5').update(stringId).digest('hex');
+        const chars = this.type === Type.HIGH_DENSITY ? HIGH_DENSITY_CHARS : LOW_DENSITY_CHARS;
+        return Shuffler.getLastHashBytes(hash, chars);
     }
 
     /**
@@ -93,15 +125,14 @@ class Shuffler {
      */
     randomByMD5(hash) {
         if (this.id == null) {
-            throw new Exception(ShufflerConst.ErrorCode.ERROR_REQUIRED_ID, 'Shuffle id is mandatory to use hash random');
+            throw new Exception(ErrorCode.ERROR_REQUIRED_ID, 'Shuffle id is mandatory to use hash random');
         }
         if (this.versions.length === 0 || this.positions.length === 0) {
             return null;
         }
 
         let cumulativeProb = 0;
-        let probability    = parseInt(hash.substring(hash.length - 2), 16) + this.id;
-        probability        = (probability % 256) / 255;
+        const probability = this.getProbability(hash);
 
         for (let groupIndex = 0; groupIndex < this.probs.length; groupIndex++) {
             cumulativeProb += this.probs[groupIndex];
@@ -110,6 +141,42 @@ class Shuffler {
                 return this.versions[groupIndex];
             }
         }
+    }
+
+    /**
+     * @param {String} hash
+     * @return {Number}
+     */
+    getProbability(hash) {
+        return this.type === Type.HIGH_DENSITY ? this.getProbabilityForHighDensity(hash) : this.getProbabilityForLowDensity(hash);
+    }
+
+    /**
+     * @param {String} hash
+     * @return {Number}
+     */
+    getProbabilityForLowDensity(hash) {
+        const value = Shuffler.getLastHashBytes(hash, LOW_DENSITY_CHARS) + this.id;
+        return (value % LOW_DENSITY_LIMIT) / (LOW_DENSITY_LIMIT - 1);
+    }
+
+
+    /**
+     * @param {String} hash
+     * @return {Number}
+     */
+    getProbabilityForHighDensity(hash) {
+        const value = Shuffler.getLastHashBytes(hash, HIGH_DENSITY_CHARS) + this.id;
+        return (value % HIGH_DENSITY_LIMIT) / (HIGH_DENSITY_LIMIT - 1);
+    }
+
+    /**
+     * @param {String} hash
+     * @param {Number} chars
+     * @return {Number}
+     */
+    static getLastHashBytes(hash, chars) {
+        return parseInt(hash.substring(hash.length - chars), 16);
     }
 
     /**
@@ -142,13 +209,13 @@ class Shuffler {
                 positions.push(i);
 
                 if (positions.length > 100) {
-                    throw new Exception(ShufflerConst.ErrorCode.ERROR_OVERFLOW);
+                    throw new Exception(ErrorCode.ERROR_OVERFLOW);
                 }
             }
         }
 
         if (0 < positions.length && positions.length < 100) {
-            throw new Exception(ShufflerConst.ErrorCode.ERROR_UNDERFLOW);
+            throw new Exception(ErrorCode.ERROR_UNDERFLOW);
         }
 
         return positions;
@@ -187,13 +254,20 @@ class Shuffler {
      * @return {Boolean}
      */
     static isValidShufflerId(value) {
-        return Sanitizer.isInteger(value) === true
-            && value >= ShufflerConst.ShufflerId.MIN
-            && value <= ShufflerConst.ShufflerId.MAX;
+        return Sanitizer.isNullOrEmpty(value) === false
+            && Sanitizer.isInteger(value) === true
+            && value >= ShufflerId.MIN
+            && value <= ShufflerId.MAX;
+    }
+
+    /**
+     * @param value
+     * @return {Boolean}
+     */
+    static isValidShufflerStringId(value) {
+        return Sanitizer.isString(value) === true
+            && Sanitizer.isNullOrEmptyTrimmed(value) === false;
     }
 }
-
-Shuffler.ShufflerId = ShufflerConst.ShufflerId;
-Shuffler.ErrorConst = ShufflerConst.ErrorCode;
 
 module.exports = Shuffler;

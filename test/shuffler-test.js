@@ -31,6 +31,7 @@ describe('Shuffler Test', function () {
             let shuffler = new Shuffler(opts);
 
             expect(shuffler.id).to.equals(1);
+            expect(shuffler.type).to.equals('LOW_DENSITY');
 
             expect(shuffler.versions).to.eql([
                 { size: 40, meta: 5 },
@@ -103,7 +104,24 @@ describe('Shuffler Test', function () {
             }
         });
 
-        it('4. Construct Shuffler with versions sizes lower than 100. Expect to throw Exception', function () {
+        it('4. Construct Shuffler with invalid string id ("  "). Expect to throw Exception', function () {
+
+            let opts = {
+                stringId: '   ',
+                versions: []
+            };
+
+            try {
+                let shuffler = new Shuffler(opts);
+                chai.assert();
+            }
+            catch(err) {
+                expect(err.code).to.equals('ERROR_SHUFFLER_INVALID_STRING_ID');
+                expect(err.message).to.equals('Shuffle string id must be non empty string');
+            }
+        });
+
+        it('5. Construct Shuffler with versions sizes lower than 100. Expect to throw Exception', function () {
 
             let opts = {
                 id: 1,
@@ -122,7 +140,7 @@ describe('Shuffler Test', function () {
             }
         });
 
-        it('5. Construct Shuffler with versions sizes higher than 100. Expect to throw Exception', function () {
+        it('6. Construct Shuffler with versions sizes higher than 100. Expect to throw Exception', function () {
 
             let opts = {
                 id: 1,
@@ -209,7 +227,7 @@ describe('Shuffler Test', function () {
 
     });
 
-    describe('3. Test .randomByMD5() method', function () {
+    describe('3. Low Density: Test .randomByMD5() method', function () {
 
         let shuffler = null;
 
@@ -267,7 +285,53 @@ describe('Shuffler Test', function () {
 
     });
 
-    describe('4. Test .randomWithoutReplacement() method', function () {
+    describe('4. High Density: Test .randomByMD5() method', function () {
+
+        let shuffler = null;
+
+        before(function () {
+
+            let opts = {
+                stringId: 'AB-1',
+                type: Shuffler.Type.HIGH_DENSITY,
+                versions: TEST_VERSIONS
+            };
+
+            shuffler = new Shuffler(opts);
+        });
+
+        it('1. Get random by MD5 from shuffler with empty versions. Expect to return null', function () {
+
+            let emptyShuffler = new Shuffler({ stringId: 'AB-1', versions: [], type: Shuffler.Type.HIGH_DENSITY });
+            expect(emptyShuffler.id).to.equals(58506);
+            expect(emptyShuffler.randomByMD5('dummy_hash')).to.equals(null);
+        });
+
+        it('2. Get random by MD5. Expect to return always the same versions for each hash', function () {
+
+            _testRandom('c4ca4238a0b923820dcc509a6f75849b', 1);
+            _testRandom('c81e728d9d4c2f636f067f89cc14862c', 1);
+            _testRandom('eccbc87e4b5ce2fe28308fd9f2a7baf3', 1);
+            _testRandom('a87ff679a2f3e71d9181a67b7542122c', 3);
+        });
+
+        function _testRandom(hash, expectedMeta) {
+            let version1 = shuffler.randomByMD5(hash);
+            expect(version1.meta).to.equals(expectedMeta);
+
+            version1 = shuffler.randomByMD5(hash);
+            expect(version1.meta).to.equals(expectedMeta);
+
+            version1 = shuffler.randomByMD5(hash);
+            expect(version1.meta).to.equals(expectedMeta);
+
+            version1 = shuffler.randomByMD5(hash);
+            expect(version1.meta).to.equals(expectedMeta);
+        }
+
+    });
+
+    describe('5. Test .randomWithoutReplacement() method', function () {
 
         let shuffler = null;
 
