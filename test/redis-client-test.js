@@ -366,4 +366,38 @@ describe('Redis Client Test', function () {
             return { expireStub, hincrbyStub, multiStub, restore: () => { multiStub.restore(); } };
         }
     });
+
+    describe('8. Test .hdel()', () => {
+
+        /**
+         * @type {RedisClient|null}
+         */
+        let client = null;
+
+        before(async () => {
+            const opts = _getOptions();
+            client = new RedisClient(opts);
+            await client.init();
+        });
+
+        beforeEach(() => {
+            sinon.restore();
+        });
+
+        after(() => {
+            sinon.restore();
+        });
+
+        it('1. Call .hdel() with only hash and field. Expect to call internal redis hdel with proper params', () => {
+            const setStub = _getHdelStub();
+            client.hdel('hash', 'field');
+
+            expect(setStub.calledOnce).to.equals(true);
+            sinon.assert.calledWith(setStub, 'hash', 'field');
+        });
+
+        function _getHdelStub() {
+            return sinon.stub(Redis.prototype, 'hdel').callsFake(() => null);
+        }
+    });
 });
