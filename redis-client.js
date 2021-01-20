@@ -245,7 +245,8 @@ class RedisClient {
 
     /* istanbul ignore next */
     /**
-     * Removes the specified fields from the hash stored at key. Specified fields that do not exist within this hash are ignored. If key does not exist, it is treated as an empty hash and this command returns 0.
+     * Removes the specified fields from the hash stored at key. Specified fields that do not exist within this hash are ignored.
+     * If key does not exist, it is treated as an empty hash and this command returns 0.
      * @reference https://redis.io/commands/hdel
      * @param {String} hash
      * @param {String|String[]} field
