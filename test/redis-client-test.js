@@ -343,8 +343,27 @@ describe('Redis Client Test', function () {
             hincrbyStub.restore();
         });
 
+        it('2. Call .hincrby() with key and expiration. Expect to call internal redis multi() followed by calls to incr() and expire()', async () => {
+            const multiStub = _getMultiStub(5);
+            let result = await client.hincrby('key', 'field', 2, 120);
+            expect(result).to.eql(5);
+            expect(multiStub.multiStub.calledOnce).to.equals(true);
+            sinon.assert.calledWith(multiStub.hincrbyStub, 'key', 'field', 2);
+            sinon.assert.calledWith(multiStub.expireStub, 'key', 120);
+            multiStub.restore();
+        });
+
         function _getHincrbyStub() {
             return sinon.stub(Redis.prototype, 'hincrby').callsFake(() => null);
+        }
+
+        function _getMultiStub(returnValue) {
+            let expireStub = sinon.stub().returns({
+                exec: async () => [[null, returnValue]]
+            });
+            let hincrbyStub = sinon.stub().returns({ expire: expireStub });
+            let multiStub = sinon.stub(Redis.prototype, 'multi').returns({ hincrby: hincrbyStub });
+            return { expireStub, hincrbyStub, multiStub, restore: () => { multiStub.restore(); } };
         }
     });
 });

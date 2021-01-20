@@ -324,13 +324,22 @@ class RedisClient {
      * Increments the number stored at field in the hash stored at key by increment.
      * If key does not exist, a new key holding a hash is created. If field does not exist the value is set to 0 before the operation is performed.
      * The range of values supported by HINCRBY is limited to 64 bit signed integers.
-     * @param key
-     * @param field
-     * @param increment
+     * @param {string} key
+     * @param {string} field
+     * @param {Integer} increment
+     * @param {Number=} timeInSeconds
      * @return {Promise<*>}
      */
-    async hincrby(key, field, increment) {
-        return this.client.hincrby(key, field, increment);
+    async hincrby(key, field, increment, timeInSeconds) {
+        if(timeInSeconds == null) {
+            return this.client.hincrby(key, field, increment);
+        } else {
+            const result = await this.client.multi()
+            .hincrby(key, field, increment)
+            .expire(key, timeInSeconds)
+            .exec();
+            return result[0][1];
+        }
     }
 }
 
