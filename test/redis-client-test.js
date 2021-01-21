@@ -343,8 +343,61 @@ describe('Redis Client Test', function () {
             hincrbyStub.restore();
         });
 
+        it('2. Call .hincrby() with key and expiration. Expect to call internal redis multi() followed by calls to incr() and expire()', async () => {
+            const multiStub = _getMultiStub(5);
+            let result = await client.hincrby('key', 'field', 2, 120);
+            expect(result).to.eql(5);
+            expect(multiStub.multiStub.calledOnce).to.equals(true);
+            sinon.assert.calledWith(multiStub.hincrbyStub, 'key', 'field', 2);
+            sinon.assert.calledWith(multiStub.expireStub, 'key', 120);
+            multiStub.restore();
+        });
+
         function _getHincrbyStub() {
             return sinon.stub(Redis.prototype, 'hincrby').callsFake(() => null);
+        }
+
+        function _getMultiStub(returnValue) {
+            let expireStub = sinon.stub().returns({
+                exec: async () => [[null, returnValue]]
+            });
+            let hincrbyStub = sinon.stub().returns({ expire: expireStub });
+            let multiStub = sinon.stub(Redis.prototype, 'multi').returns({ hincrby: hincrbyStub });
+            return { expireStub, hincrbyStub, multiStub, restore: () => { multiStub.restore(); } };
+        }
+    });
+
+    describe('8. Test .hdel()', () => {
+
+        /**
+         * @type {RedisClient|null}
+         */
+        let client = null;
+
+        before(async () => {
+            const opts = _getOptions();
+            client = new RedisClient(opts);
+            await client.init();
+        });
+
+        beforeEach(() => {
+            sinon.restore();
+        });
+
+        after(() => {
+            sinon.restore();
+        });
+
+        it('1. Call .hdel() with only hash and field. Expect to call internal redis hdel with proper params', () => {
+            const setStub = _getHdelStub();
+            client.hdel('hash', 'field');
+
+            expect(setStub.calledOnce).to.equals(true);
+            sinon.assert.calledWith(setStub, 'hash', 'field');
+        });
+
+        function _getHdelStub() {
+            return sinon.stub(Redis.prototype, 'hdel').callsFake(() => null);
         }
     });
 });
