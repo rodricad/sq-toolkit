@@ -3,6 +3,7 @@
 let fs = require('fs-extra');
 
 const CRAWLER_USER_AGENTS_FILEPATH = require.resolve('crawler-user-agents');
+const CRAWLER_USER_AGENTS_EXTRA = ['freshpingBot\\/1.\\d', 'lnspingbot\\/2(.\\d+)+ ', 'UptimeRobot\\/2.0'];
 
 let _instance = null;
 
@@ -19,7 +20,7 @@ class WhiteHatBotService {
     init() {
         return fs.readJson(CRAWLER_USER_AGENTS_FILEPATH)
         .then(crawlers => {
-            let patterns = crawlers.map(item => item.pattern);
+            let patterns = [...CRAWLER_USER_AGENTS_EXTRA, ...crawlers.map(item => item.pattern)];
             this.regex   = new RegExp('(' + patterns.join('|') + ')', 'i');
         });
     }
