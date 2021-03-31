@@ -34,7 +34,7 @@
     "on-finished": "^2.3.0",
     "on-headers": "^1.0.2",
     "seedrandom": "^3.0.5",
-    "ua-parser-js": "^0.7.21"
+    "ua-parser-js": "0.7.24"
   },
   "repository": {
     "type": "git",
