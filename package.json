@@ -20,7 +20,7 @@
     "base64-url": "^2.3.2",
     "benchmark": "^2.1.4",
     "bluebird": "^3.7.0",
-    "bson": "^1.1.1",
+    "bson": "^1.1.4",
     "crawler-user-agents": "^1.0.61",
     "date-fns": "^2.4.1",
     "double-ended-queue": "^2.1.0-0",
