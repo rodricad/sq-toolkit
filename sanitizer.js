@@ -1,5 +1,6 @@
 'use strict';
 
+const _ = require('lodash');
 const parseISO = require('date-fns/parseISO/index.js');
 const ObjectId = require('bson/lib/bson/objectid');
 const sanitizeHtml = require('sanitize-html');
@@ -359,7 +360,7 @@ class Sanitizer {
      * @return {Boolean}
      */
     static isObject(value) {
-        return Object.prototype.toString.call(value) === '[object Object]';
+        return _.isPlainObject(value);
     };
 
     /**
@@ -371,12 +372,12 @@ class Sanitizer {
             return null;
         }
 
-        if (Sanitizer.isObjectId(value) === true) {
-            return null;
-        }
-
         if (Sanitizer.isObject(value) === true) {
             return value;
+        }
+
+        if (Sanitizer.isString(value) === false) {
+            return null;
         }
 
         const { parsedObject = null } = Sanitizer._jsonParseSafe(value);
