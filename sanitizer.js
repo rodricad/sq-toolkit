@@ -2,6 +2,7 @@
 
 const parseISO = require('date-fns/parseISO/index.js');
 const ObjectId = require('bson/lib/bson/objectid');
+const sanitizeHtml = require('sanitize-html');
 const Exception = require('./exception');
 const EncodedObjectId = require('./encoded-object-id');
 
@@ -339,6 +340,21 @@ class Sanitizer {
     }
 
     /**
+     * @param {String} value
+     * @param {Object=} sanitizeHtmlOptions - {@link https://www.npmjs.com/package/sanitize-html}
+     * @returns {String|null}
+     */
+    static toHTML(value, sanitizeHtmlOptions = null) {
+        const converted = Sanitizer.toString(value);
+
+        if (converted === null) {
+            return null;
+        }
+
+        return sanitizeHtml(converted, sanitizeHtmlOptions);
+    }
+
+    /**
      * @param {String}   field
      * @param {*}        value
      * @param {Boolean=} mandatory
@@ -510,6 +526,35 @@ class Sanitizer {
     static email(field, value, mandatory = false, def = null) {
         return Sanitizer._sanitizeValue(field, value, mandatory, def, 'email', Sanitizer.toEmail);
     }
+
+    /**
+     * ATTENTION: This function doesn't throw exception if HTML string contains not allowed tags.
+     * ATTENTION: The disallowed tags are discarded of escaped (according to disallowedTagsMode option).
+     * @param {String}   field
+     * @param {*}        value
+     * @param {Boolean}  mandatory
+     * @param {*}        [def = null]
+     * @param {Number}   [min = -Infinity]
+     * @param {Number}   [max = Infinity]
+     * @param {String}   [interval = '[]']
+     * @param {Object}   [sanitizeHtmlOptions = null]
+     * @return {String|null}
+     */
+    static html(field, value, mandatory = false, def = null, min = -Infinity, max = Infinity, interval = SanitizerConst.Interval.CLOSED_CLOSED, sanitizeHtmlOptions = null) {
+        const sanitizedString = Sanitizer._sanitizeValue(field, value, mandatory, def, 'html', Sanitizer.toString);
+
+        // If it is default, sanitize is not needed
+        if (sanitizedString === def) {
+            return sanitizedString;
+        }
+
+        const sanitizedHTML = Sanitizer.toHTML(sanitizedString, sanitizeHtmlOptions);
+
+        Sanitizer._sanitizeInterval(field, sanitizedHTML.length, min, max, interval);
+
+        return sanitizedHTML;
+    }
+
 
     /**
      * @param {String}   field

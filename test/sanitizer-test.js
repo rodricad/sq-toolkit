@@ -30,6 +30,10 @@ describe('Sanitizer Test', function () {
                 null,
                 null,
 
+                // HTML
+                null,
+                null,
+
                 // Zero
                 null,
                 null,
@@ -163,6 +167,10 @@ describe('Sanitizer Test', function () {
                 invalidMsg,
                 invalidMsg,
 
+                // HTML
+                invalidMsg,
+                invalidMsg,
+
                 // Zero
                 invalidMsg,
                 invalidMsg,
@@ -292,6 +300,10 @@ describe('Sanitizer Test', function () {
                 '_DEFAULT_',
                 '_DEFAULT_',
                 '_DEFAULT_',
+                invalidMsg,
+                invalidMsg,
+
+                // HTML
                 invalidMsg,
                 invalidMsg,
 
@@ -428,6 +440,10 @@ describe('Sanitizer Test', function () {
                 null,
                 null,
 
+                // HTML
+                null,
+                null,
+
                 // Zero
                 0,
                 0,
@@ -561,6 +577,10 @@ describe('Sanitizer Test', function () {
                 invalidMsg,
                 invalidMsg,
 
+                // HTML
+                invalidMsg,
+                invalidMsg,
+
                 // Zero
                 0,
                 0,
@@ -690,6 +710,10 @@ describe('Sanitizer Test', function () {
                 '_DEFAULT_',
                 '_DEFAULT_',
                 '_DEFAULT_',
+                invalidMsg,
+                invalidMsg,
+
+                // HTML
                 invalidMsg,
                 invalidMsg,
 
@@ -862,6 +886,10 @@ describe('Sanitizer Test', function () {
                 null,
                 null,
 
+                // HTML
+                null,
+                null,
+
                 // Zero
                 0,
                 0,
@@ -995,6 +1023,10 @@ describe('Sanitizer Test', function () {
                 invalidMsg,
                 invalidMsg,
 
+                // HTML
+                invalidMsg,
+                invalidMsg,
+
                 // Zero
                 0,
                 0,
@@ -1124,6 +1156,10 @@ describe('Sanitizer Test', function () {
                 '_DEFAULT_',
                 '_DEFAULT_',
                 '_DEFAULT_',
+                invalidMsg,
+                invalidMsg,
+
+                // HTML
                 invalidMsg,
                 invalidMsg,
 
@@ -1296,6 +1332,10 @@ describe('Sanitizer Test', function () {
                 null,
                 null,
 
+                // HTML
+                null,
+                null,
+
                 // Zero
                 null,
                 null,
@@ -1429,6 +1469,10 @@ describe('Sanitizer Test', function () {
                 invalidMsg,
                 invalidMsg,
 
+                // HTML
+                invalidMsg,
+                invalidMsg,
+
                 // Zero
                 invalidMsg,
                 invalidMsg,
@@ -1558,6 +1602,10 @@ describe('Sanitizer Test', function () {
                 '_DEFAULT_',
                 '_DEFAULT_',
                 '_DEFAULT_',
+                invalidMsg,
+                invalidMsg,
+
+                // HTML
                 invalidMsg,
                 invalidMsg,
 
@@ -1694,6 +1742,10 @@ describe('Sanitizer Test', function () {
                 'string',
                 'string',
 
+                // HTML
+                '<not-valid-tag>html</not-valid-tag>',
+                '<a href="https://likemind.com">html</a>',
+
                 // Zero
                 '0',
                 '0',
@@ -1826,6 +1878,10 @@ describe('Sanitizer Test', function () {
                 'string',
                 'string',
 
+                // HTML
+                '<not-valid-tag>html</not-valid-tag>',
+                '<a href="https://likemind.com">html</a>',
+
                 // Zero
                 '0',
                 '0',
@@ -1955,6 +2011,10 @@ describe('Sanitizer Test', function () {
                 '_DEFAULT_',
                 'string',
                 'string',
+
+                // HTML
+                '<not-valid-tag>html</not-valid-tag>',
+                '<a href="https://likemind.com">html</a>',
 
                 // Zero
                 '0',
@@ -2122,6 +2182,10 @@ describe('Sanitizer Test', function () {
                 ['string'],
                 ['  string  '],
 
+                // HTML
+                ['<not-valid-tag>html</not-valid-tag>'],
+                ['<a href="https://likemind.com">html</a>'],
+
                 // Zero
                 [0],
                 [0n],
@@ -2254,6 +2318,10 @@ describe('Sanitizer Test', function () {
                 ['string'],
                 ['string'],
 
+                // HTML
+                ['<not-valid-tag>html</not-valid-tag>'],
+                ['<a href="https://likemind.com">html</a>'],
+
                 // Zero
                 ['0'],
                 ['0'],
@@ -2383,6 +2451,10 @@ describe('Sanitizer Test', function () {
                 '_DEFAULT_',
                 ['string'],
                 ['string'],
+
+                // HTML
+                ['<not-valid-tag>html</not-valid-tag>'],
+                ['<a href="https://likemind.com">html</a>'],
 
                 // Zero
                 ['0'],
@@ -2521,6 +2593,10 @@ describe('Sanitizer Test', function () {
                 'string',
                 invalidMsg,
 
+                // HTML
+                invalidMsg,
+                invalidMsg,
+
                 // Zero
                 0,
                 invalidMsg,
@@ -2655,6 +2731,10 @@ describe('Sanitizer Test', function () {
                 'string',
                 invalidMsg,
 
+                // HTML
+                invalidMsg,
+                invalidMsg,
+
                 // Zero
                 0,
                 invalidMsg,
@@ -2785,6 +2865,10 @@ describe('Sanitizer Test', function () {
                 null,
                 null,
                 null,
+                null,
+                null,
+
+                // HTML
                 null,
                 null,
 
@@ -2921,6 +3005,10 @@ describe('Sanitizer Test', function () {
                 invalidMsg,
                 invalidMsg,
 
+                // HTML
+                invalidMsg,
+                invalidMsg,
+
                 // Zero
                 invalidMsg,
                 invalidMsg,
@@ -3050,6 +3138,10 @@ describe('Sanitizer Test', function () {
                 '_DEFAULT_',
                 '_DEFAULT_',
                 '_DEFAULT_',
+                invalidMsg,
+                invalidMsg,
+
+                // HTML
                 invalidMsg,
                 invalidMsg,
 
@@ -3222,6 +3314,10 @@ describe('Sanitizer Test', function () {
                 null,
                 null,
 
+                // HTML
+                null,
+                null,
+
                 // Zero
                 null,
                 null,
@@ -3355,6 +3451,10 @@ describe('Sanitizer Test', function () {
                 invalidMsg,
                 invalidMsg,
 
+                // HTML
+                invalidMsg,
+                invalidMsg,
+
                 // Zero
                 invalidMsg,
                 invalidMsg,
@@ -3484,6 +3584,10 @@ describe('Sanitizer Test', function () {
                 '_DEFAULT_',
                 '_DEFAULT_',
                 '_DEFAULT_',
+                invalidMsg,
+                invalidMsg,
+
+                // HTML
                 invalidMsg,
                 invalidMsg,
 
@@ -3620,6 +3724,10 @@ describe('Sanitizer Test', function () {
                 null,
                 null,
 
+                // HTML
+                null,
+                null,
+
                 // Zero
                 null,
                 null,
@@ -3750,6 +3858,10 @@ describe('Sanitizer Test', function () {
                 mandatoryMsg,
                 mandatoryMsg,
                 mandatoryMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // HTML
                 invalidMsg,
                 invalidMsg,
 
@@ -3885,6 +3997,10 @@ describe('Sanitizer Test', function () {
                 invalidMsg,
                 invalidMsg,
 
+                // HTML
+                invalidMsg,
+                invalidMsg,
+
                 // Zero
                 invalidMsg,
                 invalidMsg,
@@ -4001,6 +4117,497 @@ describe('Sanitizer Test', function () {
         });
     });
 
+    describe('9. HTML', function () {
+
+        it('1. Test .toHTML() method', function () {
+
+            const expected = [
+                // Null or undefined
+                null,
+                null,
+
+                // String
+                null,
+                null,
+                null,
+                null,
+                'string',
+                'string',
+
+                // HTML
+                'html',
+                '<a href="https://likemind.com">html</a>',
+
+                // Zero
+                '0',
+                '0',
+                '0',
+                '0',
+                '0asd',
+                'asd0',
+
+                // Int
+                '1',
+                '-1',
+                '1',
+                '-1',
+                '1',
+                '-1',
+                '1asd',
+                'asd1',
+
+                // Float
+                '1.5',
+                '-1.5',
+                '1.5',
+                '-1.5',
+                '1.5',
+                '-1.5',
+                '1.5asd',
+                'asd1.5',
+
+                // NaN
+                'NaN',
+                'NaN',
+                'NaN',
+
+                // Infinity
+                'Infinity',
+                '-Infinity',
+                'Infinity',
+                '-Infinity',
+                'Infinity',
+                '-Infinity',
+
+                // Boolean
+                'true',
+                'false',
+                'true',
+                'false',
+                'true',
+                'false',
+                'TRUE',
+                'FALSE',
+                '0true',
+                '0false',
+
+                // Date valid
+                '2022-01-01T00:00:00-08:00',
+                '2022-01-01T00:00:00.000-08:00',
+                '2022-01-01T08:00:00Z',
+                '2022-01-01T08:00:00.000Z',
+                '2022-01-01T08:00:00.000Z',
+
+                // Date valid but not accepted
+                '2022-01-01',
+                '2022-01-01T',
+                '2022-01-01T00',
+                '2022-01-01T00:00',
+                '2022-01-01T00:00:00',
+                '2022-01-01T00:00:00.000',
+
+                // Date invalid
+                '2022-',
+                '2022-01-',
+                '2022-01-01T00:',
+                '2022-01-01T00:00:',
+                '2022-01-01T00:00:00.',
+                '2022-01-32T00:00:00.000Z',
+                '2022-13-01T00:00:00.000Z',
+                '2022-01-01T00:00:00X08:00',
+                '2022-01-01T00:00:00-08X00',
+                '2022-01-01T00:00:00.000X08:00',
+                '2022-01-01T00:00:00.000-08X00',
+                'Invalid Date',
+
+                // Array
+                null,
+                '[]',
+                '[]',
+
+                // Function
+                'function dummy() {}',
+                'function dummy() {}',
+
+                // ObjectId
+                '507f191e810c19729de860ea',
+                '507f191e810c19729de860ea',
+                '507f191e810c19729de860e',
+                '07f191e810c19729de860ea',
+
+                // Email
+                'Example@Example.com',
+                'Example@Example.com',
+                'Example Tag@Example.com',
+                'Example+Tag@Example.com',
+                'Example Tag Other@Example.com',
+
+                // EncodedObjectId
+                'XoeBCAea1GTGA2XC',
+                'XoeBCAea1GTGA2X-',
+                'XoeBCAea1GTGA2X_',
+                'XoeBCAea1GTGA2XCa',
+                'XoeBCAea1GTGA2X~'
+            ];
+
+            _testTo(Sanitizer.toHTML, TEST_DATA, expected);
+        });
+
+        it('2. Test .html() sanitize method with mandatory=true', function () {
+
+            const mandatoryMsg = 'Mandatory field';
+
+            const expected = [
+                // Null or undefined
+                mandatoryMsg,
+                mandatoryMsg,
+
+                // String
+                mandatoryMsg,
+                mandatoryMsg,
+                mandatoryMsg,
+                mandatoryMsg,
+                'string',
+                'string',
+
+                // HTML
+                'html',
+                '<a href="https://likemind.com">html</a>',
+
+                // Zero
+                '0',
+                '0',
+                '0',
+                '0',
+                '0asd',
+                'asd0',
+
+                // Int
+                '1',
+                '-1',
+                '1',
+                '-1',
+                '1',
+                '-1',
+                '1asd',
+                'asd1',
+
+                // Float
+                '1.5',
+                '-1.5',
+                '1.5',
+                '-1.5',
+                '1.5',
+                '-1.5',
+                '1.5asd',
+                'asd1.5',
+
+                // NaN
+                'NaN',
+                'NaN',
+                'NaN',
+
+                // Infinity
+                'Infinity',
+                '-Infinity',
+                'Infinity',
+                '-Infinity',
+                'Infinity',
+                '-Infinity',
+
+                // Boolean
+                'true',
+                'false',
+                'true',
+                'false',
+                'true',
+                'false',
+                'TRUE',
+                'FALSE',
+                '0true',
+                '0false',
+
+                // Date valid
+                '2022-01-01T00:00:00-08:00',
+                '2022-01-01T00:00:00.000-08:00',
+                '2022-01-01T08:00:00Z',
+                '2022-01-01T08:00:00.000Z',
+                '2022-01-01T08:00:00.000Z',
+
+                // Date valid but not accepted
+                '2022-01-01',
+                '2022-01-01T',
+                '2022-01-01T00',
+                '2022-01-01T00:00',
+                '2022-01-01T00:00:00',
+                '2022-01-01T00:00:00.000',
+
+                // Date invalid
+                '2022-',
+                '2022-01-',
+                '2022-01-01T00:',
+                '2022-01-01T00:00:',
+                '2022-01-01T00:00:00.',
+                '2022-01-32T00:00:00.000Z',
+                '2022-13-01T00:00:00.000Z',
+                '2022-01-01T00:00:00X08:00',
+                '2022-01-01T00:00:00-08X00',
+                '2022-01-01T00:00:00.000X08:00',
+                '2022-01-01T00:00:00.000-08X00',
+                'Invalid Date',
+
+                // Array
+                '',
+                '[]',
+                '[]',
+
+                // Function
+                'function dummy() {}',
+                'function dummy() {}',
+
+                // ObjectId
+                '507f191e810c19729de860ea',
+                '507f191e810c19729de860ea',
+                '507f191e810c19729de860e',
+                '07f191e810c19729de860ea',
+
+                // Email
+                'Example@Example.com',
+                'Example@Example.com',
+                'Example Tag@Example.com',
+                'Example+Tag@Example.com',
+                'Example Tag Other@Example.com',
+
+                // EncodedObjectId
+                'XoeBCAea1GTGA2XC',
+                'XoeBCAea1GTGA2X-',
+                'XoeBCAea1GTGA2X_',
+                'XoeBCAea1GTGA2XCa',
+                'XoeBCAea1GTGA2X~'
+            ];
+
+            _testSanitize(Sanitizer.html, TEST_DATA, true, expected);
+        });
+
+        it('3. Test .html() sanitize method with mandatory=false', function () {
+
+            const expected = [
+                // Null or undefined
+                '_DEFAULT_',
+                '_DEFAULT_',
+
+                // String
+                '_DEFAULT_',
+                '_DEFAULT_',
+                '_DEFAULT_',
+                '_DEFAULT_',
+                'string',
+                'string',
+
+                // HTML
+                'html',
+                '<a href="https://likemind.com">html</a>',
+
+                // Zero
+                '0',
+                '0',
+                '0',
+                '0',
+                '0asd',
+                'asd0',
+
+                // Int
+                '1',
+                '-1',
+                '1',
+                '-1',
+                '1',
+                '-1',
+                '1asd',
+                'asd1',
+
+                // Float
+                '1.5',
+                '-1.5',
+                '1.5',
+                '-1.5',
+                '1.5',
+                '-1.5',
+                '1.5asd',
+                'asd1.5',
+
+                // NaN
+                'NaN',
+                'NaN',
+                'NaN',
+
+                // Infinity
+                'Infinity',
+                '-Infinity',
+                'Infinity',
+                '-Infinity',
+                'Infinity',
+                '-Infinity',
+
+                // Boolean
+                'true',
+                'false',
+                'true',
+                'false',
+                'true',
+                'false',
+                'TRUE',
+                'FALSE',
+                '0true',
+                '0false',
+
+                // Date valid
+                '2022-01-01T00:00:00-08:00',
+                '2022-01-01T00:00:00.000-08:00',
+                '2022-01-01T08:00:00Z',
+                '2022-01-01T08:00:00.000Z',
+                '2022-01-01T08:00:00.000Z',
+
+                // Date valid but not accepted
+                '2022-01-01',
+                '2022-01-01T',
+                '2022-01-01T00',
+                '2022-01-01T00:00',
+                '2022-01-01T00:00:00',
+                '2022-01-01T00:00:00.000',
+
+                // Date invalid
+                '2022-',
+                '2022-01-',
+                '2022-01-01T00:',
+                '2022-01-01T00:00:',
+                '2022-01-01T00:00:00.',
+                '2022-01-32T00:00:00.000Z',
+                '2022-13-01T00:00:00.000Z',
+                '2022-01-01T00:00:00X08:00',
+                '2022-01-01T00:00:00-08X00',
+                '2022-01-01T00:00:00.000X08:00',
+                '2022-01-01T00:00:00.000-08X00',
+                'Invalid Date',
+
+                // Array
+                '',
+                '[]',
+                '[]',
+
+                // Function
+                'function dummy() {}',
+                'function dummy() {}',
+
+                // ObjectId
+                '507f191e810c19729de860ea',
+                '507f191e810c19729de860ea',
+                '507f191e810c19729de860e',
+                '07f191e810c19729de860ea',
+
+                // Email
+                'Example@Example.com',
+                'Example@Example.com',
+                'Example Tag@Example.com',
+                'Example+Tag@Example.com',
+                'Example Tag Other@Example.com',
+
+                // EncodedObjectId
+                'XoeBCAea1GTGA2XC',
+                'XoeBCAea1GTGA2X-',
+                'XoeBCAea1GTGA2X_',
+                'XoeBCAea1GTGA2XCa',
+                'XoeBCAea1GTGA2X~'
+            ];
+
+            _testSanitize(Sanitizer.html, TEST_DATA, false, expected);
+        });
+
+        it('4. Test .html() sanitize method with intervals', function () {
+
+            // Invalid {}
+            _testSanitizeInterval(Sanitizer.html, '12',    1, 5, '{}', null, 'Invalid interval');
+
+            // Open - Open ()
+            _testSanitizeInterval(Sanitizer.html, '1',     1, 5, '()', null, 'Out of interval');
+            _testSanitizeInterval(Sanitizer.html, '12345', 1, 5, '()', null, 'Out of interval');
+            _testSanitizeInterval(Sanitizer.html, '12',    1, 5, '()', '12');
+            _testSanitizeInterval(Sanitizer.html, '1234',  1, 5, '()', '1234');
+            _testSanitizeInterval(Sanitizer.html, '<ignored-tag>123</ignored-tag>',  1, 5, '()', '123');
+
+            // Open - Closed (]
+            _testSanitizeInterval(Sanitizer.html, '1',     1, 5, '(]', null, 'Out of interval');
+            _testSanitizeInterval(Sanitizer.html, '12345', 1, 5, '(]', '12345');
+            _testSanitizeInterval(Sanitizer.html, '12'   , 1, 5, '(]', '12');
+            _testSanitizeInterval(Sanitizer.html, '1234' , 1, 5, '(]', '1234');
+            _testSanitizeInterval(Sanitizer.html, '<ignored-tag>123</ignored-tag>',  1, 5, '(]', '123');
+
+            // Closed - Open [)
+            _testSanitizeInterval(Sanitizer.html, '1',     1, 5, '[)', '1');
+            _testSanitizeInterval(Sanitizer.html, '12345', 1, 5, '[)', null, 'Out of interval');
+            _testSanitizeInterval(Sanitizer.html, '1',     1, 5, '[)', '1');
+            _testSanitizeInterval(Sanitizer.html, '1234',  1, 5, '[)', '1234');
+            _testSanitizeInterval(Sanitizer.html, '<ignored-tag>123</ignored-tag>',  1, 5, '[)', '123');
+
+            // Closed - Closed []
+            _testSanitizeInterval(Sanitizer.html, '1',      2, 5, '[]', null, 'Out of interval');
+            _testSanitizeInterval(Sanitizer.html, '123456', 2, 5, '[]', null, 'Out of interval');
+            _testSanitizeInterval(Sanitizer.html, '12345',  1, 5, '[]', '12345');
+            _testSanitizeInterval(Sanitizer.html, '1',      1, 5, '[]', '1');
+            _testSanitizeInterval(Sanitizer.html, '12345',  1, 5, '[]', '12345');
+            _testSanitizeInterval(Sanitizer.html, '1',      1, 5, '[]', '1');
+            _testSanitizeInterval(Sanitizer.html, '1234',   1, 5, '[]', '1234');
+            _testSanitizeInterval(Sanitizer.html, '<ignored-tag>123</ignored-tag>',  1, 5, '[]', '123');
+        });
+
+        it('5. Test .html() sanitize method with sanitizeHtmlOptions', function () {
+
+            const htmlValue = '\t<not-standard-tag><b><a href="#" name="link">html</a></b></not-standard-tag>';
+
+            // Empty object. Expect use default options
+            _testSanitizeHTML(Sanitizer.html, htmlValue,    '<b><a href="#" name="link">html</a></b>', {});
+
+            // Null object. Expect use default options
+            _testSanitizeHTML(Sanitizer.html, htmlValue,    '<b><a href="#" name="link">html</a></b>', null);
+
+            // Not valid object. Expect use default options
+            _testSanitizeHTML(Sanitizer.html, htmlValue,    '<b><a href="#" name="link">html</a></b>', 'not valid object');
+
+            // Without allowed tags
+            _testSanitizeHTML(Sanitizer.html, htmlValue,    'html', {
+                allowedTags: []
+            });
+
+            // With specific allowed tags
+            _testSanitizeHTML(Sanitizer.html, htmlValue,    '<not-standard-tag>html</not-standard-tag>', {
+                allowedTags: [ 'not-standard-tag' ]
+            });
+
+            // With allowed attributes
+            _testSanitizeHTML(Sanitizer.html, htmlValue,    '<a href="#">html</a>', {
+                allowedTags: [ 'a' ],
+                allowedAttributes: {
+                    'a': [ 'href' ]
+                }
+            });
+
+        });
+
+        /**
+         * @param method
+         * @param value
+         * @param sanitizeHtmlOptions
+         * @param expected
+         * @private
+         */
+        function _testSanitizeHTML(method, value, expected, sanitizeHtmlOptions) {
+            const result = method('testField', value, true, null, 0, 999, '[]', sanitizeHtmlOptions);
+            expect(result).to.eql(expected, util.format('Sanitized invalid. result:%s expected:%s', result, expected));
+        }
+
+    });
+
+
     /**
      * @param {Function} method
      * @param {Array}    values
@@ -4089,6 +4696,10 @@ describe('Sanitizer Test', function () {
             ' ',
             'string',
             '  string  ',
+
+            // HTML
+            '<not-valid-tag>html</not-valid-tag>',
+            '<a href="https://likemind.com">html</a>',
 
             // Zero
             0,
