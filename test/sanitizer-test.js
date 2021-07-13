@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Sanitizer Test', function () {
+describe.only('Sanitizer Test', function () {
 
     let _ = require('lodash');
     let util = require('util');
@@ -117,6 +117,11 @@ describe('Sanitizer Test', function () {
                 null,
 
                 // Array
+                null,
+                null,
+                null,
+
+                // Object
                 null,
                 null,
                 null,
@@ -258,6 +263,11 @@ describe('Sanitizer Test', function () {
                 invalidMsg,
                 invalidMsg,
 
+                // Object
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
                 // Function
                 invalidMsg,
                 invalidMsg,
@@ -390,6 +400,11 @@ describe('Sanitizer Test', function () {
                 invalidMsg,
 
                 // Array
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Object
                 invalidMsg,
                 invalidMsg,
                 invalidMsg,
@@ -531,6 +546,11 @@ describe('Sanitizer Test', function () {
                 null,
                 null,
 
+                // Object
+                null,
+                null,
+                null,
+
                 // Function
                 null,
                 null,
@@ -668,6 +688,11 @@ describe('Sanitizer Test', function () {
                 invalidMsg,
                 invalidMsg,
 
+                // Object
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
                 // Function
                 invalidMsg,
                 invalidMsg,
@@ -800,6 +825,11 @@ describe('Sanitizer Test', function () {
                 invalidMsg,
 
                 // Array
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Object
                 invalidMsg,
                 invalidMsg,
                 invalidMsg,
@@ -977,6 +1007,11 @@ describe('Sanitizer Test', function () {
                 null,
                 null,
 
+                // Object
+                null,
+                null,
+                null,
+
                 // Function
                 null,
                 null,
@@ -1114,6 +1149,11 @@ describe('Sanitizer Test', function () {
                 invalidMsg,
                 invalidMsg,
 
+                // Object
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
                 // Function
                 invalidMsg,
                 invalidMsg,
@@ -1246,6 +1286,11 @@ describe('Sanitizer Test', function () {
                 invalidMsg,
 
                 // Array
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Object
                 invalidMsg,
                 invalidMsg,
                 invalidMsg,
@@ -1423,6 +1468,11 @@ describe('Sanitizer Test', function () {
                 null,
                 null,
 
+                // Object
+                null,
+                null,
+                null,
+
                 // Function
                 null,
                 null,
@@ -1560,6 +1610,11 @@ describe('Sanitizer Test', function () {
                 invalidMsg,
                 invalidMsg,
 
+                // Object
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
                 // Function
                 invalidMsg,
                 invalidMsg,
@@ -1692,6 +1747,11 @@ describe('Sanitizer Test', function () {
                 invalidMsg,
 
                 // Array
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Object
                 invalidMsg,
                 invalidMsg,
                 invalidMsg,
@@ -1833,6 +1893,11 @@ describe('Sanitizer Test', function () {
                 '[]',
                 '[]',
 
+                // Object
+                '[object Object]',
+                '{}',
+                '{}',
+
                 // Function
                 'function dummy() {}',
                 'function dummy() {}',
@@ -1969,6 +2034,11 @@ describe('Sanitizer Test', function () {
                 '[]',
                 '[]',
 
+                // Object
+                '[object Object]',
+                '{}',
+                '{}',
+
                 // Function
                 'function dummy() {}',
                 'function dummy() {}',
@@ -2102,6 +2172,11 @@ describe('Sanitizer Test', function () {
                 '',
                 '[]',
                 '[]',
+
+                // Object
+                '[object Object]',
+                '{}',
+                '{}',
 
                 // Function
                 'function dummy() {}',
@@ -2273,6 +2348,11 @@ describe('Sanitizer Test', function () {
                 ['[]'],
                 ['  []  '],
 
+                // Object
+                [{}],
+                ['{}'],
+                ['  {}  '],
+
                 // ObjectId
                 [new ObjectId('507f191e810c19729de860ea')],
                 ['507f191e810c19729de860ea'],
@@ -2409,6 +2489,11 @@ describe('Sanitizer Test', function () {
                 ['[]'],
                 ['[]'],
 
+                // Object
+                ['[object Object]'],
+                ['{}'],
+                ['{}'],
+
                 // ObjectId
                 ['507f191e810c19729de860ea'],
                 ['507f191e810c19729de860ea'],
@@ -2542,6 +2627,11 @@ describe('Sanitizer Test', function () {
                 [],
                 ['[]'],
                 ['[]'],
+
+                // Object
+                ['[object Object]'],
+                ['{}'],
+                ['{}'],
 
                 // ObjectId
                 ['507f191e810c19729de860ea'],
@@ -2684,6 +2774,11 @@ describe('Sanitizer Test', function () {
                 invalidMsg,
                 invalidMsg,
 
+                // Object
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
                 // Function
                 invalidMsg,
                 invalidMsg,
@@ -2818,6 +2913,11 @@ describe('Sanitizer Test', function () {
                 invalidMsg,
 
                 // Array
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Object
                 invalidMsg,
                 invalidMsg,
                 invalidMsg,
@@ -2959,6 +3059,11 @@ describe('Sanitizer Test', function () {
                 null,
                 null,
 
+                // Object
+                null,
+                null,
+                null,
+
                 // Function
                 null,
                 null,
@@ -3096,6 +3201,11 @@ describe('Sanitizer Test', function () {
                 invalidMsg,
                 invalidMsg,
 
+                // Object
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
                 // Function
                 invalidMsg,
                 invalidMsg,
@@ -3228,6 +3338,11 @@ describe('Sanitizer Test', function () {
                 invalidMsg,
 
                 // Array
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Object
                 invalidMsg,
                 invalidMsg,
                 invalidMsg,
@@ -3405,6 +3520,11 @@ describe('Sanitizer Test', function () {
                 null,
                 null,
 
+                // Object
+                null,
+                null,
+                null,
+
                 // Function
                 null,
                 null,
@@ -3542,6 +3662,11 @@ describe('Sanitizer Test', function () {
                 invalidMsg,
                 invalidMsg,
 
+                // Object
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
                 // Function
                 invalidMsg,
                 invalidMsg,
@@ -3674,6 +3799,11 @@ describe('Sanitizer Test', function () {
                 invalidMsg,
 
                 // Array
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Object
                 invalidMsg,
                 invalidMsg,
                 invalidMsg,
@@ -3815,6 +3945,11 @@ describe('Sanitizer Test', function () {
                 null,
                 null,
 
+                // Object
+                null,
+                null,
+                null,
+
                 // Function
                 null,
                 null,
@@ -3952,6 +4087,11 @@ describe('Sanitizer Test', function () {
                 invalidMsg,
                 invalidMsg,
 
+                // Object
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
                 // Function
                 invalidMsg,
                 invalidMsg,
@@ -4084,6 +4224,11 @@ describe('Sanitizer Test', function () {
                 invalidMsg,
 
                 // Array
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Object
                 invalidMsg,
                 invalidMsg,
                 invalidMsg,
@@ -4225,6 +4370,11 @@ describe('Sanitizer Test', function () {
                 '[]',
                 '[]',
 
+                // Object
+                '[object Object]',
+                '{}',
+                '{}',
+
                 // Function
                 'function dummy() {}',
                 'function dummy() {}',
@@ -4361,6 +4511,11 @@ describe('Sanitizer Test', function () {
                 '[]',
                 '[]',
 
+                // Object
+                '[object Object]',
+                '{}',
+                '{}',
+
                 // Function
                 'function dummy() {}',
                 'function dummy() {}',
@@ -4495,6 +4650,11 @@ describe('Sanitizer Test', function () {
                 '[]',
                 '[]',
 
+                // Object
+                '[object Object]',
+                '{}',
+                '{}',
+
                 // Function
                 'function dummy() {}',
                 'function dummy() {}',
@@ -4605,6 +4765,431 @@ describe('Sanitizer Test', function () {
             expect(result).to.eql(expected, util.format('Sanitized invalid. result:%s expected:%s', result, expected));
         }
 
+    });
+
+    describe('10. Object', function () {
+
+        it('1. Test .toObject() method', function () {
+
+            const expected = [
+                // Null or undefined
+                null,
+                null,
+
+                // String
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+
+                // HTML
+                null,
+                null,
+
+                // Zero
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+
+                // Int
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+
+                // Float
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+
+                // NaN
+                null,
+                null,
+                null,
+
+                // Infinity
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+
+                // Boolean
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+
+                // Date valid
+                null,
+                null,
+                null,
+                null,
+                null,
+
+                // Date valid but not accepted
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+
+                // Date invalid
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+
+                // Array
+                null,
+                null,
+                null,
+
+                // Object
+                {},
+                {},
+                {},
+
+                // Function
+                null,
+                null,
+
+                // ObjectId valid
+                null,
+                null,
+                null,
+                null,
+
+                // Email
+                null,
+                null,
+                null,
+                null,
+                null,
+
+                // EncodedObjectId
+                null,
+                null,
+                null,
+                null,
+                null
+            ];
+
+            _testTo(Sanitizer.toObject, TEST_DATA, expected);
+        });
+
+        it('2. Test .object() sanitize method with mandatory=true', function () {
+
+            const mandatoryMsg = 'Mandatory field';
+            const invalidMsg   = 'Invalid field';
+
+            const expected = [
+                // Null or undefined
+                mandatoryMsg,
+                mandatoryMsg,
+
+                // String
+                mandatoryMsg,
+                mandatoryMsg,
+                mandatoryMsg,
+                mandatoryMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // HTML
+                invalidMsg,
+                invalidMsg,
+
+                // Zero
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Int
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Float
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // NaN
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Infinity
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Boolean
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Date valid
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Date valid but not accepted
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Date invalid
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Array
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Object
+                {},
+                {},
+                {},
+
+                // Function
+                invalidMsg,
+                invalidMsg,
+
+                // ObjectId
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Email
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // EncodedObjectId
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg
+            ];
+
+            _testSanitize(Sanitizer.object, TEST_DATA, true, expected);
+        });
+
+        it('3. Test .object() sanitize method with mandatory=false', function () {
+
+            const invalidMsg = 'Invalid field';
+
+            const expected = [
+                // Null or undefined
+                '_DEFAULT_',
+                '_DEFAULT_',
+
+                // String
+                '_DEFAULT_',
+                '_DEFAULT_',
+                '_DEFAULT_',
+                '_DEFAULT_',
+                invalidMsg,
+                invalidMsg,
+
+                // HTML
+                invalidMsg,
+                invalidMsg,
+
+                // Zero
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Int
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Float
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // NaN
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Infinity
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Boolean
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Date valid
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Date valid but not accepted
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Date invalid
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Array
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Object
+                {},
+                {},
+                {},
+
+                // Function
+                invalidMsg,
+                invalidMsg,
+
+                // ObjectId
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // Email
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+
+                // EncodedObjectId
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg,
+                invalidMsg
+            ];
+
+            _testSanitize(Sanitizer.object, TEST_DATA, false, expected);
+        });
     });
 
 
@@ -4787,6 +5372,11 @@ describe('Sanitizer Test', function () {
             [],
             '[]',
             '  []  ',
+
+            // Object
+            {},
+            '{}',
+            '  {}  ',
 
             // Function
             function dummy() {},
