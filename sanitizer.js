@@ -355,6 +355,40 @@ class Sanitizer {
     }
 
     /**
+     * @param value
+     * @return {Boolean}
+     */
+    static isObject(value) {
+        return Object.prototype.toString.call(value) === '[object Object]';
+    };
+
+    /**
+     * @param value
+     * @returns {Object|null}
+     */
+    static toObject(value) {
+        if (Sanitizer.isNullOrEmptyTrimmed(value) === true) {
+            return null;
+        }
+
+        if (Sanitizer.isObjectId(value) === true) {
+            return null;
+        }
+
+        if (Sanitizer.isObject(value) === true) {
+            return value;
+        }
+
+        const { parsedObject = null } = Sanitizer._jsonParseSafe(value);
+
+        if (parsedObject !== null && Sanitizer.isObject(parsedObject) === true) {
+            return parsedObject;
+        }
+
+        return null;
+    }
+
+    /**
      * @param {String}   field
      * @param {*}        value
      * @param {Boolean=} mandatory
@@ -555,6 +589,16 @@ class Sanitizer {
         return sanitizedHTML;
     }
 
+    /**
+     * @param {String}   field
+     * @param {*}        value
+     * @param {Boolean}  mandatory
+     * @param {*}        [def = null]
+     * @return {Object|null}
+     */
+    static object(field, value, mandatory = false, def = null) {
+        return Sanitizer._sanitizeValue(field, value, mandatory, def, 'Object', Sanitizer.toObject);
+    }
 
     /**
      * @param {String}   field
@@ -627,6 +671,21 @@ class Sanitizer {
         }
 
         return value;
+    }
+
+    /**
+     * @param value
+     * @returns {{parsedObject:Object}|{error: Object}}
+     * @private
+     */
+    static _jsonParseSafe(value) {
+        try {
+            const parsedObject = JSON.parse(value)
+            return { parsedObject };
+        }
+        catch (error) {
+            return { error };
+        }
     }
 }
 
