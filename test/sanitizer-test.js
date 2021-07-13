@@ -4117,7 +4117,7 @@ describe('Sanitizer Test', function () {
         });
     });
 
-    describe('9. String', function () {
+    describe('9. HTML', function () {
 
         it('1. Test .toHTML() method', function () {
 
