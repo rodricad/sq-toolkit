@@ -352,7 +352,13 @@ class Sanitizer {
             return null;
         }
 
-        return sanitizeHtml(converted, sanitizeHtmlOptions);
+        const html = sanitizeHtml(converted, sanitizeHtmlOptions).trim();
+
+        if (Sanitizer.isNullOrEmpty(html) === true) {
+            return null;
+        }
+
+        return html;
     }
 
     /**
@@ -576,14 +582,13 @@ class Sanitizer {
      * @return {String|null}
      */
     static html(field, value, mandatory = false, def = null, min = -Infinity, max = Infinity, interval = SanitizerConst.Interval.CLOSED_CLOSED, sanitizeHtmlOptions = null) {
-        const sanitizedString = Sanitizer._sanitizeValue(field, value, mandatory, def, 'html', Sanitizer.toString);
+        const toHTMLSanitizer = (value) => Sanitizer.toHTML(value, sanitizeHtmlOptions);
+        const sanitizedHTML = Sanitizer._sanitizeValue(field, value, mandatory, def, 'HTML', toHTMLSanitizer);
 
         // If it is default, sanitize is not needed
-        if (sanitizedString === def) {
-            return sanitizedString;
+        if (sanitizedHTML === def) {
+            return sanitizedHTML;
         }
-
-        const sanitizedHTML = Sanitizer.toHTML(sanitizedString, sanitizeHtmlOptions);
 
         Sanitizer._sanitizeInterval(field, sanitizedHTML.length, min, max, interval);
 

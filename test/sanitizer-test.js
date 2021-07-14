@@ -33,6 +33,7 @@ describe.only('Sanitizer Test', function () {
                 // HTML
                 null,
                 null,
+                null,
 
                 // Zero
                 null,
@@ -175,6 +176,7 @@ describe.only('Sanitizer Test', function () {
                 // HTML
                 invalidMsg,
                 invalidMsg,
+                invalidMsg,
 
                 // Zero
                 invalidMsg,
@@ -314,6 +316,7 @@ describe.only('Sanitizer Test', function () {
                 invalidMsg,
 
                 // HTML
+                invalidMsg,
                 invalidMsg,
                 invalidMsg,
 
@@ -458,6 +461,7 @@ describe.only('Sanitizer Test', function () {
                 // HTML
                 null,
                 null,
+                null,
 
                 // Zero
                 0,
@@ -600,6 +604,7 @@ describe.only('Sanitizer Test', function () {
                 // HTML
                 invalidMsg,
                 invalidMsg,
+                invalidMsg,
 
                 // Zero
                 0,
@@ -739,6 +744,7 @@ describe.only('Sanitizer Test', function () {
                 invalidMsg,
 
                 // HTML
+                invalidMsg,
                 invalidMsg,
                 invalidMsg,
 
@@ -919,6 +925,7 @@ describe.only('Sanitizer Test', function () {
                 // HTML
                 null,
                 null,
+                null,
 
                 // Zero
                 0,
@@ -1061,6 +1068,7 @@ describe.only('Sanitizer Test', function () {
                 // HTML
                 invalidMsg,
                 invalidMsg,
+                invalidMsg,
 
                 // Zero
                 0,
@@ -1200,6 +1208,7 @@ describe.only('Sanitizer Test', function () {
                 invalidMsg,
 
                 // HTML
+                invalidMsg,
                 invalidMsg,
                 invalidMsg,
 
@@ -1380,6 +1389,7 @@ describe.only('Sanitizer Test', function () {
                 // HTML
                 null,
                 null,
+                null,
 
                 // Zero
                 null,
@@ -1520,6 +1530,7 @@ describe.only('Sanitizer Test', function () {
                 invalidMsg,
 
                 // HTML
+                invalidMsg,
                 invalidMsg,
                 invalidMsg,
 
@@ -1663,6 +1674,7 @@ describe.only('Sanitizer Test', function () {
                 // HTML
                 invalidMsg,
                 invalidMsg,
+                invalidMsg,
 
                 // Zero
                 invalidMsg,
@@ -1803,6 +1815,7 @@ describe.only('Sanitizer Test', function () {
                 'string',
 
                 // HTML
+                '<not-valid-tag></not-valid-tag>',
                 '<not-valid-tag>html</not-valid-tag>',
                 '<a href="https://likemind.com">html</a>',
 
@@ -1944,6 +1957,7 @@ describe.only('Sanitizer Test', function () {
                 'string',
 
                 // HTML
+                '<not-valid-tag></not-valid-tag>',
                 '<not-valid-tag>html</not-valid-tag>',
                 '<a href="https://likemind.com">html</a>',
 
@@ -2083,6 +2097,7 @@ describe.only('Sanitizer Test', function () {
                 'string',
 
                 // HTML
+                '<not-valid-tag></not-valid-tag>',
                 '<not-valid-tag>html</not-valid-tag>',
                 '<a href="https://likemind.com">html</a>',
 
@@ -2258,6 +2273,7 @@ describe.only('Sanitizer Test', function () {
                 ['  string  '],
 
                 // HTML
+                ['<not-valid-tag></not-valid-tag>'],
                 ['<not-valid-tag>html</not-valid-tag>'],
                 ['<a href="https://likemind.com">html</a>'],
 
@@ -2399,6 +2415,7 @@ describe.only('Sanitizer Test', function () {
                 ['string'],
 
                 // HTML
+                ['<not-valid-tag></not-valid-tag>'],
                 ['<not-valid-tag>html</not-valid-tag>'],
                 ['<a href="https://likemind.com">html</a>'],
 
@@ -2538,6 +2555,7 @@ describe.only('Sanitizer Test', function () {
                 ['string'],
 
                 // HTML
+                ['<not-valid-tag></not-valid-tag>'],
                 ['<not-valid-tag>html</not-valid-tag>'],
                 ['<a href="https://likemind.com">html</a>'],
 
@@ -2686,6 +2704,7 @@ describe.only('Sanitizer Test', function () {
                 // HTML
                 invalidMsg,
                 invalidMsg,
+                invalidMsg,
 
                 // Zero
                 0,
@@ -2827,6 +2846,7 @@ describe.only('Sanitizer Test', function () {
                 invalidMsg,
 
                 // HTML
+                invalidMsg,
                 invalidMsg,
                 invalidMsg,
 
@@ -2971,6 +2991,7 @@ describe.only('Sanitizer Test', function () {
                 // HTML
                 null,
                 null,
+                null,
 
                 // Zero
                 null,
@@ -3113,6 +3134,7 @@ describe.only('Sanitizer Test', function () {
                 // HTML
                 invalidMsg,
                 invalidMsg,
+                invalidMsg,
 
                 // Zero
                 invalidMsg,
@@ -3252,6 +3274,7 @@ describe.only('Sanitizer Test', function () {
                 invalidMsg,
 
                 // HTML
+                invalidMsg,
                 invalidMsg,
                 invalidMsg,
 
@@ -3432,6 +3455,7 @@ describe.only('Sanitizer Test', function () {
                 // HTML
                 null,
                 null,
+                null,
 
                 // Zero
                 null,
@@ -3574,6 +3598,7 @@ describe.only('Sanitizer Test', function () {
                 // HTML
                 invalidMsg,
                 invalidMsg,
+                invalidMsg,
 
                 // Zero
                 invalidMsg,
@@ -3713,6 +3738,7 @@ describe.only('Sanitizer Test', function () {
                 invalidMsg,
 
                 // HTML
+                invalidMsg,
                 invalidMsg,
                 invalidMsg,
 
@@ -3857,6 +3883,7 @@ describe.only('Sanitizer Test', function () {
                 // HTML
                 null,
                 null,
+                null,
 
                 // Zero
                 null,
@@ -3997,6 +4024,7 @@ describe.only('Sanitizer Test', function () {
                 invalidMsg,
 
                 // HTML
+                invalidMsg,
                 invalidMsg,
                 invalidMsg,
 
@@ -4140,6 +4168,7 @@ describe.only('Sanitizer Test', function () {
                 // HTML
                 invalidMsg,
                 invalidMsg,
+                invalidMsg,
 
                 // Zero
                 invalidMsg,
@@ -4280,6 +4309,7 @@ describe.only('Sanitizer Test', function () {
                 'string',
 
                 // HTML
+                null,
                 'html',
                 '<a href="https://likemind.com">html</a>',
 
@@ -4406,6 +4436,7 @@ describe.only('Sanitizer Test', function () {
         it('2. Test .html() sanitize method with mandatory=true', function () {
 
             const mandatoryMsg = 'Mandatory field';
+            const invalidMsg   = 'Invalid field';
 
             const expected = [
                 // Null or undefined
@@ -4421,6 +4452,7 @@ describe.only('Sanitizer Test', function () {
                 'string',
 
                 // HTML
+                invalidMsg,
                 'html',
                 '<a href="https://likemind.com">html</a>',
 
@@ -4546,6 +4578,8 @@ describe.only('Sanitizer Test', function () {
 
         it('3. Test .html() sanitize method with mandatory=false', function () {
 
+            const invalidMsg   = 'Invalid field';
+
             const expected = [
                 // Null or undefined
                 '_DEFAULT_',
@@ -4560,6 +4594,7 @@ describe.only('Sanitizer Test', function () {
                 'string',
 
                 // HTML
+                invalidMsg,
                 'html',
                 '<a href="https://likemind.com">html</a>',
 
@@ -4787,6 +4822,7 @@ describe.only('Sanitizer Test', function () {
                 // HTML
                 null,
                 null,
+                null,
 
                 // Zero
                 null,
@@ -4929,6 +4965,7 @@ describe.only('Sanitizer Test', function () {
                 // HTML
                 invalidMsg,
                 invalidMsg,
+                invalidMsg,
 
                 // Zero
                 invalidMsg,
@@ -5068,6 +5105,7 @@ describe.only('Sanitizer Test', function () {
                 invalidMsg,
 
                 // HTML
+                invalidMsg,
                 invalidMsg,
                 invalidMsg,
 
@@ -5283,6 +5321,7 @@ describe.only('Sanitizer Test', function () {
             '  string  ',
 
             // HTML
+            '<not-valid-tag></not-valid-tag>',
             '<not-valid-tag>html</not-valid-tag>',
             '<a href="https://likemind.com">html</a>',
 
