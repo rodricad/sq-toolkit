@@ -352,7 +352,7 @@ class Sanitizer {
             return null;
         }
 
-        const html = sanitizeHtml(converted, sanitizeHtmlOptions);
+        const html = sanitizeHtml(converted, sanitizeHtmlOptions).trim();
 
         if (Sanitizer.isNullOrEmpty(html) === true) {
             return null;
